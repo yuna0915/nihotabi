@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-  root to: "public/homes#top"
-
+  scope module: :public do
+    root to: "homes#top"
+    get 'about' , to: 'homes#about'
+  end
 end
