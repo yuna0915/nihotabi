@@ -17,10 +17,28 @@ class Public::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
-
+  def create
+    email = sign_in_params[:email]
+    password = sign_in_params[:password]
+    user = User.find_by(email: email)
+  
+    self.resource = resource_class.new # 空のリソースを用意
+  
+    if email.blank? || password.blank?
+      resource.errors.add(:base, "正しく入力してください")
+    elsif user.nil? || !user.valid_password?(password)
+      resource.errors.add(:base, "ご入力されたメールアドレスまたはパスワードが正しくありません")
+    else
+      set_flash_message!(:notice, :signed_in)
+      sign_in(resource_name, user)
+      return redirect_to after_sign_in_path_for(user)
+    end
+  
+    clean_up_passwords(resource)
+    render :new, status: :unprocessable_entity
+  end
+  
+  
   # DELETE /resource/sign_out
   # def destroy
   #   super
