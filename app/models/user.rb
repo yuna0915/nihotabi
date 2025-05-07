@@ -12,5 +12,6 @@ class User < ApplicationRecord
   validates :phone_number, presence: true,
   format: { with: /\A\d{11}\z/, message: "は11桁の半角数字で入力してください" }
 
+  has_many :posts, dependent: :destroy
   has_one_attached :image      
 end
