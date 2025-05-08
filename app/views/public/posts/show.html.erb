@@ -1,2 +1,53 @@
-<h1>Public::Posts#show</h1>
-<p>Find me in app/views/public/posts/show.html.erb</p>
+<h2><%= @post.title %></h2>
+
+<% if @post.image.attached? %>
+  <div style="margin-bottom: 20px;">
+    <%= image_tag @post.image, width: 400 %>
+  </div>
+<% end %>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th>本文</th>
+      <td><%= simple_format(@post.body) %></td>
+    </tr>
+    <tr>
+      <th>都道府県</th>
+      <td><%= @post.prefecture.name %></td>
+    </tr>
+    <tr>
+      <th>場所ジャンル</th>
+      <td><%= @post.location_genre.name %></td>
+    </tr>
+    <tr>
+      <th>場所名</th>
+      <td><%= @post.location_name %></td>
+    </tr>
+    <tr>
+      <th>住所</th>
+      <td><%= @post.address %></td>
+    </tr>
+    <tr>
+      <th>訪問月</th>
+      <td><%= @post.visited_month.number %>月</td>
+    </tr>
+    <tr>
+      <th>訪問時間帯</th>
+      <td><%= @post.visited_time_zone.hour %></td>
+    </tr>
+    <tr>
+      <th>投稿日時</th>
+      <td><%= l(@post.created_at, format: :long) %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="mt-4">
+<% if @post.user == current_user %>
+  <%= link_to '編集する', edit_post_path(@post), class: "btn btn-outline-primary" %>
+  <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger" %>
+<% end %>
+<%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "btn btn-outline-secondary" %>
+
+</div>

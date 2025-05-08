@@ -11,7 +11,7 @@
     <ul class="nav">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'マイページ', my_page_user_path %>
+          <%= link_to "マイページ", my_page_user_path(current_user) %>
         </li>
         <li class="nav-item">
           <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>

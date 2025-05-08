@@ -1,2 +1,7 @@
-<h1>Public::Posts#edit</h1>
-<p>Find me in app/views/public/posts/edit.html.erb</p>
+<h2>投稿の編集</h2>
+
+<%= render 'form', post: @post %>
+
+<div class="mt-3">
+  <%= link_to '戻る', post_path(@post), class: "btn btn-secondary" %>
+</div>

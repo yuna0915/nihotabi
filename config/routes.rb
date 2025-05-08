@@ -9,14 +9,13 @@ Rails.application.routes.draw do
     root to: "homes#top"
     get 'about', to: 'homes#about'
     # ユーザー情報
-    resource :user, only: [:edit, :update, :destroy] do
-      get 'my_page'
-      get 'show'
-      get 'followings'
-      get 'followers'
-    end
+    resources :users, only: [:edit, :update, :destroy, :show] do
+      get 'my_page', on: :member
+      get 'followings', on: :member
+      get 'followers', on: :member
+    end    
     # 投稿機能
-    resources :posts, only: [:new, :create, :show, :edit, :update, :destroy]
+    resources :posts
   end
 end
 

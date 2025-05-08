@@ -44,6 +44,7 @@ ja:
     failure:
       already_authenticated: すでにログインしています。
       inactive: アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。
+      inactive_account: "退会済みのアカウントです。"
       invalid: "%{authentication_keys}またはパスワードが違います。"
       last_attempt: もう一回誤るとアカウントがロックされます。
       locked: アカウントはロックされています。
@@ -146,8 +147,8 @@ ja:
       not_found: は見つかりませんでした。
       not_locked: はロックされていません。
       not_saved:
-        one: エラーが発生したため %{resource} は保存されませんでした。
-        other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
+        one: エラーが発生したため、%{resource}は保存されませんでした。
+        other: "%{count}件のエラーが発生したため、%{resource}は保存されませんでした。"
       not_logged_in:
         one: "エラーが発生したため、ログインできませんでした。"
         other: "エラーが発生したため、ログインできませんでした。"

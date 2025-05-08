@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_07_154402) do
+ActiveRecord::Schema.define(version: 2025_05_08_064617) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -40,12 +40,18 @@ ActiveRecord::Schema.define(version: 2025_05_07_154402) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "location_genres", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "location_genre_id", null: false
     t.integer "prefecture_id", null: false
     t.integer "visited_month_id", null: false
-    t.integer "visited_hour_id", null: false
+    t.integer "visited_time_zone_id", null: false
     t.string "title", null: false
     t.text "body", null: false
     t.string "location_name", null: false
@@ -58,8 +64,14 @@ ActiveRecord::Schema.define(version: 2025_05_07_154402) do
     t.index ["location_genre_id"], name: "index_posts_on_location_genre_id"
     t.index ["prefecture_id"], name: "index_posts_on_prefecture_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
-    t.index ["visited_hour_id"], name: "index_posts_on_visited_hour_id"
     t.index ["visited_month_id"], name: "index_posts_on_visited_month_id"
+    t.index ["visited_time_zone_id"], name: "index_posts_on_visited_time_zone_id"
+  end
+
+  create_table "prefectures", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,11 +95,23 @@ ActiveRecord::Schema.define(version: 2025_05_07_154402) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "visited_months", force: :cascade do |t|
+    t.string "number", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "visited_time_zones", force: :cascade do |t|
+    t.string "hour", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "posts", "location_genres"
   add_foreign_key "posts", "prefectures"
   add_foreign_key "posts", "users"
-  add_foreign_key "posts", "visited_hours"
   add_foreign_key "posts", "visited_months"
+  add_foreign_key "posts", "visited_time_zones"
 end

@@ -1,2 +1,26 @@
-<h1>マイページ</h1>
-<%= link_to '新規投稿', new_post_path %>
+<h2>マイページ</h2>
+<%= link_to '新規投稿', new_post_path %>　<%= link_to 'プロフィール詳細',user_path(@user) %>
+
+<h3>投稿一覧</h3>
+
+<% if @posts.any? %>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <% if post.image.attached? %>
+            <%= image_tag post.image, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+          <% end %>
+          <div class="card-body">
+            <p class="card-title"><strong><%= post.title %></strong><p>
+            <p class="card-text">場所名：<%= post.location_name %></p>
+            <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+            <%= link_to '詳細を見る', post_path(post), class: "btn btn-outline-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>投稿はまだありません。</p>
+<% end %>

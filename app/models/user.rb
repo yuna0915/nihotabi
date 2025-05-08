@@ -13,5 +13,13 @@ class User < ApplicationRecord
   format: { with: /\A\d{11}\z/, message: "は11桁の半角数字で入力してください" }
 
   has_many :posts, dependent: :destroy
-  has_one_attached :image      
+  has_one_attached :image  
+  
+  def active_for_authentication?
+    super && is_active?
+  end
+  
+  def inactive_message
+    is_active? ? super : :inactive_account
+  end
 end

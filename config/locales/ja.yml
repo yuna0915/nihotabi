@@ -6,6 +6,30 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+    models:
+      post: 投稿
+      prefecture: 都道府県
+      visited_month: 訪問月
+      visited_time_zone: 訪問時間帯
+      location_genre: 場所ジャンル
+    attributes:
+      post:
+        title: タイトル
+        body: 本文
+        location_name: 場所名
+        address: 住所
+        prefecture_id: 都道府県
+        prefecture: 都道府県
+        location_genre_id: 場所ジャンル
+        location_genre: 場所ジャンル
+        visited_month_id: 訪問月
+        visited_month: 訪問月
+        visited_time_zone_id: 訪問時間帯
+        visited_time_zone: 訪問時間帯
+        image: 画像
+  errors:
+    messages:
+      not_saved: "%{count}件のエラーにより%{resource}できませんでした。"
   date:
     abbr_day_names:
     - 日

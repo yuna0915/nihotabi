@@ -1,0 +1,63 @@
+<%= form_with model: post, local: true, html: { multipart: true } do |f| %>
+  <%= render "public/shared/error_messages", resource: post %>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th><%= f.label :image, "画像" %></th>
+        <td>
+          <% if post.image.attached? %>
+            <%= image_tag post.image, width: 200, style: "margin-bottom: 10px;" %><br>
+          <% end %>
+          <%= f.file_field :image, accept: "image/*" %>
+        </td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :title, "タイトル" %></th>
+        <td><%= f.text_field :title %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :body, "本文" %></th>
+        <td><%= f.text_area :body %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :prefecture_id, "都道府県" %></th>
+        <td><%= f.collection_select :prefecture_id, Prefecture.all, :id, :name, include_blank: "選択してください" %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :location_genre_id, "場所ジャンル" %></th>
+        <td><%= f.collection_select :location_genre_id, LocationGenre.all, :id, :name, include_blank: "選択してください" %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :location_name, "場所名" %></th>
+        <td><%= f.text_field :location_name %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :address, "住所" %></th>
+        <td><%= f.text_field :address %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :visited_month_id, "訪問月" %></th>
+        <td><%= f.collection_select :visited_month_id, VisitedMonth.all, :id, :number, include_blank: "選択してください" %></td>
+      </tr>
+
+      <tr>
+        <th><%= f.label :visited_time_zone_id, "訪問時間帯" %></th>
+        <td><%= f.collection_select :visited_time_zone_id, VisitedTimeZone.all, :id, :hour, include_blank: "選択してください" %></td>
+      </tr>
+
+      <tr>
+        <td colspan="2" class="text-center">
+          <%= f.submit(post.new_record? ? "投稿" : "更新", class: "btn btn-primary") %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

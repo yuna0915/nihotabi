@@ -55,9 +55,12 @@
         <td><%= f.text_field :phone_number, autofocus: true, placeholder: "00000000000" %></td>
       </tr>
       <tr>
-        <td><%= f.label :prefecture, "都道府県" %></td>
+        <th><%= f.label :prefecture, "都道府県" %></th>
         <td></td>
-        <td><%= f.text_field :prefecture, autofocus: true, placeholder: "東京都" %></td>
+        <td>
+        <%= f.select :prefecture, Prefecture.pluck(:name), include_blank: "選択してください" %>
+
+        </td>
       </tr>
       <tr>
         <td></td>
