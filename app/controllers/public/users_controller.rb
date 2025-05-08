@@ -26,10 +26,10 @@ class Public::UsersController < ApplicationController
     end
   end  
 
-  def destroy
+  def withdraw
     current_user.update(is_active: false)
     reset_session
-    redirect_to new_user_registration_path, notice: "退会処理が完了しました。"
+    redirect_to new_user_registration_path, notice: "退会が完了しました。"
   end
 
   def followings
