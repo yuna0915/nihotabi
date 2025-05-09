@@ -18,6 +18,10 @@ class Post < ApplicationRecord
   # 外部キーと関連名が重複してエラーが出る場合に片方を削除
   after_validation :deduplicate_foreign_key_errors
 
+  def get_post_image(width, height)
+    image.variant(resize_to_fill: [width, height]).processed
+  end
+
   private
 
   def image_must_be_attached

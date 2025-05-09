@@ -7,9 +7,9 @@
         <th><%= f.label :image, "画像" %></th>
         <td>
           <% if post.image.attached? %>
-            <%= image_tag post.image, width: 200, style: "margin-bottom: 10px;" %><br>
+            <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "mb-2", style: "display: block;" %>
           <% end %>
-          <%= f.file_field :image, accept: "image/*" %>
+          <%= f.file_field :image, accept: "image/*", class: "form-control" %>
         </td>
       </tr>
 

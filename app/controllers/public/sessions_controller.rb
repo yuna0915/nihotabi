@@ -4,19 +4,23 @@ class Public::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
   def after_sign_in_path_for(resource)
-    my_page_user_path(resource.id) 
+    flash[:notice] = "ログインしました。"
+    my_page_user_path(resource.id)
   end
 
   def after_sign_out_path_for(resource_or_scope)
     case params[:redirect_to]
     when "sign_up"
+      flash[:notice] = "新規登録画面へ移動しました。"
       new_user_registration_path
     when "login"
+      flash[:notice] = "ログイン画面へ移動しました。"
       new_user_session_path
     else
+      flash[:notice] = "ログアウトしました。"
       root_path
     end
-  end  
+  end
 
   # GET /resource/sign_in
   # def new

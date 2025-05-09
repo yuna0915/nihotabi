@@ -10,11 +10,7 @@
 <table class="table table-borderless mb-4">
   <tr>
     <td style="width: 150px;" class="align-top text-center">
-      <% if @user.image.attached? %>
-        <%= image_tag @user.image.variant(resize_to_fill: [120, 120]), class: "rounded-circle" %>
-      <% else %>
-        <%= image_tag "no_image.jpg", width: 120, class: "rounded-circle" %>
-      <% end %>
+      <%= image_tag @user.get_profile_image(120, 120), class: "rounded-circle" %>
     </td>
     <td>
       <p class="mb-2"><strong>都道府県：</strong>

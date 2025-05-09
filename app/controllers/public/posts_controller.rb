@@ -1,4 +1,5 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   
   def index
@@ -25,6 +26,7 @@ class Public::PostsController < ApplicationController
     if @post.save
       redirect_to my_page_user_path(current_user), notice: "投稿が完了しました。"
     else
+      flash.now[:alert] = "投稿に失敗しました。"
       render :new
     end
   end

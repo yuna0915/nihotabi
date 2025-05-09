@@ -5,11 +5,7 @@
     <tr>
       <td>プロフィール画像</td>
       <td>
-        <% if @user.image.attached? %>
-          <%= image_tag @user.image.variant(resize_to_fill: [120, 120]), class: "rounded-circle" %>
-        <% else %>
-          <%= image_tag "no_image.jpg", width: 120, class: "rounded-circle" %>
-        <% end %>
+        <%= image_tag @user.get_profile_image(120, 120), class: "rounded-circle" %>
       </td>
     </tr>
     <% if @user.introduction.present? %>
