@@ -46,6 +46,17 @@
 </table>
 
 <div class="text-center mt-3">
-  <%= link_to "プロフィールを編集", edit_user_path, class: "btn btn-primary" %>
-  <%= link_to "マイページへ戻る", my_page_user_path(@user), class: "btn btn-secondary" %>
+  <% if current_user.email == "guest@example.com" %>
+    <p>
+      プロフィールを編集するには、
+      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規会員登録画面へ移動します。よろしいですか？" } %>
+      または
+      <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+      が必要です。
+    </p>
+  <% else %>
+    <%= link_to "プロフィールを編集", edit_user_path(@user) %>
+  <% end %><br>
+  <%= link_to "マイページへ戻る", my_page_user_path(@user) %>
 </div>
+

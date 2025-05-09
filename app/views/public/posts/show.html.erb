@@ -9,6 +9,12 @@
 <table class="table">
   <tbody>
     <tr>
+      <th>投稿者</th>
+      <td>
+        <%= link_to @post.user.nickname, my_page_user_path(@post.user) %>
+      </td>
+    </tr>
+    <tr>
       <th>本文</th>
       <td><%= simple_format(@post.body) %></td>
     </tr>
@@ -44,10 +50,12 @@
 </table>
 
 <div class="mt-4">
-<% if @post.user == current_user %>
-  <%= link_to '編集する', edit_post_path(@post), class: "btn btn-outline-primary" %>
-  <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger" %>
-<% end %>
-<%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "btn btn-outline-secondary" %>
-
+  <% if @post.user == current_user %>
+    <%= link_to '編集する', edit_post_path(@post), class: "btn btn-outline-primary" %>
+    <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger" %>
+    <%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "btn btn-outline-secondary" %>
+  <% else %>
+    <%= link_to '投稿一覧へ戻る', posts_path, class: "btn btn-outline-secondary" %>
+  <% end %>
 </div>
+

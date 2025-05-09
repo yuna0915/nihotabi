@@ -7,9 +7,16 @@ class Public::SessionsController < Devise::SessionsController
     my_page_user_path(resource.id) 
   end
 
-  def after_sign_out_path_for(resource)
-    root_path
-  end
+  def after_sign_out_path_for(resource_or_scope)
+    case params[:redirect_to]
+    when "sign_up"
+      new_user_registration_path
+    when "login"
+      new_user_session_path
+    else
+      root_path
+    end
+  end  
 
   # GET /resource/sign_in
   # def new
@@ -36,6 +43,12 @@ class Public::SessionsController < Devise::SessionsController
   
     clean_up_passwords(resource)
     render :new, status: :unprocessable_entity
+  end
+
+  def guest_sign_in
+    user = User.guest
+    sign_in user
+    redirect_to my_page_user_path(user), notice: "ゲストユーザーでログインしました。"
   end
   
   # DELETE /resource/sign_out

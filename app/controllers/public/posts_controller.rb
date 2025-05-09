@@ -2,7 +2,9 @@ class Public::PostsController < ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   
   def index
+    @posts = Post.includes(:user, image_attachment: :blob).order(created_at: :desc)
   end
+  
 
   def new
     @post = Post.new

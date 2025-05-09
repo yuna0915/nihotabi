@@ -1,4 +1,7 @@
 class Public::UsersController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_guest_user, only: [:edit]
+
   def my_page
     @user = User.find_by(id: params[:id])
     if @user.nil?
@@ -43,4 +46,12 @@ class Public::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:last_name, :first_name, :last_name_kana, :first_name_kana, :nickname, :email, :phone_number, :prefecture)
   end
+
+  def ensure_guest_user
+    @user = User.find(params[:id])
+    if @user.email == "guest@example.com"
+      redirect_to my_page_user_path(current_user), notice: "ゲストユーザーはプロフィールを編集できません。"
+    end
+  end  
+
 end

@@ -1,5 +1,5 @@
 <h1>投稿フォーム</h1>
 <%= render 'form', post: @post %>
 <div class="text-center mt-3">
-  <%= link_to "マイページへ戻る", my_page_user_path(@user), class: "btn btn-secondary" %>
+  <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "btn btn-secondary" %>
 </div>

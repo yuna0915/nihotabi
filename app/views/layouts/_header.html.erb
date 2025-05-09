@@ -14,6 +14,9 @@
           <%= link_to "マイページ", my_page_user_path(current_user) %>
         </li>
         <li class="nav-item">
+        <%= link_to "投稿一覧", posts_path %>
+        </li>
+        <li class="nav-item">
           <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
         </li>
       <% else %>
@@ -28,6 +31,9 @@
         </li>
         <li class="nav-item">
           <%= link_to 'ログイン', new_user_session_path %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ゲストログイン（閲覧用）", guests_sign_in_path, method: :post %>
         </li>
       <% end %>
     </ul>
