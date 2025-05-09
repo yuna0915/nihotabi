@@ -23,7 +23,7 @@ class Public::PostsController < ApplicationController
     @post.latitude = 0.0
     @post.longitude = 0.0
     if @post.save
-      redirect_to my_page_user_path
+      redirect_to my_page_user_path(current_user), notice: "投稿が完了しました。"
     else
       render :new
     end
@@ -45,7 +45,7 @@ class Public::PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to my_page_user_path, notice: '投稿を削除しました。'
+    redirect_to my_page_user_path(current_user), notice: '投稿を削除しました。'
   end
 
   private

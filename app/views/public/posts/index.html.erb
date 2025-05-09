@@ -9,7 +9,7 @@
             <%= link_to image_tag(post.image, class: "card-img-top", style: "height: 200px; object-fit: cover;"), post_path(post) %>
           <% end %>
           <div class="card-body">
-            <h4 class="card-title">タイトル：<%= post.title %></h4>
+            <h4 class="card-title"><strong><%= post.title %></strong></h4>
             <p class="card-text">場所：<%= post.location_name %></p>
             <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
             <p class="card-text">投稿者：

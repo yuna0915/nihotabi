@@ -3,6 +3,22 @@
 <table class="table table-borderless">
   <tbody>
     <tr>
+      <td>プロフィール画像</td>
+      <td>
+        <% if @user.image.attached? %>
+          <%= image_tag @user.image.variant(resize_to_fill: [120, 120]), class: "rounded-circle" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", width: 120, class: "rounded-circle" %>
+        <% end %>
+      </td>
+    </tr>
+    <% if @user.introduction.present? %>
+    <tr>
+      <td>自己紹介文</td>
+      <td><%= simple_format(@user.introduction) %></td>
+    </tr>
+    <% end %>
+    <tr>
       <td>氏名</td>
       <td>姓</td>
       <td><%= @user.last_name %></td>
@@ -46,17 +62,21 @@
 </table>
 
 <div class="text-center mt-3">
-  <% if current_user.email == "guest@example.com" %>
-    <p>
-      プロフィールを編集するには、
-      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規会員登録画面へ移動します。よろしいですか？" } %>
-      または
-      <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
-      が必要です。
-    </p>
-  <% else %>
-    <%= link_to "プロフィールを編集", edit_user_path(@user) %>
-  <% end %><br>
-  <%= link_to "マイページへ戻る", my_page_user_path(@user) %>
-</div>
+  <% if @user == current_user %>
+    <% if current_user.email == "guest@example.com" %>
+      <p>
+        プロフィールを編集するには、
+        <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規会員登録画面へ移動します。よろしいですか？" } %>
+        または
+        <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+        が必要です。
+      </p>
+    <% else %>
+      <%= link_to "プロフィールを編集", edit_user_path(@user), class: "btn btn-primary" %>　
+      <%= link_to "退会する", withdraw_user_path, method: :patch, data: { confirm: "本当に退会しますか？" } %>
+    <% end %>
+  <% end %>
 
+  <br>
+  <%= link_to "マイページへ戻る", my_page_user_path(@user), class: "btn btn-outline-secondary mt-2" %>
+</div>
