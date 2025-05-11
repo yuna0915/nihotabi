@@ -1,44 +1,51 @@
 <header>
   <div>
-    <% if user_signed_in? %>
-      <div>
-        <span>ようこそ、<%= current_user.nickname %>さん！</span>
-      </div>
+    <% if admin_signed_in? %>
+      <span>管理者としてログイン中</span>
+    <% elsif user_signed_in? %>
+      <span>ようこそ、<%= current_user.nickname %>さん！</span>
     <% end %>
   </div>
 
-  <div>
-    <ul class="nav">
-      <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= link_to "マイページ", my_page_user_path(current_user) %>
-        </li>
-        <li class="nav-item">
-        <%= link_to "新規投稿", new_post_path %>
-        </li>
-        <li class="nav-item">
-        <%= link_to "投稿一覧", posts_path %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-           <%= link_to 'Top', root_path %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'About', about_path %>
-        </li>
-        <li class="nav-item">
-          <%= link_to '新規登録', new_user_registration_path %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'ログイン', new_user_session_path %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ゲストログイン（閲覧用）", guests_sign_in_path, method: :post %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <ul class="nav">
+    <% if admin_signed_in? %>
+      <li class="nav-item">
+        <%= link_to 'ユーザー一覧', admin_root_path, class: 'btn btn-outline-secondary mx-1' %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-outline-secondary mx-1' %>
+      </li>
+
+    <% elsif user_signed_in? %>
+      <li class="nav-item">
+        <%= link_to 'マイページ', my_page_user_path(current_user) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to '新規投稿', new_post_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to '投稿一覧', posts_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+      </li>
+
+    <% else %>
+      <li class="nav-item">
+        <%= link_to 'Top', root_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'About', about_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to '新規登録', new_user_registration_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'ログイン', new_user_session_path %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'ゲストログイン（閲覧用）', guests_sign_in_path, method: :post %>
+      </li>
+    <% end %>
+  </ul>
 </header>
