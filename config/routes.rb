@@ -21,7 +21,9 @@ Rails.application.routes.draw do
       patch 'withdraw', on: :member
     end    
     # 投稿機能
-    resources :posts
+    resources :posts do
+      resources :comments, only: [:create, :destroy]
+    end
   end
 end
 

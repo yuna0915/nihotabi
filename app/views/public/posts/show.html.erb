@@ -44,6 +44,10 @@
   </tbody>
 </table>
 
+<div id="comment-section">
+  <%= render 'public/comments/comments', post: @post %>
+</div>
+
 <div class="mt-4">
   <% if @post.user == current_user %>
     <%= link_to '編集する', edit_post_path(@post), class: "btn btn-outline-primary" %>
