@@ -1,0 +1,9 @@
+<% if user_signed_in? %>
+  <div class="search-container" style="padding: 10px; background-color: #f0f0f0;">
+    <%= form_with url: search_path, method: :get, local: true, class: "d-flex" do |f| %>
+      <%= select_tag :model, options_for_select([["ユーザー", "user"], ["投稿", "post"]], params[:model]), class: "form-select me-2" %>
+      <%= text_field_tag :keyword, params[:keyword], placeholder: "検索ワード", class: "form-control me-2" %>
+      <%= submit_tag "検索", class: "btn btn-success" %>
+    <% end %>
+  </div>
+<% end %>
