@@ -45,3 +45,8 @@ end
   LocationGenre.create!(name: name)
 end
 
+Admin.create!(
+  email: 'aa@aa',
+  password: 'aaaaaa',
+  password_confirmation: 'aaaaaa'
+)

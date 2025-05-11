@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :sign_out_conflicting_resource
 
   protected
 
@@ -13,5 +14,15 @@ class ApplicationController < ActionController::Base
       :phone_number,
       :prefecture
     ])
+  end
+
+  private
+
+  def sign_out_conflicting_resource
+    if controller_path.start_with?("admin/") && user_signed_in?
+      sign_out(:user)
+    elsif !controller_path.start_with?("admin/") && admin_signed_in?
+      sign_out(:admin)
+    end
   end
 end

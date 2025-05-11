@@ -1,0 +1,40 @@
+<h2><%= @user.nickname %> さんの編集</h2>
+
+<%= form_with model: [:admin, @user], local: true do |f| %>
+  <div class="mb-2">
+    <%= f.label :nickname, "ニックネーム" %><br>
+    <%= f.text_field :nickname %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :last_name, "姓" %><br>
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :first_name, "名" %><br>
+    <%= f.text_field :first_name %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :last_name_kana, "セイ" %><br>
+    <%= f.text_field :last_name_kana %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :first_name_kana, "メイ" %><br>
+    <%= f.text_field :first_name_kana %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :email, "メールアドレス" %><br>
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :is_active, "ステータス" %><br>
+    <%= f.select :is_active, [["有効", true], ["退会済", false]] %>
+  </div>
+
+  <%= f.submit "更新", class: "btn btn-primary" %>
+<% end %>
