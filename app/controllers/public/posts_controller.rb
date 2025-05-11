@@ -1,6 +1,6 @@
 class Public::PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :ensure_correct_post_user, only: [:edit, :update, :destroy]
   
   def index
     @posts = Post.includes(:user, image_attachment: :blob).order(created_at: :desc)
@@ -24,7 +24,7 @@ class Public::PostsController < ApplicationController
     @post.latitude = 0.0
     @post.longitude = 0.0
     if @post.save
-      redirect_to my_page_user_path(current_user), notice: "投稿が完了しました。"
+      redirect_to post_path(@post), notice: "投稿が完了しました。"
     else
       flash.now[:alert] = "投稿に失敗しました。"
       render :new
@@ -69,10 +69,10 @@ class Public::PostsController < ApplicationController
     )
   end
 
-  def ensure_correct_user
-    @post = Post.find(params[:id])
-    unless @post.user == current_user
-      redirect_to root_path, alert: "権限がありません"
+  def ensure_correct_post_user
+    post = Post.find(params[:id])
+    unless post.user == current_user
+      redirect_to my_page_user_path(current_user), alert: "他人の投稿は編集できません。"
     end
   end
 

@@ -56,11 +56,11 @@ class Public::UsersController < ApplicationController
 
   def ensure_correct_user
     user = User.find(params[:id])
-    if user != current_user
-      redirect_to root_path, alert: "不正なアクセスです。"
+    unless user == current_user
+      redirect_to my_page_user_path(current_user), alert: "他人のユーザー情報は編集できません。"
     end
   end
-
+  
   def ensure_guest_user
     user = User.find(params[:id])
     if user.email == "guest@example.com"
