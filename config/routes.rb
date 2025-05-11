@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   scope module: :public do
     root to: "homes#top"
     get 'about', to: 'homes#about'
+    get 'search', to: 'searches#search', as: 'search'
     # ユーザー情報
     resources :users, only: [:edit, :update, :show] do
       get 'my_page', on: :member

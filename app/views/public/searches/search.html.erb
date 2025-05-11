@@ -1,0 +1,38 @@
+<h2>検索結果（<%= @model == "user" ? "ユーザー" : "投稿" %>）</h2>
+
+<% if @results.any? %>
+  <% @results.each do |result| %>
+    <% if @model == "user" %>
+      <div class="user-result" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        <%# ユーザー画像（リンク付き） %>
+        <% if result.profile_image.attached? %>
+          <%= link_to user_path(result) do %>
+            <%= image_tag result.profile_image, size: "100x100", class: "rounded" %>
+          <% end %>
+        <% end %>
+
+        <p><strong>ニックネーム：</strong><%= link_to result.nickname, user_path(result) %></p>
+        <p><strong>都道府県：</strong><%= result.prefecture %></p>
+        <% if result.introduction.present? %>
+          <p><strong>自己紹介：</strong><%= simple_format(result.introduction) %></p>
+        <% end %>
+      </div>
+
+    <% elsif @model == "post" %>
+      <div class="post-result" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        <% if result.image.attached? %>
+          <%= link_to post_path(result) do %>
+            <%= image_tag result.image, size: "200x200", class: "rounded" %>
+          <% end %>
+        <% end %>
+
+        <p><strong>タイトル：</strong><%= link_to result.title, post_path(result) %></p>
+        <p><strong>場所：</strong><%= result.location_name %></p>
+        <p><strong>投稿時間：</strong><%= l(result.created_at, format: :short) %></p>
+        <p><strong>投稿者：</strong><%= link_to result.user.nickname, user_path(result.user) %></p>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>該当する結果はありませんでした。</p>
+<% end %>
