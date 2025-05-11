@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  # ユーザー用 Devise（認証関連）
+  # ユーザー用
+  # URL /customers/sign_in ...
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
     sessions: "public/sessions"
@@ -25,5 +26,11 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy]
     end
   end
+
+  # 管理者用
+  # URL /admin/sign_in ...
+  devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
+    sessions: "admin/sessions"
+  }
 end
 
