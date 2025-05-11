@@ -15,6 +15,7 @@
             <p class="card-text">投稿者：
               <%= link_to post.user.nickname, my_page_user_path(post.user) %>
             </p>
+            <p>コメント数：<%= post.comments.count %>件</p>
           </div>
         </div>
       </div>
