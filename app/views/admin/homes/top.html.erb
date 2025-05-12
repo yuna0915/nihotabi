@@ -1,36 +1,39 @@
 <h2>ユーザー一覧</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>ユーザー情報</th>
-      <th>退会ステータス</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
+<% if @users.present? %>
+  <table class="table">
+    <thead>
       <tr>
-        <td>
-          <div class="d-flex align-items-center">
-            <%# ユーザー画像（ActiveStorage使用時の例） %>
-            <%= link_to admin_user_path(user) do %>
-              <% if user.profile_image.attached? %>
-                <%= image_tag user.profile_image, width: 60, height: 60, class: "rounded-circle me-2" %>
-              <% else %>
-                <%= image_tag 'no_image.jpg', width: 60, height: 60, class: "rounded-circle me-2" %>
-              <% end %>
-            <% end %>
-
-            <div>
-              <%= link_to user.nickname, admin_user_path(user), class: "fw-bold d-block" %>
-              <div>ID: <%= user.id %></div>
-              <div>氏名: <%= user.last_name %> <%= user.first_name %>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
-              <div>メール: <%= user.email %></div>
-            </div>
-          </div>
-        </td>
-        <td><%= user.is_active? ? "有効" : "退会済" %></td>
+        <th>ユーザー情報</th>
+        <th>退会ステータス</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <%= link_to admin_user_path(user) do %>
+                <% if user.profile_image.attached? %>
+                  <%= image_tag user.profile_image, width: 60, height: 60, class: "rounded-circle me-2" %>
+                <% else %>
+                  <%= image_tag 'no_image.jpg', width: 60, height: 60, class: "rounded-circle me-2" %>
+                <% end %>
+              <% end %>
+
+              <div>
+                <%= link_to user.nickname, admin_user_path(user), class: "fw-bold d-block" %>
+                <div>ID: <%= user.id %></div>
+                <div>氏名: <%= user.last_name %> <%= user.first_name %>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
+                <div>メール: <%= user.email %></div>
+              </div>
+            </div>
+          </td>
+          <td><%= user.is_active? ? "有効" : "退会済" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>ユーザーはまだ登録されていません。</p>
+<% end %>

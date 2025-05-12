@@ -29,12 +29,12 @@
 
       <tr>
         <th><%= f.label :prefecture_id, "都道府県" %></th>
-        <td><%= f.collection_select :prefecture_id, Prefecture.all, :id, :name, include_blank: "選択してください", class: "form-control" %></td>
+        <td><%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name, include_blank: "選択してください", class: "form-control" %></td>
       </tr>
 
       <tr>
         <th><%= f.label :location_genre_id, "場所ジャンル" %></th>
-        <td><%= f.collection_select :location_genre_id, LocationGenre.all, :id, :name, include_blank: "選択してください", class: "form-control" %></td>
+        <td><%= f.collection_select :location_genre_id, LocationGenre.where(is_active: true), :id, :name, include_blank: "選択してください", class: "form-control" %></td>
       </tr>
 
       <tr>
@@ -53,12 +53,12 @@
 
       <tr>
         <th><%= f.label :visited_month_id, "訪問月" %></th>
-        <td><%= f.collection_select :visited_month_id, VisitedMonth.all, :id, :number, include_blank: "選択してください", class: "form-control" %></td>
+        <td><%= f.collection_select :visited_month_id, VisitedMonth.where(is_active: true), :id, :number, include_blank: "選択してください", class: "form-control" %></td>
       </tr>
 
       <tr>
         <th><%= f.label :visited_time_zone_id, "訪問時間帯" %></th>
-        <td><%= f.collection_select :visited_time_zone_id, VisitedTimeZone.all, :id, :hour, include_blank: "選択してください", class: "form-control" %></td>
+        <td><%= f.collection_select :visited_time_zone_id, VisitedTimeZone.where(is_active: true), :id, :hour, include_blank: "選択してください", class: "form-control" %></td>
       </tr>
 
       <tr>

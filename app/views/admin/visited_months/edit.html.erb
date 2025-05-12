@@ -1,0 +1,32 @@
+<h1>訪問月マスターデータ管理</h1>
+
+<h2>新規追加</h2>
+<%= form_with url: admin_visited_months_path, scope: :visited_month, local: true do |f| %>
+  <%= f.text_field :number, placeholder: "例: 1月", class: "form-control d-inline w-25" %>
+  <%= f.submit "追加", class: "btn btn-primary" %>
+<% end %>
+
+<h2>登録済み一覧</h2>
+<table class="table">
+  <thead><tr><th>ID</th><th>月</th><th>操作</th></tr></thead>
+  <tbody>
+    <% @visited_months.each do |month| %>
+      <tr>
+        <td><%= month.id %></td>
+        <td>
+          <%= form_with model: month, url: admin_visited_month_path(month), method: :patch, local: true do |f| %>
+            <%= f.text_field :number, value: month.number, class: "form-control d-inline w-50" %>
+            <%= f.submit "更新", class: "btn btn-success" %>
+          <% end %>
+        </td>
+        <td>
+          <% toggle_label = month.is_active? ? "非表示にする" : "表示にする" %>
+          <%= button_to toggle_label, admin_toggle_active_visited_month_path(month), method: :patch, class: "btn btn-warning" %>
+          <% if month.created_at > 30.minutes.ago %>
+            <%= button_to "削除", admin_visited_month_path(month), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
+          <% end %>    
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
