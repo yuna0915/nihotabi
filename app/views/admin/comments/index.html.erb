@@ -27,7 +27,7 @@
           </td>
 
           <!-- 投稿タイトル -->
-          <td><%= comment.post.title %></td>
+          <td><%= link_to comment.post.title, admin_post_path(comment.post), class: "text-decoration-none" %></td>
 
           <!-- 投稿者 -->
           <td>
