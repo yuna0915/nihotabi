@@ -12,18 +12,22 @@
   </head>
 
   <body>
-  <% unless controller_path == 'admin/sessions' && action_name == 'new' %>
-    <%= render 'layouts/header' %>
-  <% end %>
+    <% unless controller_path == 'admin/sessions' && action_name == 'new' %>
+      <%= render 'layouts/header' %>
 
-  <%= render 'layouts/search' %>
-  
-  <main>
-    <% flash.each do |message_type, message| %>
-      <div class="flash-message <%= message_type %>"><%= message %></div>
+      <% if user_signed_in? || admin_signed_in? %>
+        <%= render 'layouts/search' %>
+      <% end %>
+
     <% end %>
-    <%= yield %>
-  </main>
-  
-  <%= render 'layouts/footer' %>
-</body>
+
+    <main>
+      <% flash.each do |message_type, message| %>
+        <div class="flash-message <%= message_type %>"><%= message %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+
+    <%= render 'layouts/footer' %>
+  </body>
+</html>

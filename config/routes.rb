@@ -1,13 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'posts/index'
-    get 'posts/show'
-    get 'posts/destroy'
-  end
-  namespace :admin do
-    get 'comments/index'
-    get 'comments/destroy'
-  end
   # ユーザー用
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -44,11 +35,14 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'homes#top'
+    
+    get 'search', to: 'searches#search', as: 'search'
 
     resources :users, only: [:show, :edit, :update] do
       patch :withdraw, on: :member
     end
-    resources :comments, only: [:index, :destroy]
+
     resources :posts, only: [:index, :show, :destroy]
+    resources :comments, only: [:index, :destroy]
   end
 end
