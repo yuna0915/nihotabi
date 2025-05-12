@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'comments/index'
+    get 'comments/destroy'
+  end
   # ユーザー用
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -39,5 +43,6 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :edit, :update] do
       patch :withdraw, on: :member
     end
+    resources :comments, only: [:index, :destroy]
   end
 end

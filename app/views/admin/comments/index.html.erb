@@ -1,0 +1,62 @@
+<h2>コメント一覧</h2>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>投稿画像</th>
+        <th>投稿タイトル</th>
+        <th>投稿者</th>
+        <th>投稿日</th>
+        <th>コメント内容</th>
+        <th>コメント者</th>
+        <th>コメント日</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @comments.each do |comment| %>
+        <tr>
+          <!-- コメントID -->
+          <td><%= comment.id %></td>
+
+          <!-- 投稿画像 -->
+          <td>
+            <%= image_tag comment.post.image.variant(resize_to_limit: [100, 100]), class: "img-thumbnail", alt: "投稿画像" %>
+          </td>
+
+          <!-- 投稿タイトル -->
+          <td><%= comment.post.title %></td>
+
+          <!-- 投稿者 -->
+          <td>
+            <%= link_to comment.post.user.nickname, admin_user_path(comment.post.user), class: "text-decoration-none" %>
+          </td>
+
+          <!-- 投稿日 -->
+          <td><%= comment.post.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+
+          <!-- コメント内容 -->
+          <td><%= simple_format(comment.body) %></td>
+
+          <!-- コメント者 -->
+          <td>
+            <%= link_to comment.user.nickname, admin_user_path(comment.user), class: "text-decoration-none" %>
+          </td>
+
+          <!-- コメント日時 -->
+          <td><%= comment.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+
+          <!-- 削除ボタン -->
+          <td>
+            <%= link_to "削除", admin_comment_path(comment),
+                        method: :delete,
+                        data: { confirm: "本当に削除しますか？" },
+                        class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

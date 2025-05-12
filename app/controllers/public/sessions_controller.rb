@@ -39,6 +39,9 @@ class Public::SessionsController < Devise::SessionsController
       resource.errors.add(:base, "正しく入力してください")
     elsif user.nil? || !user.valid_password?(password)
       resource.errors.add(:base, "ご入力されたメールアドレスまたはパスワードが正しくありません")
+    elsif !user.is_active?
+      # 退会済ユーザー
+      resource.errors.add(:base, "退会済みのアカウントです。")
     else
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, user)
@@ -48,6 +51,7 @@ class Public::SessionsController < Devise::SessionsController
     clean_up_passwords(resource)
     render :new, status: :unprocessable_entity
   end
+  
 
   def guest_sign_in
     user = User.guest
