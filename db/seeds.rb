@@ -19,14 +19,14 @@
   徳島県 香川県 愛媛県 高知県
   福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県
 ].each do |name|
-  Prefecture.create!(name: name)
+  Prefecture.find_or_create_by!(name: name)
 end
 
 # -------------------------------
 # 訪問月（1〜12月）
 # -------------------------------
 (1..12).each do |m|
-  VisitedMonth.create!(number: "#{m}月")
+  VisitedMonth.find_or_create_by!(number: "#{m}月")
 end
 
 # -------------------------------
@@ -35,14 +35,14 @@ end
 (0..23).each do |h|
   from = format('%02d:00', h)
   to = format('%02d:00', (h + 1) % 24)
-  VisitedTimeZone.create!(hour: "#{from}〜#{to}")
+  VisitedTimeZone.find_or_create_by!(hour: "#{from}〜#{to}")
 end
 
 # -------------------------------
 # 場所ジャンル（固定）
 # -------------------------------
 ["観光地", "カフェ", "自然", "イベント", "温泉", "体験", "その他"].each do |name|
-  LocationGenre.create!(name: name)
+  LocationGenre.find_or_create_by!(name: name)
 end
 
 Admin.create!(

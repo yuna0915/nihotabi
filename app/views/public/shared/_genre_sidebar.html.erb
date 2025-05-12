@@ -1,0 +1,10 @@
+<div class="card mb-3">
+  <div class="card-header">場所ジャンル</div>
+  <ul class="list-group list-group-flush">
+    <% LocationGenre.where(is_active: true).each do |genre| %>
+      <li class="list-group-item">
+        <%= link_to genre.name, location_genre_path(genre), class: "text-decoration-none" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

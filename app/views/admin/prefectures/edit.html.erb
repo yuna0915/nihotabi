@@ -1,0 +1,32 @@
+<h2>新規追加</h2>
+<%= form_with model: @new_prefecture, url: admin_prefectures_path, local: true do |f| %>
+  <%= f.text_field :name, placeholder: "都道府県名" %>
+  <%= f.submit "追加", class: "btn btn-primary" %>
+<% end %>
+
+<h2>登録済み一覧</h2>
+<table class="table">
+  <thead>
+    <tr><th>ID</th><th>名前</th><th>操作</th></tr>
+  </thead>
+  <tbody>
+    <% @prefectures.each do |prefecture| %>
+      <tr class="<%= 'text-muted' unless prefecture.is_active %>">
+        <td><%= prefecture.id %></td>
+        <td>
+          <%= form_with model: prefecture, url: admin_prefecture_path(prefecture), method: :patch, local: true do |f| %>
+            <%= f.text_field :name, value: prefecture.name %>
+            <%= f.submit "更新", class: "btn btn-success" %>
+          <% end %>
+        </td>
+        <td>
+          <% toggle_label = prefecture.is_active? ? "非表示にする" : "表示にする" %>
+          <%= button_to toggle_label, admin_toggle_active_prefecture_path(prefecture), method: :patch, class: "btn btn-warning" %>
+          <% if prefecture.created_at > 10.minutes.ago %>
+            <%= button_to "削除", admin_prefecture_path(prefecture), method: :delete, data: { confirm: "削除してよいですか？" }, class: "btn btn-danger" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

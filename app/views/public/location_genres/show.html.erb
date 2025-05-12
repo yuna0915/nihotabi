@@ -1,0 +1,22 @@
+<h2><%= @location_genre.name %> の投稿一覧</h2>
+
+<% if @posts.present? %>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <% if post.image.attached? %>
+            <%= image_tag post.image.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
+          <% end %>
+          <div class="card-body">
+            <h5><%= link_to post.title, post_path(post) %></h5>
+            <p>投稿者：<%= post.user.nickname %></p>
+            <p><%= post.created_at.strftime("%Y/%m/%d") %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>このジャンルの投稿はまだありません。</p>
+<% end %>
