@@ -6,12 +6,32 @@
 
 <% if post.user != current_user %>
   <h3>コメントする</h3>
-  <%= form_with(model: [post, Comment.new], local: true) do |f| %>
-    <div class="form-group">
-      <%= f.text_area :body, rows: 3, class: "form-control" %>
-    </div>
-    <%= f.submit "送信", class: "btn btn-primary mt-2" %>
+
+  <% if !user_signed_in? %>
+    <p class="text-warning">
+      コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
+    </p>
+
+  <% elsif current_user.email == "guest@example.com" %>
+    <p class="text-warning mb-2">
+      コメントするには、
+      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
+      または
+      <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+      が必要です。
+    </p>
+
+  <% else %>
+    <%= form_with(model: [post, Comment.new], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :body, rows: 3, class: "form-control" %>
+      </div>
+      <div class="text-center mt-2">
+        <%= f.submit "送信", class: "btn btn-primary" %>
+      </div>
+    <% end %>
   <% end %>
+
 <% else %>
   <p class="text-muted">※自分の投稿にはコメントできません</p>
 <% end %>

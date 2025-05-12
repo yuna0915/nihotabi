@@ -13,7 +13,7 @@
             <p class="card-text">場所：<%= post.location_name %></p>
             <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
             <p class="card-text">投稿者：
-              <%= link_to post.user.nickname, my_page_user_path(post.user) %>
+              <%= link_to post.user.nickname, user_path(post.user), class: "text-decoration-none" %>
             </p>
             <p>コメント数：<%= post.comments.count %>件</p>
           </div>
