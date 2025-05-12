@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   namespace :admin do
+    get 'posts/index'
+    get 'posts/show'
+    get 'posts/destroy'
+  end
+  namespace :admin do
     get 'comments/index'
     get 'comments/destroy'
   end
@@ -44,5 +49,6 @@ Rails.application.routes.draw do
       patch :withdraw, on: :member
     end
     resources :comments, only: [:index, :destroy]
+    resources :posts, only: [:index, :show, :destroy]
   end
 end
