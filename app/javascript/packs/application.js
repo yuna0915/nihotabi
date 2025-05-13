@@ -16,3 +16,7 @@ import "../stylesheets/application";
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+import Swiper from 'swiper/swiper-bundle';
+import 'swiper/swiper-bundle.css';
+import "../script";

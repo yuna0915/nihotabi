@@ -14,3 +14,28 @@
 </p>
 
 <%= image_tag 'top.jpg', size: "500x250" %>
+
+<h2 class="mt-5">新着投稿</h2>
+<div class="row">
+  <% @latest_posts.each do |post| %>
+    <div class="col-md-6 col-lg-3 mb-4">
+      <div class="card h-100">
+        <%= link_to post_path(post), class: "text-decoration-none text-dark" do %>
+          <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "card-img-top" %>
+          <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.body, length: 60) %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="text-center mt-3">
+  <% if user_signed_in? %>
+    <%= link_to "もっと見る", posts_path, class: "btn btn-outline-primary" %>
+  <% else %>
+    <%= link_to "もっと見る", new_user_session_path, data: { turbo: false }, class: "btn btn-outline-primary", onclick: "alert('投稿一覧を閲覧するにはログインが必要です。');" %>
+  <% end %>
+</div>
