@@ -1,0 +1,16 @@
+<div class="col-md-4 mb-4">
+  <div class="card h-100">
+    <%= link_to post_path(post) do %>
+      <%= image_tag post.get_post_image(300, 200), class: "card-img-top" %>
+    <% end %>
+    <div class="card-body">
+      <h4 class="card-title"><strong><%= post.title %></strong></h4>
+      <p class="card-text">場所：<%= post.location_name %></p>
+      <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
+      <p class="card-text">投稿者：
+        <%= link_to post.user.nickname, user_path(post.user), class: "text-decoration-none" %>
+      </p>
+      <p class="card-text">コメント数：<%= post.comments.count %>件</p>
+    </div>
+  </div>
+</div>

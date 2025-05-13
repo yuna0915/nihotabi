@@ -1,4 +1,4 @@
-<h2 class="text-center mt-5 mb-4">ユーザー情報の編集</h2>
+<h1 class="text-center mt-5 mb-4">ユーザー情報の編集</h1>
 
 <%= form_with model: @user, url: user_path, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 640px;" } do |f| %>
   <%= render "public/shared/error_messages", resource: @user %>
