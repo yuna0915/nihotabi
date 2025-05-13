@@ -1,41 +1,52 @@
-<h1>ようこそ、ニホタビへ。</h1>
-<p>
-  ニホタビは、<strong>有名な観光地から地元の人しか知らない穴場スポットまで</strong>、<br>
-  誰もが自由に投稿・共有できる、<strong>旅と地域の魅力がつながる場所</strong>です。
-</p>
-<p>
-  旅好きな方はもちろん、写真や発信することが好きな方、<br>
-  旅行先を探している方、地元の魅力を発信したい方など、<br>
-  さまざまな方に気軽にご参加いただけます。
-</p>
-<p>
-  あなたの投稿が誰かのきっかけに。<br>
-  日本のスポットをシェアして、新しいつながりを広げてみませんか？
-</p>
+<% content_for :full_width_section do %>
+  <section class="hero-section d-flex align-items-center">
+    <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 px-4">
 
-<%= image_tag 'top.jpg', size: "500x250" %>
-
-<h2 class="mt-5">新着投稿</h2>
-<div class="row">
-  <% @latest_posts.each do |post| %>
-    <div class="col-md-6 col-lg-3 mb-4">
-      <div class="card h-100">
-        <%= link_to post_path(post), class: "text-decoration-none text-dark" do %>
-          <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "card-img-top" %>
-          <div class="card-body">
-            <h5 class="card-title"><%= post.title %></h5>
-            <p class="card-text"><%= truncate(post.body, length: 60) %></p>
-          </div>
-        <% end %>
+      <div class="hero-text py-5 pe-md-5">
+        <h1 class="fw-bold display-3 mb-4 text-white">ようこそ、ニホタビへ。</h1>
+        <p class="lead fs-4 mb-3 text-white">
+          ニホタビは、<strong>有名な観光地から地元の人しか知らない穴場スポットまで</strong>、<br>
+          誰もが自由に投稿・共有できる、<strong>旅と地域の魅力がつながる場所</strong>です。
+        </p>
+        <p class="fs-5 mb-3 text-white">
+          旅好きな方はもちろん、写真や発信することが好きな方、<br>
+          旅行先を探している方、地元の魅力を発信したい方など、<br>
+          さまざまな方に気軽にご参加いただけます。
+        </p>
+        <p class="fs-5 text-white">
+          あなたの投稿が誰かのきっかけに。<br>
+          日本のスポットをシェアして、新しいつながりを広げてみませんか？
+        </p>
       </div>
-    </div>
-  <% end %>
-</div>
 
-<div class="text-center mt-3">
-  <% if user_signed_in? %>
-    <%= link_to "もっと見る", posts_path, class: "btn btn-outline-primary" %>
-  <% else %>
-    <%= link_to "もっと見る", new_user_session_path, data: { turbo: false }, class: "btn btn-outline-primary", onclick: "alert('投稿一覧を閲覧するにはログインが必要です。');" %>
-  <% end %>
-</div>
+      <div class="hero-map text-center">
+        <%= image_tag 'top_map.png', alt: '日本地図', class: 'img-fluid' %>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container py-5">
+    <h2 class="mb-4 fw-bold pb-2">新着投稿</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      <% @latest_posts.each do |post| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <%= link_to post_path(post), class: "text-decoration-none text-dark" do %>
+              <% if post.image.attached? %>
+                <%= image_tag post.image.variant(resize_to_limit: [400, 250]), class: "card-img-top" %>
+              <% else %>
+                <%= image_tag 'no_image.jpg', class: "card-img-top" %>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text text-truncate"><%= post.body %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+<% end %>

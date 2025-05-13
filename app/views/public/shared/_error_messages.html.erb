@@ -1,18 +1,19 @@
 <% if resource&.errors&.any? %>
   <div id="error_explanation" data-turbo-cache="false">
-    <h2>
-      <% if controller_name == 'posts' %>
-        <%= "#{resource.errors.count}件のエラーが発生したため、投稿できませんでした。" %>
-      <% else %>
-        <%= I18n.t(
-              controller_name == 'sessions' ?
-                "errors.messages.not_logged_in" :
-                "errors.messages.not_saved",
-              count: resource.errors.count,
-              resource: resource.class.model_name.human.downcase
-            ) %>
-      <% end %>
-    </h2>
+  <h2 class="error-title">
+    <% if controller_name == 'posts' %>
+      <%= "#{resource.errors.count}件のエラーが発生したため、投稿できませんでした。" %>
+    <% else %>
+      <%= I18n.t(
+            controller_name == 'sessions' ?
+              "errors.messages.not_logged_in" :
+              "errors.messages.not_saved",
+            count: resource.errors.count,
+            resource: resource.class.model_name.human.downcase
+          ) %>
+    <% end %>
+  </h2>
+
 
     <% ordered_keys =
       case controller_name
