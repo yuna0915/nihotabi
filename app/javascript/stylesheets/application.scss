@@ -161,17 +161,54 @@
 
 .custom-outline-btn {
   background-color: transparent;
-  color: #4CAF50;
-  border: 2px solid #4CAF50;
+  color: #6c757d; /* 落ち着いたグレージュ系 */
   padding: 10px 30px;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: 0.3s;
-  text-align: center;
+  font-size: 1rem;
+  border: 2px solid #6c757d;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  font-family: 'Shippori Antique B1', serif;
+  letter-spacing: 0.5px;
 
   &:hover {
-    background-color: #4CAF50;
+    background-color: #6c757d;
     color: #fff;
+  }
+}
+
+.custom-green-btn {
+  background-color: #3b7050; /* 落ち着いたグリーン */
+  color: #fff;
+  padding: 10px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  font-family: 'Shippori Antique B1', serif;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    background-color: #fff;
+    color: #3b7050;
+    border: 1px solid #3b7050;
+  }
+}
+
+.custom-red-btn {
+  background-color: #8b4a43; /* 落ち着いた赤茶系 */
+  color: #fff;
+  padding: 10px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  font-family: 'Shippori Antique B1', serif;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    background-color: #fff;
+    color: #8b4a43;
+    border: 1px solid #8b4a43;
   }
 }
 

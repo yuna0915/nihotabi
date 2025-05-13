@@ -9,13 +9,13 @@
   <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn" %>
 </div>
 
-<div class="d-flex justify-content-center mb-5">
-  <table class="table table-borderless w-auto">
+<div class="profile-section mb-5 d-flex justify-content-center">
+  <table class="table table-borderless w-auto text-center">
     <tr>
-      <td class="align-top text-center">
+      <td class="align-top">
         <%= image_tag @user.get_profile_image(120, 120), class: "rounded-circle" %>
       </td>
-      <td class="ps-4">
+      <td class="ps-4 text-start">
         <p class="mb-2"><strong>都道府県：</strong>
           <%= @user.prefecture.is_a?(Prefecture) ? @user.prefecture.name : @user.prefecture %>
         </p>
@@ -30,33 +30,35 @@
   </table>
 </div>
 
-<h3 class="mb-4">投稿一覧</h3>
+<div class="post-section">
+  <h3 class="text-center mb-4">投稿一覧</h3>
 
-<% if @posts.any? %>
-  <div class="row justify-content-center">
-    <% @posts.each do |post| %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <% if post.image.attached? %>
-            <%= link_to post_path(post) do %>
-              <%= image_tag post.image, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+  <% if @posts.any? %>
+    <div class="row justify-content-center">
+      <% @posts.each do |post| %>
+        <div class="col-md-4 col-sm-10 mb-4">
+          <div class="card h-100">
+            <% if post.image.attached? %>
+              <%= link_to post_path(post) do %>
+                <%= image_tag post.image, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+              <% end %>
             <% end %>
-          <% end %>
-          <div class="card-body">
-            <h4 class="card-title"><strong><%= post.title %></strong></h4>
-            <p class="card-text">場所名：<%= post.location_name %></p>
-            <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+            <div class="card-body">
+              <h4 class="card-title"><strong><%= post.title %></strong></h4>
+              <p class="card-text">場所名：<%= post.location_name %></p>
+              <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-  <p class="text-center">投稿はまだありません。</p>
-<% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center">投稿はまだありません。</p>
+  <% end %>
 
-<% if @user != current_user %>
-  <div class="text-center mt-4">
-    <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn" %>
-  </div>
-<% end %>
+  <% if @user != current_user %>
+    <div class="text-center mt-4">
+      <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn" %>
+    </div>
+  <% end %>
+</div>
