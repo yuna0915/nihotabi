@@ -8,13 +8,13 @@
   <h5 class="mt-5 mb-3">コメントする</h5>
 
   <% if !user_signed_in? %>
-    <p class="text-warning">
-      コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
+    <p class="text-secondary">
+      ※コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
     </p>
 
   <% elsif current_user.email == "guest@example.com" %>
-    <p class="text-warning mb-2">
-      コメントするには、
+    <p class="text-secondary mb-2">
+      ※コメントするには、
       <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
       または
       <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
