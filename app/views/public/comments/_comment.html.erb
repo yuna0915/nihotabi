@@ -1,12 +1,22 @@
 <!-- 1件のコメント表示用テンプレート -->
-<div class="comment mb-3" id="comment-<%= comment.id %>">
-  <p>
-    <strong>
+<div class="comment mb-4 p-3 border-bottom" id="comment-<%= comment.id %>">
+  <div class="d-flex justify-content-between align-items-start">
+    <div class="me-3 flex-grow-1">
+      <%= simple_format(comment.body) %>
+    </div>
+    <% if comment.user == current_user %>
+      <div>
+        <%= link_to "削除", post_comment_path(comment.post, comment),
+                    method: :delete,
+                    data: { confirm: "削除しますか？" },
+                    class: "custom-red-btn btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-2 text-start">
+    <small class="text-muted">
       <%= link_to comment.user.nickname, user_path(comment.user), class: "text-decoration-none" %>
-    </strong>
-  </p>
-  <p><%= simple_format(comment.body) %></p>
-  <% if comment.user == current_user %>
-    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger btn-sm" %>
-  <% end %>
+    </small>
+  </div>
 </div>

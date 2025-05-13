@@ -36,11 +36,11 @@
   <% if @posts.any? %>
     <div class="row justify-content-center">
       <% @posts.each do |post| %>
-        <div class="col-md-4 col-sm-10 mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-10 mb-4"> 
           <div class="card h-100">
             <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.image, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+                <%= image_tag post.image, class: "card-img-top", style: "height: 240px; object-fit: cover;" %>
               <% end %>
             <% end %>
             <div class="card-body">

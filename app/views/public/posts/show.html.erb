@@ -1,60 +1,72 @@
-<h2><%= @post.title %></h2>
+<div class="d-flex justify-content-center">
+  <div style="max-width: 880px; width: 100%;">
+    <!-- タイトル -->
+    <h2 class="mt-4 mb-4"><%= @post.title %></h2>
 
-<%= image_tag @post.get_post_image(600, 400), class: "img-fluid mb-3" %>
-<table class="table">
-  <tbody>
-    <tr>
-      <th>投稿者</th>
-      <td>
-        <%= link_to @post.user.nickname, user_path(@post.user) %>
-      </td>
-    </tr>
-    <tr>
-      <th>本文</th>
-      <td><%= simple_format(@post.body) %></td>
-    </tr>
-    <tr>
-      <th>都道府県</th>
-      <td><%= @post.prefecture.name %></td>
-    </tr>
-    <tr>
-      <th>場所ジャンル</th>
-      <td><%= @post.location_genre.name %></td>
-    </tr>
-    <tr>
-      <th>場所名</th>
-      <td><%= @post.location_name %></td>
-    </tr>
-    <tr>
-      <th>住所</th>
-      <td><%= @post.address %></td>
-    </tr>
-    <tr>
-      <th>訪問月</th>
-      <td><%= @post.visited_month.number %></td>
-    </tr>
-    <tr>
-      <th>訪問時間帯</th>
-      <td><%= @post.visited_time_zone.hour %></td>
-    </tr>
-    <tr>
-      <th>投稿日時</th>
-      <td><%= l(@post.created_at, format: :long) %></td>
-    </tr>
-  </tbody>
-</table>
+    <!-- 画像 -->
+    <div class="mb-4">
+      <%= image_tag @post.get_post_image(880, 586), class: "img-fluid" %> <%# アスペクト比 3:2 %>
+    </div>
 
-<div id="comment-section">
-  <%= render 'public/comments/comments', post: @post %>
+    <!-- テーブル：下線のみ・左揃え -->
+    <table class="table table-borderless border-bottom" style="width: 880px;">
+      <tbody>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">投稿者</th>
+          <td><%= link_to @post.user.nickname, user_path(@post.user) %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">本文</th>
+          <td><%= simple_format(@post.body) %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">都道府県</th>
+          <td><%= @post.prefecture.name %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">場所ジャンル</th>
+          <td><%= @post.location_genre.name %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">場所名</th>
+          <td><%= @post.location_name %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">住所</th>
+          <td><%= @post.address %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">訪問月</th>
+          <td><%= @post.visited_month.number %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">訪問時間帯</th>
+          <td><%= @post.visited_time_zone.hour %></td>
+        </tr>
+        <tr class="border-bottom">
+          <th class="text-start align-middle">投稿日時</th>
+          <td><%= l(@post.created_at, format: :long) %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- コメントセクション -->
+    <div id="comment-section" class="mt-5">
+      <%= render 'public/comments/comments', post: @post %>
+    </div>
+
+    <!-- ボタン類 -->
+    <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
+      <% if @post.user == current_user %>
+        <div class="mb-4 d-flex justify-content-center gap-2">
+          <%= link_to '編集する', edit_post_path(@post), class: "custom-green-btn" %>
+          <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "custom-red-btn" %>
+        </div>
+        <%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "custom-outline-btn mt-2" %>
+      <% else %>
+        <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn" %>
+      <% end %>
+    </div>
+
+  </div>
 </div>
-
-<div class="mt-4">
-  <% if @post.user == current_user %>
-    <%= link_to '編集する', edit_post_path(@post), class: "btn btn-outline-primary" %>
-    <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger" %>
-    <%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "btn btn-outline-secondary" %>
-  <% else %>
-    <%= link_to '投稿一覧へ戻る', posts_path, class: "btn btn-outline-secondary" %>
-  <% end %>
-</div>
-
