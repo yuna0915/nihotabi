@@ -159,6 +159,22 @@
   border: 1px solid #2f5c75;
 }
 
+.custom-outline-btn {
+  background-color: transparent;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+  padding: 10px 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s;
+  text-align: center;
+
+  &:hover {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+}
+
 .error-title {
   text-align: center;
   margin: 0 auto;

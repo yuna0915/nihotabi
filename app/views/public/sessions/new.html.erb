@@ -1,27 +1,37 @@
-<h2>ログイン</h2>
+<h2 class="text-center mt-5 mb-4">ログイン</h2>
 
-<p>会員の方はこちらからログイン</p>
-<%= form_with scope: :user, url: user_session_path do |f| %>
+<p class="text-center">会員の方はこちらからログイン</p>
+
+<%= form_with scope: :user, url: user_session_path, html: { class: "login-form mx-auto" } do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
-  <div class="login-form">
-    <div class="form-group">
-      <%= f.label :email, "メールアドレス" %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-    </div>
 
-    <div class="form-group">
-      <%= f.label :password, "パスワード" %><br />
-      <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-    </div>
-
-    <div class="form-group submit-btn">
-      <%= f.submit "ログイン", class: "btn" %>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-borderless text-center mx-auto w-auto">
+      <tbody>
+        <tr>
+          <th class="text-end align-middle">メールアドレス</th>
+          <td>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-input" %>
+          </td>
+        </tr>
+        <tr>
+          <th class="text-end align-middle">パスワード</th>
+          <td>
+            <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-input" %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <%= f.submit "ログイン", class: "custom-register-btn mt-3" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 <% end %>
 
-<p>
-  会員登録がお済みでない方
+<p class="text-center mt-4">
+  会員登録がお済みでない方は
   <%= render "public/shared/links" %>
-  から新規登録を行ってください。
+  より新規登録を行ってください。
 </p>
