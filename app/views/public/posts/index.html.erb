@@ -1,4 +1,4 @@
-<h2>投稿一覧</h2>
+<h2 class="text-center mt-3 mb-3">投稿一覧</h2>
 
 <% if @posts.any? %>
   <div class="row">
@@ -15,12 +15,12 @@
             <p class="card-text">投稿者：
               <%= link_to post.user.nickname, user_path(post.user), class: "text-decoration-none" %>
             </p>
-            <p>コメント数：<%= post.comments.count %>件</p>
+            <p class="card-text">コメント数：<%= post.comments.count %>件</p>
           </div>
         </div>
       </div>
     <% end %>
   </div>
 <% else %>
-  <p>投稿がまだありません。</p>
+  <p class="text-center mt-5">投稿がまだありません。</p>
 <% end %>

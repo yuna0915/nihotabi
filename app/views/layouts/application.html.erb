@@ -29,19 +29,19 @@
     <% end %>
 
     <div class="container-fluid">
-  <div class="row">
-    <% if (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
-          (controller_name == "users" && action_name == "my_page") %>
-      <div class="col-md-3">
-        <%= render 'public/shared/genre_sidebar' %>
-      </div>
-    <% end %>
+      <div class="row">
+        <% if (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
+              (controller_name == "users" && action_name == "my_page") %>
+          <div class="col-md-3 mt-5">
+            <%= render 'public/shared/genre_sidebar' %>
+          </div>
+        <% end %>
 
-    <div class="<%= (controller_name == "posts" && (action_name == "index" || action_name == "show")) || (controller_name == "users" && action_name == "my_page") ? 'col-md-9' : 'col-12' %>">
-      <%= yield %>
+        <div class="<%= (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) || (controller_name == 'users' && action_name == 'my_page') ? 'col-md-9' : 'col-12' %>">
+          <%= yield %>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <%= render 'layouts/footer' %>
   </body>
