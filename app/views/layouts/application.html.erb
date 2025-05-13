@@ -29,18 +29,19 @@
     <% end %>
 
     <div class="container-fluid">
-      <div class="row">
-        <% if controller_path.start_with?("public") &&
-              !controller_path.start_with?("public/users", "public/homes", "public/sessions", "public/registrations") %>
-          <div class="col-md-3">
-            <%= render 'public/shared/genre_sidebar' %>
-          </div>
-        <% end %>
-        <div class="<%= controller_path.start_with?("public/users", "public/homes", "public/sessions", "public/registrations", "public/posts") ? 'col-12' : 'col-md-9' %>">
-          <%= yield %>
-        </div>
+  <div class="row">
+    <% if (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
+          (controller_name == "users" && action_name == "my_page") %>
+      <div class="col-md-3">
+        <%= render 'public/shared/genre_sidebar' %>
       </div>
+    <% end %>
+
+    <div class="<%= (controller_name == "posts" && (action_name == "index" || action_name == "show")) || (controller_name == "users" && action_name == "my_page") ? 'col-md-9' : 'col-12' %>">
+      <%= yield %>
     </div>
+  </div>
+</div>
 
     <%= render 'layouts/footer' %>
   </body>

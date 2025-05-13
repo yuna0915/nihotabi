@@ -1,64 +1,64 @@
-<h2>ユーザー情報の編集</h2>
+<h2 class="text-center mt-5 mb-4">ユーザー情報の編集</h2>
 
-<%= form_with model: @user, url: user_path, local: true, html: { multipart: true } do |f| %>
+<%= form_with model: @user, url: user_path, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 640px;" } do |f| %>
   <%= render "public/shared/error_messages", resource: @user %>
 
-  <table class="table">
+  <table class="table table-borderless w-100">
     <tbody>
       <tr>
-        <th><%= f.label :image, "プロフィール画像" %></th>
+        <th class="text-end align-middle">プロフィール画像</th>
         <td>
           <% if @user.image.attached? %>
             <%= image_tag @user.image.variant(resize_to_fill: [120, 120]), class: "mb-2 rounded-circle" %><br>
           <% end %>
-          <%= f.file_field :image, class: "form-control" %>
+          <%= f.file_field :image, class: "form-control form-input mx-auto" %>
         </td>
       </tr>
       <tr>
-        <th><%= f.label :last_name, "姓" %></th>
-        <td><%= f.text_field :last_name, class: "form-control" %></td>
+        <th class="text-end align-middle">姓</th>
+        <td><%= f.text_field :last_name, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :first_name, "名" %></th>
-        <td><%= f.text_field :first_name, class: "form-control" %></td>
+        <th class="text-end align-middle">名</th>
+        <td><%= f.text_field :first_name, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :last_name_kana, "セイ" %></th>
-        <td><%= f.text_field :last_name_kana, class: "form-control" %></td>
+        <th class="text-end align-middle">セイ</th>
+        <td><%= f.text_field :last_name_kana, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :first_name_kana, "メイ" %></th>
-        <td><%= f.text_field :first_name_kana, class: "form-control" %></td>
+        <th class="text-end align-middle">メイ</th>
+        <td><%= f.text_field :first_name_kana, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :nickname, "ニックネーム" %></th>
-        <td><%= f.text_field :nickname, class: "form-control" %></td>
+        <th class="text-end align-middle">ニックネーム</th>
+        <td><%= f.text_field :nickname, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :email, "メールアドレス" %></th>
-        <td><%= f.email_field :email, class: "form-control" %></td>
+        <th class="text-end align-middle">メールアドレス</th>
+        <td><%= f.email_field :email, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :phone_number, "電話番号（ハイフンなし）" %></th>
-        <td><%= f.text_field :phone_number, class: "form-control" %></td>
+        <th class="text-end align-middle">電話番号</th>
+        <td><%= f.text_field :phone_number, class: "form-control form-input mx-auto" %></td>
       </tr>
       <tr>
-        <th><%= f.label :prefecture, "都道府県" %></th>
+        <th class="text-end align-middle">都道府県</th>
         <td>
-          <%= f.select :prefecture, Prefecture.pluck(:name), { selected: @user.prefecture }, class: "form-control" %>
+          <%= f.select :prefecture, Prefecture.pluck(:name), { selected: @user.prefecture }, class: "form-select form-input mx-auto" %>
         </td>
       </tr>
       <tr>
-        <th><%= f.label :introduction, "自己紹介文" %></th>
-        <td><%= f.text_area :introduction, rows: 5, class: "form-control" %></td>
+        <th class="text-end align-middle">自己紹介文</th>
+        <td>
+          <%= f.text_area :introduction, rows: 5, class: "form-control form-input mx-auto" %>
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="text-center mt-3">
-    <%= f.submit "更新する", class: "btn btn-primary" %>
+  <div class="text-center mt-4 mb-5 d-flex flex-column align-items-center">
+    <%= f.submit "更新する", class: "custom-register-btn mb-3" %>
+    <%= link_to "プロフィール詳細に戻る", user_path(@user), class: "custom-outline-btn" %>
   </div>
 <% end %>
-<div class="text-center">
-  <%= link_to "プロフィール詳細に戻る", user_path(@user), class: "btn btn-secondary" %>
-</div>

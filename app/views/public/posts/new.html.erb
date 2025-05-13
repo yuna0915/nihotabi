@@ -1,5 +1,7 @@
-<h1>投稿フォーム</h1>
+<h1 class="text-center mt-5 mb-4">投稿フォーム</h1>
+
 <%= render 'form', post: @post %>
-<div class="text-center mt-3">
-  <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "btn btn-secondary" %>
+
+<div class="text-center mt-4 mb-5">
+  <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "custom-outline-btn" %>
 </div>
