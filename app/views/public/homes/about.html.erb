@@ -30,7 +30,15 @@
     そんな優しい循環が生まれる場になったら嬉しいです。</strong>
   </p>
 
-  <%= image_tag 'about1.jpg', size: "500x250" %>
-  <%= image_tag 'about2.jpg', size: "500x250" %>
-  <%= image_tag 'about3.jpg', size: "500x250" %>
-  <%= image_tag 'about4.jpg', size: "500x250" %>
+  <div class="swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><%= image_tag 'about1.jpg' %></div>
+    <div class="swiper-slide"><%= image_tag 'about2.jpg' %></div>
+    <div class="swiper-slide"><%= image_tag 'about3.jpg' %></div>
+    <div class="swiper-slide"><%= image_tag 'about4.jpg' %></div>
+  </div>
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-pagination"></div>
+</div>

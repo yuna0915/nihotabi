@@ -20,8 +20,9 @@
   box-sizing: border-box;
 }
 
-header {
-  font-family: 'M PLUS Rounded 1c', serif;
+/* app/assets/stylesheets/application.css または application.scss に追加 */
+* {
+  font-family: 'Shippori Antique B1', serif;
 }
 
 .flash-message {
@@ -40,4 +41,20 @@ header {
   background-color: #ffd4d1;
   color: #930403;
   border: solid 1px #930403;
+}
+
+.swiper {
+  width: 1000px;
+  height: 600px;
+  margin: 40px auto;
+  overflow: hidden;
+}
+
+/* スライド内の画像を同じサイズに整える */
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ポイント：画像の全体を表示 */
+  object-position: center;
+  display: block;
 }
