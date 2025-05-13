@@ -1,60 +1,78 @@
-<header>
-  <div>
-    <% if admin_signed_in? %>
-      <span>管理者としてログイン中</span>
-    <% elsif user_signed_in? %>
-      <span>ようこそ、<%= current_user.nickname %>さん！</span>
-    <% end %>
-  </div>
+<header style="background-color: #eaf1ec; padding-top: 1.5rem; padding-bottom: 1.5rem;">
+  <div class="container d-flex justify-content-between align-items-center">
 
-  <ul class="nav">
-    <% if admin_signed_in? %>
-      <li class="nav-item">
-        <%= link_to 'ユーザー一覧', admin_root_path, class: 'btn btn-outline-secondary mx-1' %>
-      </li>
-      <li class="nav-item">
-        <%= link_to '投稿一覧', admin_posts_path, class: 'btn btn-outline-secondary mx-1' %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'コメント一覧', admin_comments_path, class: 'btn btn-outline-secondary mx-1' %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'データ管理', admin_master_data_path, class: "btn btn-outline-secondary mx-1" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-outline-secondary mx-1' %>
-      </li>
+    <!-- 左側：ロゴ + タイトル -->
+    <div class="d-flex align-items-center">
+      <%= link_to root_path, class: 'd-flex align-items-center text-decoration-none me-4' do %>
+        <%= image_tag('logo.jpg', alt: 'ニホタビ', height: '60', class: 'me-2') %>
+        <span class="fw-bold fs-2" style="color: #2e6044;">ニホタビ</span>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <span class="fw-semibold fs-6 ms-3" style="color: #2e6044;">
+          ようこそ、<%= current_user.nickname %>さん！
+        </span>
+      <% end %>
+    </div>
+
+    <!-- 右側：ナビゲーション -->
+    <% if controller_path == 'admin/sessions' && action_name == 'new' %>
+      <!-- 管理者ログイン画面：ナビゲーション非表示 -->
+
+    <% elsif admin_signed_in? %>
+      <!-- 管理者ログイン後ナビ -->
+      <ul class="nav ms-auto">
+        <li class="nav-item">
+          <%= link_to 'ユーザー一覧', admin_root_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to '投稿一覧', admin_posts_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'コメント一覧', admin_comments_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'データ管理', admin_master_data_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+      </ul>
 
     <% elsif user_signed_in? %>
-      <li class="nav-item">
-        <%= link_to 'マイページ', my_page_user_path(current_user) %>
-      </li>
-      <li class="nav-item">
-        <%= link_to '新規投稿', new_post_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to '投稿一覧', posts_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-      </li>
+      <!-- 一般ユーザー：ログイン後 -->
+      <div class="d-flex align-items-center ms-auto">
+        <%= link_to my_page_user_path(current_user), title: 'マイページ', class: 'mx-2', style: 'color: #2e6044;' do %>
+          <i class="fa-solid fa-user fa-lg"></i>
+        <% end %>
+        <%= link_to new_post_path, title: '新規投稿', class: 'mx-2', style: 'color: #2e6044;' do %>
+          <i class="fa-solid fa-pen-to-square fa-lg"></i>
+        <% end %>
+        <%= link_to posts_path, title: '投稿一覧', class: 'mx-2', style: 'color: #2e6044;' do %>
+          <i class="fa-solid fa-list fa-lg"></i>
+        <% end %>
+        <%= link_to destroy_user_session_path, method: :delete, title: 'ログアウト', class: 'mx-2', style: 'color: #2e6044;' do %>
+          <i class="fa-solid fa-right-from-bracket fa-lg"></i>
+        <% end %>
+      </div>
 
     <% else %>
-      <li class="nav-item">
-        <%= link_to 'Top', root_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'About', about_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to '新規登録', new_user_registration_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'ログイン', new_user_session_path %>
-      </li>
-      <li class="nav-item">
-        <%= link_to 'ゲストログイン（閲覧用）', guests_sign_in_path, method: :post %>
-      </li>
+      <!-- 一般ユーザー：未ログイン -->
+      <ul class="nav ms-auto">
+        <li class="nav-item">
+          <%= link_to 'About', about_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to '新規登録', new_user_registration_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'ログイン', new_user_session_path, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'ゲストログイン（閲覧用）', guests_sign_in_path, method: :post, class: 'nav-link mx-2 fw-semibold', style: 'color: #2e6044;' %>
+        </li>
+      </ul>
     <% end %>
-  </ul>
+
+  </div>
 </header>

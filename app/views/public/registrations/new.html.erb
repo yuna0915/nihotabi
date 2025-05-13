@@ -1,72 +1,64 @@
-<h2>新規会員登録</h2>
+<h1 class="text-center mt-5 mb-4">新規会員登録</h1>
 
-<%= form_with scope: :user, url: user_registration_path do |f| %>
+<%= form_with scope: :user, url: user_registration_path, html: { class: "register-form mx-auto" } do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
-  <table class="table table-borderless">
-    <tbody>
-      <tr>
-        <td>氏名</td>
-        <td><%= f.label :last_name, "(姓)" %></td>
-        <td><%= f.text_field :last_name, autofocus: true, placeholder: "山田" %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= f.label :first_name, "(名)" %></td>
-        <td><%= f.text_field :first_name, autofocus: true, placeholder: "太郎" %></td>
-      </tr>
-      <tr>
-        <td>フリガナ</td>
-        <td><%= f.label :last_name_kana, "(セイ)" %></td>
-        <td><%= f.text_field :last_name_kana, autofocus: true, placeholder: "ヤマダ" %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><%= f.label :first_name_kana, "(メイ)" %></td>
-        <td><%= f.text_field :first_name_kana, autofocus: true, placeholder: "タロウ" %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :nickname, "ニックネーム" %></td>
-        <td></td>
-        <td><%= f.text_field :nickname, autofocus: true, placeholder: "タロちゃん" %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :email, "メールアドレス" %></td>
-        <td></td>
-        <td><%= f.email_field :email, autofocus: true, class: "email", placeholder: "sample@example.com" %></td>
-      </tr>
-      <tr>
-        <td>
-          <%= f.label :password, "パスワード(6文字以上)" %>
-          <% if @minimum_password_length %>
-            <!-- <em>(<%= @minimum_password_length %> characters minimum)</em> -->
-          <% end %>
-        </td>
-        <td></td>
-        <td><%= f.password_field :password, autocomplete: "new-password", placeholder: "password" %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :password_confirmation, "パスワード(確認用)" %></td>
-        <td></td>
-        <td><%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "password" %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :phone_number, "電話番号(ハイフンなし)" %></td>
-        <td></td>
-        <td><%= f.text_field :phone_number, autofocus: true, placeholder: "00000000000" %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :prefecture, "都道府県" %></th>
-        <td></td>
-        <td>
-        <%= f.select :prefecture, Prefecture.pluck(:name), include_blank: "選択してください" %>
 
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td><%= f.submit "新規会員登録", class: 'btn btn-success' %></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-borderless text-center mx-auto register-table">
+      <tbody>
+        <tr>
+          <th class="text-end">氏名 (姓)</th>
+          <td><%= f.text_field :last_name, placeholder: "山田", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">(名)</th>
+          <td><%= f.text_field :first_name, placeholder: "太郎", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">フリガナ (セイ)</th>
+          <td><%= f.text_field :last_name_kana, placeholder: "ヤマダ", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">(メイ)</th>
+          <td><%= f.text_field :first_name_kana, placeholder: "タロウ", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">ニックネーム</th>
+          <td><%= f.text_field :nickname, placeholder: "タロちゃん", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">メールアドレス</th>
+          <td><%= f.email_field :email, placeholder: "sample@example.com", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">パスワード</th>
+          <td><%= f.password_field :password, placeholder: "password", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">パスワード確認</th>
+          <td><%= f.password_field :password_confirmation, placeholder: "password", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">電話番号</th>
+          <td><%= f.text_field :phone_number, placeholder: "00000000000", class: "form-control form-input" %></td>
+        </tr>
+        <tr>
+          <th class="text-end">都道府県</th>
+          <td><%= f.select :prefecture, Prefecture.pluck(:name), { include_blank: "選択してください" }, class: "form-select form-input" %></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center">
+            <%= f.submit "新規会員登録", class: "custom-register-btn mt-3" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 <% end %>
+
+<p class="text-center mb-5">
+  すでに会員登録済みの方は
+  <%= link_to "こちら", new_user_session_path, class: "text-decoration-none" %>
+  よりログインを行って下さい。
+</p>
+

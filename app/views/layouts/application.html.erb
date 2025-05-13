@@ -6,35 +6,48 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Google Fonts を追加 -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CDN -->
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/c6d2862341.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- WebpackerでビルドされたCSS/JSを読み込む -->
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <header class="bg-light p-3 border-bottom">
-      <div class="container">
-        <%= render 'layouts/header' %>
-      </div>
-    </header>
+  <body class="<%= "#{controller_name}-#{action_name}" %>">
+    <%= render 'layouts/header' %>
 
-    <div class="container-fluid mt-4">
-      <div class="row">
-        <% unless controller_path.start_with?("public/users", "public/homes", "public/sessions", "public/registrations", "public/posts") %>
-          <div class="col-md-3">
-            <%= render 'public/shared/genre_sidebar' %>
-          </div>
-        <% end %>
-        <div class="<%= controller_path.start_with?("public/users", "public/homes", "public/sessions", "public/registrations", "public/posts") ? 'col-12' : 'col-md-9' %>">
-          <%= yield %>
-        </div>
+    <%= render 'layouts/search' if user_signed_in? || admin_signed_in? %>
+
+    <% if content_for?(:full_width_section) %>
+      <%= yield :full_width_section %>
+    <% end %>
+
+    <div class="container-fluid">
+  <div class="row">
+    <% if (controller_name == "posts" && (action_name == "index" || action_name == "show")) || 
+          (controller_name == "location_genres" && action_name == "show") ||
+          (controller_name == "searches" && action_name == "search") %>
+      <div class="col-md-3 mt-5">
+        <%= render 'public/shared/genre_sidebar' %>
+      </div>
+    <% end %>
+
+      <div class="<%= (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) || 
+                        (controller_name == 'location_genres' && action_name == 'show') ||
+                        (controller_name == 'searches' && action_name == 'search') ? 'col-md-9' : 'col-12' %>">
+        <%= yield %>
       </div>
     </div>
+  </div>
+
+    <%= render 'layouts/footer' %>
   </body>
 </html>

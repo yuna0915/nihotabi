@@ -1,14 +1,17 @@
 <% if user_signed_in? || admin_signed_in? %>
   <div class="search-container" style="padding: 10px; background-color: #f0f0f0;">
-    <%= form_with url: (user_signed_in? ? search_path : admin_search_path), method: :get, local: true, class: "d-flex" do %>
+    <%= form_with url: (user_signed_in? ? search_path : admin_search_path), method: :get, local: true, class: "d-flex justify-content-center align-items-center gap-2" do %>
       <%= select_tag :model,
         options_for_select(
           [["ユーザー", "user"], ["投稿", "post"]] + (admin_signed_in? ? [["コメント", "comment"]] : []),
           params[:model]
         ),
-        class: "form-select me-2" %>
-      <%= text_field_tag :keyword, params[:keyword], placeholder: "検索ワード", class: "form-control me-2" %>
-      <%= submit_tag "検索", class: "btn btn-success" %>
+        class: "form-select align-self-center", style: "max-width: 160px;" %>
+
+      <%= text_field_tag :keyword, params[:keyword], placeholder: "検索ワード",
+        class: "form-control align-self-center", style: "max-width: 300px;" %>
+
+      <%= submit_tag "検索", class: "custom-register-btn align-self-center" %>
     <% end %>
   </div>
 <% end %>

@@ -5,6 +5,7 @@ class Public::UsersController < ApplicationController
 
   def my_page
     @user = User.find_by(id: params[:id])
+    @post = Post.find(params[:id])
     if @user.nil?
       redirect_to root_path, alert: "ユーザーが見つかりませんでした。"
     else

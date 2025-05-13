@@ -1,20 +1,20 @@
-<h3>コメント一覧（<%= post.comments.count %>件）</h3>
+<h5 class="mt-4 mb-2">コメント一覧（<%= post.comments.count %>件）</h5>
 
 <div id="comments-list">
   <%= render partial: 'public/comments/comment', collection: post.comments.includes(:user).order(created_at: :desc), as: :comment %>
 </div>
 
 <% if post.user != current_user %>
-  <h3>コメントする</h3>
+  <h5 class="mt-5 mb-3">コメントする</h5>
 
   <% if !user_signed_in? %>
-    <p class="text-warning">
-      コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
+    <p class="text-secondary">
+      ※コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
     </p>
 
   <% elsif current_user.email == "guest@example.com" %>
-    <p class="text-warning mb-2">
-      コメントするには、
+    <p class="text-secondary mb-2">
+      ※コメントするには、
       <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
       または
       <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
@@ -23,11 +23,11 @@
 
   <% else %>
     <%= form_with(model: [post, Comment.new], local: true) do |f| %>
-      <div class="form-group">
-        <%= f.text_area :body, rows: 3, class: "form-control" %>
+      <div class="form-group d-flex justify-content-center">
+        <%= f.text_area :body, rows: 3, class: "form-control", style: "max-width: 880px; width: 100%;" %>
       </div>
-      <div class="text-center mt-2">
-        <%= f.submit "送信", class: "btn btn-primary" %>
+      <div class="text-center mt-3">
+        <%= f.submit "送信", class: "custom-register-btn" %>
       </div>
     <% end %>
   <% end %>

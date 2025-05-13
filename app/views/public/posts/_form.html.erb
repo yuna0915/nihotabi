@@ -1,68 +1,84 @@
-<%= form_with model: post, local: true, html: { multipart: true } do |f| %>
+<%= form_with model: post, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 700px;" } do |f| %>
   <%= render "public/shared/error_messages", resource: post %>
 
-  <table class="table">
+  <table class="table table-borderless w-100">
     <tbody>
       <tr>
-        <th><%= f.label :image, "画像" %></th>
-        <td>
+        <th class="text-center align-middle">画像</th>
+        <td class="text-center">
           <% if post.image.attached? %>
-            <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "mb-2", style: "display: block;" %>
+            <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "mb-2 d-block mx-auto" %>
           <% end %>
-          <%= f.file_field :image, accept: "image/*", class: "form-control" %>
+          <%= f.file_field :image, accept: "image/*", class: "form-control form-input mx-auto" %>
         </td>
       </tr>
 
       <tr>
-        <th><%= f.label :title, "タイトル" %></th>
-        <td>
-          <%= f.text_field :title, placeholder: "秋の紅葉が美しい登山道", class: "form-control" %>
+        <th class="text-center align-middle">タイトル</th>
+        <td class="text-center">
+          <%= f.text_field :title, placeholder: "秋の紅葉が美しい登山道", class: "form-control form-input mx-auto" %>
         </td>
       </tr>
 
       <tr>
-        <th><%= f.label :body, "本文" %></th>
-        <td>
-          <%= f.text_area :body, placeholder: "標高800mの〇〇山に登りました。展望台からの景色が最高で、紅葉シーズンには特におすすめです。", class: "form-control" %>
+        <th class="text-center align-middle">本文</th>
+        <td class="text-center">
+          <%= f.text_area :body, placeholder: "〇〇山に登りました...", class: "form-control form-input mx-auto", rows: 5 %>
         </td>
       </tr>
 
       <tr>
-        <th><%= f.label :prefecture_id, "都道府県" %></th>
-        <td><%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name, include_blank: "選択してください", class: "form-control" %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :location_genre_id, "場所ジャンル" %></th>
-        <td><%= f.collection_select :location_genre_id, LocationGenre.where(is_active: true), :id, :name, include_blank: "選択してください", class: "form-control" %></td>
-      </tr>
-
-      <tr>
-        <th><%= f.label :location_name, "場所名" %></th>
-        <td>
-          <%= f.text_field :location_name, placeholder: "〇〇山 第2展望台", class: "form-control" %>
+        <th class="text-center align-middle">都道府県</th>
+        <td class="text-center">
+          <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name, 
+                { include_blank: "選択してください" }, 
+                class: "form-control form-input mx-auto" %>
         </td>
       </tr>
 
       <tr>
-        <th><%= f.label :address, "住所" %></th>
-        <td>
-          <%= f.text_field :address, placeholder: "〇県〇市〇町", class: "form-control" %>
+        <th class="text-center align-middle">場所ジャンル</th>
+        <td class="text-center">
+          <%= f.collection_select :location_genre_id, LocationGenre.where(is_active: true), :id, :name, 
+                { include_blank: "選択してください" }, 
+                class: "form-control form-input mx-auto" %>
         </td>
       </tr>
 
       <tr>
-        <th><%= f.label :visited_month_id, "訪問月" %></th>
-        <td><%= f.collection_select :visited_month_id, VisitedMonth.where(is_active: true), :id, :number, include_blank: "選択してください", class: "form-control" %></td>
+        <th class="text-center align-middle">場所名</th>
+        <td class="text-center">
+          <%= f.text_field :location_name, placeholder: "〇〇山 第2展望台", class: "form-control form-input mx-auto" %>
+        </td>
       </tr>
 
       <tr>
-        <th><%= f.label :visited_time_zone_id, "訪問時間帯" %></th>
-        <td><%= f.collection_select :visited_time_zone_id, VisitedTimeZone.where(is_active: true), :id, :hour, include_blank: "選択してください", class: "form-control" %></td>
+        <th class="text-center align-middle">住所</th>
+        <td class="text-center">
+          <%= f.text_field :address, placeholder: "〇県〇市〇町", class: "form-control form-input mx-auto" %>
+        </td>
       </tr>
 
       <tr>
-        <td colspan="2" class="text-center">
+        <th class="text-center align-middle">訪問月</th>
+        <td class="text-center">
+          <%= f.collection_select :visited_month_id, VisitedMonth.where(is_active: true), :id, :number, 
+                { include_blank: "選択してください" }, 
+                class: "form-control form-input mx-auto" %>
+        </td>
+      </tr>
+
+      <tr>
+        <th class="text-center align-middle">訪問時間帯</th>
+        <td class="text-center">
+          <%= f.collection_select :visited_time_zone_id, VisitedTimeZone.where(is_active: true), :id, :hour, 
+                { include_blank: "選択してください" }, 
+                class: "form-control form-input mx-auto" %>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2" class="text-center pt-4">
           <% if current_user.email == "guest@example.com" %>
             <p class="mb-2">
               投稿するには、
@@ -71,12 +87,14 @@
               <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
               が必要です。
             </p>
+            <p class="mb-2 text-muted small">
+              ※新規登録・ログインに進むと、<strong>入力内容はすべてリセット</strong>されます。
+            </p>
           <% else %>
-            <%= f.submit(post.new_record? ? "投稿" : "更新", class: "btn btn-primary") %>
+            <%= f.submit(post.new_record? ? "投稿" : "更新", { class: "custom-register-btn" }) %> 
           <% end %>
         </td>
       </tr>
-
     </tbody>
   </table>
 <% end %>
