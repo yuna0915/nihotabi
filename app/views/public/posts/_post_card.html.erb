@@ -1,6 +1,6 @@
-<div class="col-md-4 mb-4">
+<div class="mb-4">
   <div class="card h-100">
-    <%= link_to post_path(post) do %>
+    <%= link_to post_path(post, from: from) do %>
       <%= image_tag post.get_post_image(300, 200), class: "card-img-top" %>
     <% end %>
     <div class="card-body">
@@ -8,9 +8,15 @@
       <p class="card-text">場所：<%= post.location_name %></p>
       <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
       <p class="card-text">投稿者：
-        <%= link_to post.user.nickname, user_path(post.user), class: "text-decoration-none" %>
+        <% if user_signed_in? %>
+          <%= link_to post.user.nickname, my_page_user_path(post.user, from: from, genre_id: genre_id), class: "text-decoration-none" %>
+        <% else %>
+          <span style="color: black;"><%= post.user.nickname %></span>
+        <% end %>
       </p>
       <p class="card-text">コメント数：<%= post.comments.count %>件</p>
     </div>
   </div>
 </div>
+
+

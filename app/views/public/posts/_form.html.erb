@@ -87,6 +87,9 @@
               <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
               が必要です。
             </p>
+            <p class="mb-2 text-muted small">
+              ※新規登録・ログインに進むと、<strong>入力内容はすべてリセット</strong>されます。
+            </p>
           <% else %>
             <%= f.submit(post.new_record? ? "投稿" : "更新", { class: "custom-register-btn" }) %> 
           <% end %>

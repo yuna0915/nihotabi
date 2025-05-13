@@ -1,4 +1,7 @@
-<h1 class="text-center mt-5 mb-4">
+<% from = params[:from] || 'index' %>
+<% genre_id = params[:genre_id] %>
+
+<h1 class="text-center mt-5 mb-5">
   <%= @user == current_user ? "マイページ" : "#{@user.nickname}さんのマイページ" %>
 </h1>
 
@@ -34,31 +37,44 @@
   <h2 class="text-center mb-4">投稿一覧</h2>
 
   <% if @posts.any? %>
-    <div class="row justify-content-center">
-      <% @posts.each do |post| %>
-        <div class="col-lg-3 col-md-4 col-sm-10 mb-4"> 
-          <div class="card h-100">
-            <% if post.image.attached? %>
-              <%= link_to post_path(post) do %>
-                <%= image_tag post.image, class: "card-img-top", style: "height: 240px; object-fit: cover;" %>
+    <div class="container"> 
+      <div class="row">
+        <% @posts.each do |post| %>
+          <div class="col-lg-4 col-md-6 col-sm-12 mb-4"> 
+            <div class="card h-100">
+              <% if post.image.attached? %>
+                <%= link_to post_path(post, from: 'mypage') do %>
+                  <%= image_tag post.image, class: "card-img-top", style: "height: 240px; object-fit: cover;" %>
+                <% end %>
               <% end %>
-            <% end %>
-            <div class="card-body">
-              <h4 class="card-title"><strong><%= post.title %></strong></h4>
-              <p class="card-text">場所名：<%= post.location_name %></p>
-              <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+              <div class="card-body">
+                <h4 class="card-title"><strong><%= post.title %></strong></h4>
+                <p class="card-text">場所名：<%= post.location_name %></p>
+                <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+                <p class="card-text">コメント数：<%= post.comments.count %>件</p>
+              </div>
             </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   <% else %>
     <p class="text-center">投稿はまだありません。</p>
   <% end %>
 
-  <% if @user != current_user %>
-    <div class="text-center mt-4">
-      <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn" %>
+  <% valid_from_values = %w[post search genre top] %> <%# ← 'index' を除外！ %>
+  <% if from.present? && valid_from_values.include?(from) %>
+    <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
+      <% if from == 'post' %>
+        <%= link_to '投稿詳細へ戻る', request.referer || posts_path, class: "custom-outline-btn mt-2" %>
+      <% elsif from == 'search' %>
+        <%= link_to '検索結果へ戻る', search_path(model: 'user', keyword: ''), class: "custom-outline-btn mt-2" %>
+      <% elsif from == 'genre' && genre_id.present? %>
+        <%= link_to 'ジャンル検索へ戻る', location_genre_path(genre_id), class: "custom-outline-btn mt-2" %>
+      <% elsif from == 'top' %>
+        <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
+      <% end %>
     </div>
   <% end %>
+
 </div>
