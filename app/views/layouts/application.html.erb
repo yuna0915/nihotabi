@@ -30,27 +30,31 @@
       <%= yield :full_width_section %>
     <% end %>
 
-    <div class="container-fluid">
-      <div class="row">
-        <% if (controller_path.starts_with?("public/") && (
-              (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
-              (controller_name == "location_genres" && action_name == "show") ||
-              (controller_name == "searches" && action_name == "search")
-            )) %>
-          <div class="col-md-3 mt-5">
-            <%= render 'public/shared/genre_sidebar' %>
-          </div>
-        <% end %>
+    <% if controller_name == "homes" && action_name == "about" %>
+      <%= yield %>
+    <% else %>
+      <div class="container-fluid">
+        <div class="row">
+          <% if (controller_path.starts_with?("public/") && (
+                (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
+                (controller_name == "location_genres" && action_name == "show") ||
+                (controller_name == "searches" && action_name == "search")
+              )) %>
+            <div class="col-md-3 mt-5">
+              <%= render 'public/shared/genre_sidebar' %>
+            </div>
+          <% end %>
 
-        <div class="<%= (controller_path.starts_with?("public/") && (
-                          (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
-                          (controller_name == 'location_genres' && action_name == 'show') ||
-                          (controller_name == 'searches' && action_name == 'search')
-                        )) ? 'col-md-9' : 'col-12' %>">
-          <%= yield %>
+          <div class="<%= (controller_path.starts_with?("public/") && (
+                            (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
+                            (controller_name == 'location_genres' && action_name == 'show') ||
+                            (controller_name == 'searches' && action_name == 'search')
+                          )) ? 'col-md-9' : 'col-12' %>">
+            <%= yield %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
 
     <%= render 'layouts/footer' %>
   </body>

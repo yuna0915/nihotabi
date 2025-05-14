@@ -1,21 +1,23 @@
 <% from ||= nil %>
 
 <div class="col-12 mb-4">
-  <div class="card h-100 p-4 d-flex align-items-center flex-md-row text-start gap-4">
-    <% if user.profile_image.attached? %>
-      <%= link_to my_page_user_path(user, from: from) do %>
+  <%= link_to my_page_user_path(user, from: from), class: "text-decoration-none" do %>
+    <div class="card h-100 p-4 d-flex align-items-center flex-md-row text-start gap-4 position-relative">
+      <% if user.profile_image.attached? %>
         <%= image_tag user.profile_image.variant(resize_to_limit: [100, 100]), class: "rounded-circle" %>
       <% end %>
-    <% end %>
 
-    <div>
-      <p class="mb-2">
-        <strong>ニックネーム：</strong>
-        <%= link_to user.nickname, my_page_user_path(user, from: from), class: "text-decoration-none" %>
-      </p>
-      <p class="mb-0">
-        <strong>都道府県：</strong><%= user.prefecture %>
-      </p>
+      <div>
+        <p class="mb-2">
+          <strong>ニックネーム：</strong><%= user.nickname %>
+        </p>
+        <p class="mb-0">
+          <strong>都道府県：</strong><%= user.prefecture %>
+        </p>
+      </div>
+
+      <!-- 必要ならここに stretched-link 追加 -->
+      <span class="stretched-link"></span>
     </div>
-  </div>
+  <% end %>
 </div>

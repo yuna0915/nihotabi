@@ -2,12 +2,12 @@
   <thead class="table-light">
     <tr>
       <th class="align-middle">ID</th>
-      <th class="align-middle" style="width: 180px;">投稿日</th>
-      <th class="align-middle" style="width: 120px;">画像</th>
+      <th class="align-middle" style="width: 160px;">投稿日</th>
+      <th class="align-middle" style="width: 100px;">画像</th>
       <th class="align-middle" style="width: 220px;">タイトル</th>
       <th class="align-middle" style="width: 300px;">内容</th>
-      <th class="align-middle" style="width: 180px;">投稿者</th>
-      <th class="align-middle" style="min-width: 120px;">操作</th>
+      <th class="align-middle" style="width: 220px;">投稿者</th>
+      <th class="align-middle" style="min-width: 120px;"></th>
     </tr>
   </thead>
   <tbody>
@@ -23,11 +23,15 @@
           <% end %>
         </td>
         <td class="align-middle">
-          <%= link_to post.title, admin_post_path(post), class: "text-decoration-none fw-bold" %>
+          <%= link_to post.title, admin_post_path(post), class: "text-decoration-none" %>
         </td>
         <td class="align-middle"><%= truncate(post.body, length: 60) %></td>
         <td class="align-middle">
-          <%= link_to post.user.nickname, admin_user_path(post.user), class: "text-decoration-none" %>
+          <div>
+            <%= link_to "#{post.user.last_name} #{post.user.first_name}", admin_user_path(post.user), class: "text-primary" %>
+          </div>
+          <div><%= post.user.last_name_kana %> <%= post.user.first_name_kana %></div>
+          <div>（<%= post.user.nickname %>）</div>
         </td>
         <td class="align-middle">
           <%= button_to "削除", admin_post_path(post),

@@ -5,6 +5,12 @@
 <div class="d-flex justify-content-center">
   <div style="max-width: 600px; width: 100%;">
     <%= form_with model: [:admin, @user], local: true do |f| %>
+      
+      <div class="mt-2 mb-3">
+        <%= f.label :profile_image, "プロフィール画像の変更", class: "form-label" %>
+        <%= f.file_field :profile_image, class: "form-control" %>
+      </div>
+     
       <div class="mb-3">
         <%= f.label :nickname, "ニックネーム", class: "form-label" %>
         <%= f.text_field :nickname, class: "form-control" %>
