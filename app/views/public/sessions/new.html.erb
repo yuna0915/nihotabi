@@ -3,7 +3,12 @@
 <p class="text-center">会員の方はこちらからログイン</p>
 
 <%= form_with scope: :user, url: user_session_path, html: { class: "login-form mx-auto" } do |f| %>
-  <%= render "public/shared/error_messages", resource: resource %>
+
+  <div class="d-flex justify-content-center mb-3">
+    <div class="text-center">
+      <%= render "public/shared/error_messages", resource: resource %>
+    </div>
+  </div>
 
   <div class="table-responsive">
     <table class="table table-borderless text-center mx-auto w-auto">

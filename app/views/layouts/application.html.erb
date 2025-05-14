@@ -26,6 +26,13 @@
 
     <%= render 'layouts/search' if user_signed_in? || admin_signed_in? %>
 
+    <% flash.each do |key, message| %>
+      <div class="alert alert-<%= key == "notice" ? "success" : "danger" %> alert-dismissible fade show mx-3 mt-3" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
     <% if content_for?(:full_width_section) %>
       <%= yield :full_width_section %>
     <% end %>
