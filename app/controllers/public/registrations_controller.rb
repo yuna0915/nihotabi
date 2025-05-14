@@ -1,13 +1,41 @@
 # frozen_string_literal: true
 
+# frozen_string_literal: true
+
 class Public::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
+  # POST /resource
+  def create
+    build_resource(sign_up_params)
+
+    resource.save
+    if resource.persisted?
+      if resource.active_for_authentication?
+        flash[:notice] = "新規登録が完了しました。ようこそ、#{resource.nickname}さん！"
+        sign_up(resource_name, resource)
+        redirect_to after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        redirect_to after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      flash.now[:alert] = "会員登録に失敗しました。入力内容をご確認ください。"
+      respond_with resource
+    end
+  end
+
+  protected
+
   def after_sign_up_path_for(resource)
-    flash[:notice] = "新規登録が完了しました。ようこそ、#{resource.nickname}さん！"
     my_page_user_path(resource)
   end
+end
+
 
   # GET /resource/sign_up
   # def new
@@ -64,4 +92,3 @@ class Public::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-end

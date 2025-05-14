@@ -22,11 +22,6 @@ class Public::SessionsController < Devise::SessionsController
     end
   end
 
-  # GET /resource/sign_in
-  # def new
-  #   super
-  # end
-
   # POST /resource/sign_in
   def create
     email = sign_in_params[:email]
@@ -37,13 +32,15 @@ class Public::SessionsController < Devise::SessionsController
   
     if email.blank? || password.blank?
       resource.errors.add(:base, "正しく入力してください")
+      flash.now[:alert] = "メールアドレスとパスワードを入力してください。"
     elsif user.nil? || !user.valid_password?(password)
       resource.errors.add(:base, "ご入力されたメールアドレスまたはパスワードが正しくありません")
+      flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません。"
     elsif !user.is_active?
-      # 退会済ユーザー
       resource.errors.add(:base, "退会済みのアカウントです。")
+      flash.now[:alert] = "このアカウントは退会済みです。"
     else
-      set_flash_message!(:notice, :signed_in)
+      flash[:notice] = "ログインしました。"
       sign_in(resource_name, user)
       return redirect_to after_sign_in_path_for(user)
     end
@@ -51,14 +48,13 @@ class Public::SessionsController < Devise::SessionsController
     clean_up_passwords(resource)
     render :new, status: :unprocessable_entity
   end
-  
 
   def guest_sign_in
     user = User.guest
     sign_in user
     redirect_to my_page_user_path(user), notice: "ゲストユーザーでログインしました。"
   end
-  
+
   # DELETE /resource/sign_out
   # def destroy
   #   super

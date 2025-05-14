@@ -16,7 +16,11 @@
 
   <div class="mt-2 text-start">
     <small class="text-muted">
-      <%= link_to comment.user.nickname, my_page_user_path(comment.user, from: 'post'), class: "text-decoration-none" %>
+      <% if user_signed_in? %>
+        <%= link_to comment.user.nickname, my_page_user_path(comment.user, from: 'post'), class: "text-decoration-none" %>
+      <% else %>
+        <span style="color: black;"><%= comment.user.nickname %></span>
+      <% end %>
     </small>
   </div>
 </div>

@@ -5,13 +5,12 @@ class Public::UsersController < ApplicationController
 
   def my_page
     @user = User.find_by(id: params[:id])
-    @post = Post.find(params[:id])
     if @user.nil?
       redirect_to root_path, alert: "ユーザーが見つかりませんでした。"
     else
-      @posts = @user.posts.order(created_at: :desc)
+      @posts = @user.posts.order(created_at: :desc)  # ← 投稿一覧を取得
     end
-  end
+  end  
 
   def show
     @user = User.find(params[:id])
@@ -27,11 +26,13 @@ class Public::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: "情報を更新しました。"
+      flash[:notice] = "ユーザー情報を更新しました。"
+      redirect_to user_path(@user)
     else
+      flash.now[:alert] = "ユーザー情報の更新に失敗しました。入力内容をご確認ください。"
       render :edit
     end
-  end
+  end  
 
   def withdraw
     @user = User.find(params[:id])

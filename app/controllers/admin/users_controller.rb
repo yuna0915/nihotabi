@@ -24,7 +24,7 @@ class Admin::UsersController < ApplicationController
       flash[:notice] = "ユーザー情報を更新しました"
       redirect_to admin_user_path(@user)
     else
-      flash.now[:alert] = "更新に失敗しました"
+      flash.now[:alert] = "ユーザー情報の更新に失敗しました。入力内容をご確認ください。"
       render :edit
     end
   end

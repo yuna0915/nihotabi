@@ -2,6 +2,8 @@
   <%= @user.nickname %>（<%= @user.last_name %> <%= @user.first_name %>／<%= @user.last_name_kana %> <%= @user.first_name_kana %>）さんの情報編集
 </h1>
 
+<%= render "admin/shared/error_messages", resource: @user %>
+
 <div class="d-flex justify-content-center">
   <div style="max-width: 600px; width: 100%;">
     <%= form_with model: [:admin, @user], local: true do |f| %>
