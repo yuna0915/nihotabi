@@ -1,57 +1,11 @@
-<h2>コメント一覧</h2>
+<h1 class="text-center my-5">コメント一覧</h1>
 
 <% if @comments.present? %>
-  <div class="table-responsive">
-    <table class="table table-hover align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>ID</th>
-          <th>投稿画像</th>
-          <th>投稿タイトル</th>
-          <th>投稿者</th>
-          <th>投稿日</th>
-          <th>コメント内容</th>
-          <th>コメント者</th>
-          <th>コメント日</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @comments.each do |comment| %>
-          <tr>
-            <td><%= comment.id %></td>
-
-            <td>
-              <% if comment.post.image.attached? %>
-                <%= image_tag comment.post.image.variant(resize_to_limit: [100, 100]), class: "img-thumbnail", alt: "投稿画像" %>
-              <% else %>
-                <%= image_tag "no_image.jpg", width: 100, height: 100, class: "img-thumbnail", alt: "No image" %>
-              <% end %>
-            </td>
-
-            <td><%= link_to comment.post.title, admin_post_path(comment.post), class: "text-decoration-none" %></td>
-
-            <td><%= link_to comment.post.user.nickname, admin_user_path(comment.post.user), class: "text-decoration-none" %></td>
-
-            <td><%= comment.post.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-
-            <td><%= simple_format(comment.body) %></td>
-
-            <td><%= link_to comment.user.nickname, admin_user_path(comment.user), class: "text-decoration-none" %></td>
-
-            <td><%= comment.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-
-            <td>
-              <%= link_to "削除", admin_comment_path(comment),
-                          method: :delete,
-                          data: { confirm: "本当に削除しますか？" },
-                          class: "btn btn-danger btn-sm" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="d-flex justify-content-center">
+    <div class="table-responsive" style="max-width: 1100px; width: 100%;">
+      <%= render partial: "admin/comments/comment_table", locals: { comments: @comments } %>
+    </div>
   </div>
 <% else %>
-  <p>コメントはまだありません。</p>
+  <p class="text-center">コメントはまだありません。</p>
 <% end %>

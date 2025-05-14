@@ -1,20 +1,28 @@
-<h2><%= @post.title %></h2>
-<p>投稿者：<%= link_to @post.user.nickname, admin_user_path(@post.user), class: "text-decoration-none" %></p>
-<p>投稿日：<%= @post.created_at.strftime("%Y/%m/%d %H:%M") %></p>
-<p><%= image_tag @post.image, class: "img-fluid my-3" %></p>
-<p><%= simple_format(@post.body) %></p>
+<div class="container my-5">
+  <div class="d-flex justify-content-center">
+    <div style="max-width: 880px; width: 100%;">
 
-<hr>
+      <!-- 投稿の共通詳細部分を呼び出し -->
+      <%= render partial: 'public/posts/post_detail', locals: { post: @post } %>
 
-<h3>コメント一覧</h3>
-<% @comments.each do |comment| %>
-  <div class="border rounded p-2 mb-2">
-    <p><strong><%= comment.user.nickname %></strong>（<%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>）</p>
-    <p><%= simple_format(comment.body) %></p>
+      <!-- コメント一覧 -->
+      <hr>
+      <h3 class="text-center mt-5 mb-4">コメント一覧</h3>
+      <% @comments.each do |comment| %>
+        <div class="border rounded p-3 mb-3">
+          <p><strong><%= comment.user.nickname %></strong>（<%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>）</p>
+          <p><%= simple_format(comment.body) %></p>
+        </div>
+      <% end %>
+
+      <!-- 投稿削除ボタン -->
+      <div class="text-center mt-5">
+        <%= link_to "投稿を削除", admin_post_path(@post),
+                    method: :delete,
+                    data: { confirm: "本当に削除しますか？" },
+                    class: "custom-red-btn" %>
+      </div>
+
+    </div>
   </div>
-<% end %>
-
-<%= link_to "投稿を削除", admin_post_path(@post),
-            method: :delete,
-            data: { confirm: "本当に削除しますか？" },
-            class: "btn btn-danger mt-3" %>
+</div>

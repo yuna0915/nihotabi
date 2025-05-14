@@ -1,0 +1,55 @@
+<!-- タイトル -->
+<h2 class="mt-4 mb-4"><%= post.title %></h2>
+
+<!-- 画像 -->
+<div class="mb-4">
+  <%= image_tag post.get_post_image(880, 586), class: "img-fluid" %>
+</div>
+
+<!-- テーブル -->
+<table class="table table-borderless border-bottom" style="width: 880px;">
+  <tbody>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">投稿者</th>
+      <td>
+        <% if user_signed_in? %>
+          <%= link_to post.user.nickname, my_page_user_path(post.user, from: 'post') %>
+        <% else %>
+          <span style="color: black;"><%= post.user.nickname %></span>
+        <% end %>
+      </td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">本文</th>
+      <td><%= simple_format(post.body) %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">都道府県</th>
+      <td><%= post.prefecture.name %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">場所ジャンル</th>
+      <td><%= post.location_genre.name %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">場所名</th>
+      <td><%= post.location_name %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">住所</th>
+      <td><%= post.address %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">訪問月</th>
+      <td><%= post.visited_month.number %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">訪問時間帯</th>
+      <td><%= post.visited_time_zone.hour %></td>
+    </tr>
+    <tr class="border-bottom">
+      <th class="text-start align-middle">投稿日時</th>
+      <td><%= l(post.created_at, format: :long) %></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,32 +1,65 @@
-<h1>場所ジャンルマスターデータ管理</h1>
+<div class="container my-5">
 
-<h2>新規追加</h2>
-<%= form_with url: admin_location_genres_path, scope: :location_genre, local: true do |f| %>
-  <%= f.text_field :name, placeholder: "ジャンル名", class: "form-control d-inline w-25" %>
-  <%= f.submit "追加", class: "btn btn-primary" %>
-<% end %>
+  <!-- タイトル -->
+  <h1 class="text-center mb-5">場所ジャンル</h1>
 
-<h2>登録済み一覧</h2>
-<table class="table">
-  <thead><tr><th>ID</th><th>名前</th><th>操作</th></tr></thead>
-  <tbody>
-    <% @location_genres.each do |genre| %>
-      <tr>
-        <td><%= genre.id %></td>
-        <td>
-          <%= form_with model: genre, url: admin_location_genre_path(genre), method: :patch, local: true do |f| %>
-            <%= f.text_field :name, value: genre.name, class: "form-control d-inline w-50" %>
-            <%= f.submit "更新", class: "btn btn-success" %>
+  <!-- 新規追加 -->
+  <div class="mb-5">
+    <h2 class="text-center mb-4">新規追加</h2>
+    <div class="d-flex justify-content-center">
+      <%= form_with url: admin_location_genres_path, scope: :location_genre, local: true, class: "d-flex gap-2" do |f| %>
+        <%= f.text_field :name, placeholder: "ジャンル名", class: "form-control" %>
+        <%= f.submit "追加", class: "custom-register-btn" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 登録済み一覧 -->
+  <div>
+    <h2 class="text-center mb-4">登録済み一覧</h2>
+    <div class="table-responsive">
+      <table class="table align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @location_genres.each do |genre| %>
+            <tr class="<%= 'inactive-row' unless genre.is_active %>">
+              <td><%= genre.id %></td>
+
+              <td>
+                <%= form_with model: genre, url: admin_location_genre_path(genre), method: :patch, local: true, class: "d-flex justify-content-center gap-2" do |f| %>
+                  <%= f.text_field :name, value: genre.name, class: "form-control" %>
+                  <%= f.submit "更新", class: "custom-green-btn" %>
+                <% end %>
+              </td>
+
+              <td>
+                <div class="d-flex flex-column align-items-center gap-2">
+                  <% toggle_label = genre.is_active? ? "非表示にする" : "表示にする" %>
+                  <% toggle_class = genre.is_active? ? "custom-outline-btn" : "custom-register-btn" %>
+
+                  <%= button_to toggle_label, admin_toggle_active_location_genre_path(genre),
+                                  method: :patch,
+                                  class: toggle_class %>
+
+                  <% if genre.created_at > 30.minutes.ago %>
+                    <%= button_to "削除", admin_location_genre_path(genre),
+                                  method: :delete,
+                                  data: { confirm: "削除しますか？" },
+                                  class: "custom-red-btn" %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
           <% end %>
-        </td>
-        <td>
-          <% toggle_label = genre.is_active? ? "非表示にする" : "表示にする" %>
-          <%= button_to toggle_label, admin_toggle_active_location_genre_path(genre), method: :patch, class: "btn btn-warning" %>
-          <% if genre.created_at > 30.minutes.ago %>
-            <%= button_to "削除", admin_location_genre_path(genre), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

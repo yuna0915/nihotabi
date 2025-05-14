@@ -1,32 +1,65 @@
-<h1>訪問時間帯マスターデータ管理</h1>
+<div class="container my-5">
 
-<h2>新規追加</h2>
-<%= form_with url: admin_visited_time_zones_path, scope: :visited_time_zone, local: true do |f| %>
-  <%= f.text_field :hour, placeholder: "例: 09:00〜10:00", class: "form-control d-inline w-25" %>
-  <%= f.submit "追加", class: "btn btn-primary" %>
-<% end %>
+  <!-- タイトル -->
+  <h1 class="text-center mb-5">訪問時間帯</h1>
 
-<h2>登録済み一覧</h2>
-<table class="table">
-  <thead><tr><th>ID</th><th>時間帯</th><th>操作</th></tr></thead>
-  <tbody>
-    <% @visited_time_zones.each do |zone| %>
-      <tr>
-        <td><%= zone.id %></td>
-        <td>
-          <%= form_with model: zone, url: admin_visited_time_zone_path(zone), method: :patch, local: true do |f| %>
-            <%= f.text_field :hour, value: zone.hour, class: "form-control d-inline w-50" %>
-            <%= f.submit "更新", class: "btn btn-success" %>
+  <!-- 新規追加 -->
+  <div class="mb-5">
+    <h2 class="text-center mb-4">新規追加</h2>
+    <div class="d-flex justify-content-center">
+      <%= form_with url: admin_visited_time_zones_path, scope: :visited_time_zone, local: true, class: "d-flex gap-2" do |f| %>
+        <%= f.text_field :hour, placeholder: "例: 09:00〜10:00", class: "form-control" %>
+        <%= f.submit "追加", class: "custom-register-btn" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 登録済み一覧 -->
+  <div>
+    <h2 class="text-center mb-4">登録済み一覧</h2>
+    <div class="table-responsive">
+      <table class="table align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>時間帯</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @visited_time_zones.each do |zone| %>
+            <tr class="<%= 'inactive-row' unless zone.is_active %>">
+              <td><%= zone.id %></td>
+
+              <td>
+                <%= form_with model: zone, url: admin_visited_time_zone_path(zone), method: :patch, local: true, class: "d-flex justify-content-center gap-2" do |f| %>
+                  <%= f.text_field :hour, value: zone.hour, class: "form-control" %>
+                  <%= f.submit "更新", class: "custom-green-btn" %>
+                <% end %>
+              </td>
+
+              <td>
+                <div class="d-flex flex-column align-items-center gap-2">
+                  <% toggle_label = zone.is_active? ? "非表示にする" : "表示にする" %>
+                  <% toggle_class = zone.is_active? ? "custom-outline-btn" : "custom-register-btn" %>
+
+                  <%= button_to toggle_label, admin_toggle_active_visited_time_zone_path(zone),
+                                  method: :patch,
+                                  class: toggle_class %>
+
+                  <% if zone.created_at > 30.minutes.ago %>
+                    <%= button_to "削除", admin_visited_time_zone_path(zone),
+                                  method: :delete,
+                                  data: { confirm: "削除しますか？" },
+                                  class: "custom-red-btn" %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
           <% end %>
-        </td>
-        <td>
-          <% toggle_label = zone.is_active? ? "非表示にする" : "表示にする" %>
-          <%= button_to toggle_label, admin_toggle_active_visited_time_zone_path(zone), method: :patch, class: "btn btn-warning" %>
-          <% if zone.created_at > 30.minutes.ago %>
-            <%= button_to "削除", admin_visited_time_zone_path(zone), method: :delete, data: { confirm: "削除しますか？" }, class: "btn btn-danger" %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

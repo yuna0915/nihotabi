@@ -1,32 +1,65 @@
-<h2>新規追加</h2>
-<%= form_with model: @new_prefecture, url: admin_prefectures_path, local: true do |f| %>
-  <%= f.text_field :name, placeholder: "都道府県名" %>
-  <%= f.submit "追加", class: "btn btn-primary" %>
-<% end %>
+<div class="container my-5">
 
-<h2>登録済み一覧</h2>
-<table class="table">
-  <thead>
-    <tr><th>ID</th><th>名前</th><th>操作</th></tr>
-  </thead>
-  <tbody>
-    <% @prefectures.each do |prefecture| %>
-      <tr class="<%= 'text-muted' unless prefecture.is_active %>">
-        <td><%= prefecture.id %></td>
-        <td>
-          <%= form_with model: prefecture, url: admin_prefecture_path(prefecture), method: :patch, local: true do |f| %>
-            <%= f.text_field :name, value: prefecture.name %>
-            <%= f.submit "更新", class: "btn btn-success" %>
+  <!-- タイトル -->
+  <h1 class="text-center mb-5">都道府県</h1>
+
+  <!-- 新規追加 -->
+  <div class="mb-5">
+    <h2 class="text-center mb-4">新規追加</h2>
+    <div class="d-flex justify-content-center">
+      <%= form_with model: @new_prefecture, url: admin_prefectures_path, local: true, class: "d-flex gap-2" do |f| %>
+        <%= f.text_field :name, placeholder: "都道府県名", class: "form-control" %>
+        <%= f.submit "追加", class: "custom-register-btn" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 登録済み一覧 -->
+  <div>
+    <h2 class="text-center mb-4">登録済み一覧</h2>
+    <div class="table-responsive">
+      <table class="table align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @prefectures.each do |prefecture| %>
+            <tr class="<%= 'inactive-row' unless prefecture.is_active %>">
+              <td><%= prefecture.id %></td>
+
+              <td>
+                <%= form_with model: prefecture, url: admin_prefecture_path(prefecture), method: :patch, local: true, class: "d-flex justify-content-center gap-2" do |f| %>
+                  <%= f.text_field :name, value: prefecture.name, class: "form-control" %>
+                  <%= f.submit "更新", class: "custom-green-btn" %>
+                <% end %>
+              </td>
+
+              <td>
+                <div class="d-flex flex-column align-items-center gap-2">
+                  <% toggle_label = prefecture.is_active? ? "非表示にする" : "表示にする" %>
+                  <% toggle_class = prefecture.is_active? ? "custom-outline-btn" : "custom-register-btn" %>
+
+                  <%= button_to toggle_label, admin_toggle_active_prefecture_path(prefecture),
+                                  method: :patch,
+                                  class: toggle_class %>
+
+                  <% if prefecture.created_at > 10.minutes.ago %>
+                    <%= button_to "削除", admin_prefecture_path(prefecture),
+                                  method: :delete,
+                                  data: { confirm: "削除してよいですか？" },
+                                  class: "custom-red-btn" %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
           <% end %>
-        </td>
-        <td>
-          <% toggle_label = prefecture.is_active? ? "非表示にする" : "表示にする" %>
-          <%= button_to toggle_label, admin_toggle_active_prefecture_path(prefecture), method: :patch, class: "btn btn-warning" %>
-          <% if prefecture.created_at > 10.minutes.ago %>
-            <%= button_to "削除", admin_prefecture_path(prefecture), method: :delete, data: { confirm: "削除してよいですか？" }, class: "btn btn-danger" %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

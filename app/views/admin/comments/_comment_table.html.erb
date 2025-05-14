@@ -1,0 +1,37 @@
+<table class="table table-hover text-nowrap text-center bg-white">
+  <thead class="table-light">
+    <tr>
+      <th class="align-middle">ID</th>
+      <th class="align-middle" style="width: 150px;">コメント日</th>
+      <th class="align-middle" style="width: 300px;">コメント内容</th>
+      <th class="align-middle">コメント者</th>
+      <th class="align-middle">投稿タイトル</th>
+      <th class="align-middle">投稿者</th>
+      <th class="align-middle"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% comments.each do |comment| %>
+      <tr>
+        <td class="align-middle"><%= comment.id %></td>
+        <td class="align-middle"><%= comment.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+        <td class="align-middle"><%= truncate(comment.body, length: 60) %></td>
+        <td class="align-middle">
+          <%= link_to comment.user.nickname, admin_user_path(comment.user), class: "text-decoration-none" %>
+        </td>
+        <td class="align-middle">
+          <%= link_to comment.post.title, admin_post_path(comment.post), class: "text-decoration-none" %>
+        </td>
+        <td class="align-middle">
+          <%= link_to comment.post.user.nickname, admin_user_path(comment.post.user), class: "text-decoration-none" %>
+        </td>
+        <td class="align-middle">
+          <%= button_to "削除", admin_comment_path(comment),
+                        method: :delete,
+                        data: { confirm: "本当に削除しますか？" },
+                        class: "custom-red-btn btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
