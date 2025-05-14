@@ -45,7 +45,7 @@
       <tr>
         <th class="text-end align-middle">都道府県</th>
         <td>
-          <%= f.select :prefecture, Prefecture.pluck(:name), { selected: @user.prefecture }, class: "form-select form-input mx-auto" %>
+          <%= f.select :prefecture_id, Prefecture.where(is_active: true).pluck(:name, :id), {}, class: "form-control" %>
         </td>
       </tr>
       <tr>
