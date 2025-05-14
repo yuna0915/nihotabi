@@ -7,12 +7,17 @@
 
       <!-- コメント一覧 -->
       <hr>
-      <h3 class="text-center mt-5 mb-4">コメント一覧</h3>
-      <% @comments.each do |comment| %>
-        <div class="border rounded p-3 mb-3">
-          <p><strong><%= comment.user.nickname %></strong>（<%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>）</p>
-          <p><%= simple_format(comment.body) %></p>
-        </div>
+      <h3 class="text-center mt-5 mb-4">コメント一覧（<%= @comments.count %>件）</h3>
+
+      <% if @comments.any? %>
+        <% @comments.each do |comment| %>
+          <div class="border rounded p-3 mb-3">
+            <p><strong><%= comment.user.nickname %></strong>（<%= comment.created_at.strftime("%Y/%m/%d %H:%M") %>）</p>
+            <p><%= simple_format(comment.body) %></p>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-center text-muted">まだコメントはありません。</p>
       <% end %>
 
       <!-- 投稿削除ボタン -->
