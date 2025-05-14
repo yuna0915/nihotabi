@@ -1,45 +1,9 @@
 <h1 class="text-center my-5">ユーザー一覧</h1>
 
 <div class="d-flex justify-content-center">
-  <div class="table-responsive" style="max-width: 1000px;">
+  <div class="table-responsive" style="max-width: 1100px;">
     <% if @users.present? %>
-      <table class="table table-bordered align-middle text-center">
-        <thead class="table-light">
-          <tr>
-            <th scope="col">ユーザー情報</th>
-            <th scope="col">退会ステータス</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @users.each do |user| %>
-            <tr>
-              <td class="text-start">
-                <div class="d-flex align-items-center">
-                  <%= link_to admin_user_path(user) do %>
-                    <% if user.profile_image.attached? %>
-                      <%= image_tag user.profile_image, width: 60, height: 60, class: "rounded-circle me-3" %>
-                    <% else %>
-                      <%= image_tag 'no_image.jpg', width: 60, height: 60, class: "rounded-circle me-3" %>
-                    <% end %>
-                  <% end %>
-
-                  <div>
-                    <%= link_to user.nickname, admin_user_path(user), class: "fw-bold d-block mb-1 text-decoration-none" %>
-                    <div>ID: <%= user.id %></div>
-                    <div>氏名: <%= user.last_name %> <%= user.first_name %>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
-                    <div>メール: <%= user.email %></div>
-                  </div>
-                </div>
-              </td>
-              <td class="align-middle">
-                <span class="<%= user.is_active? ? 'text-success' : 'text-danger' %>">
-                  <%= user.is_active? ? "有効" : "退会" %>
-                </span>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render partial: "admin/users/user_table", locals: { users: @users } %>
     <% else %>
       <p class="text-center">ユーザーはまだ登録されていません。</p>
     <% end %>

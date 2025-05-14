@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="table-responsive" style="max-width: 1400px;">
+    <table class="table table-borderless text-center align-middle bg-white border-top">
+      <thead class="table-light border-bottom">
+        <tr>
+          <th class="align-middle">ID</th>
+          <th class="align-middle" style="width: 180px;">登録日</th>
+          <th class="align-middle" style="width: 100px;">画像</th>
+          <th class="align-middle" style="width: 240px;">ニックネーム</th>
+          <th class="align-middle" style="width: 260px;">氏名</th>
+          <th class="align-middle" style="width: 300px;">メールアドレス</th>
+          <th class="align-middle" style="width: 200px;">電話番号</th>
+          <th class="align-middle" style="width: 160px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.each do |user| %>
+          <tr class="border-bottom">
+            <td class="align-middle"><%= user.id %></td>
+            <td class="align-middle"><%= user.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+            <td class="align-middle">
+              <%= link_to admin_user_path(user) do %>
+                <% if user.profile_image.attached? %>
+                  <%= image_tag user.profile_image, width: 60, height: 60, class: "rounded-circle" %>
+                <% else %>
+                  <%= image_tag "no_image.jpg", width: 60, height: 60, class: "rounded-circle" %>
+                <% end %>
+              <% end %>
+            </td>
+            <td class="align-middle">
+              <%= link_to user.nickname, admin_user_path(user), class: "text-decoration-none fw-bold" %>
+            </td>
+            <td class="align-middle">
+              <div><%= user.last_name %> <%= user.first_name %></div>
+              <div>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
+            </td>
+            <td class="align-middle"><%= user.email %></td>
+            <td class="align-middle"><%= user.phone_number %></td>
+            <td class="align-middle">
+              <%= link_to "編集", edit_admin_user_path(user),
+                          class: "custom-green-btn btn-sm w-100" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
