@@ -1,19 +1,23 @@
 <h5 class="mt-4 mb-2">コメント一覧（<%= post.comments.count %>件）</h5>
 
-<div id="comments-list">
-  <%= render partial: 'public/comments/comment', collection: post.comments.includes(:user).order(created_at: :desc), as: :comment %>
-</div>
+<% if post.comments.any? %>
+  <div id="comments-list">
+    <%= render partial: 'public/comments/comment', collection: post.comments.includes(:user).order(created_at: :desc), as: :comment %>
+  </div>
+<% else %>
+  <p class="text-muted text-center">まだコメントはありません。</p>
+<% end %>
 
 <% if post.user != current_user %>
   <h5 class="mt-5 mb-3">コメントする</h5>
 
   <% if !user_signed_in? %>
-    <p class="text-secondary">
+    <p class="text-secondary text-center">
       ※コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
     </p>
 
   <% elsif current_user.email == "guest@example.com" %>
-    <p class="text-secondary mb-2">
+    <p class="text-secondary mb-2 text-center">
       ※コメントするには、
       <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
       または
@@ -31,7 +35,6 @@
       </div>
     <% end %>
   <% end %>
-
 <% else %>
-  <p class="text-muted">※自分の投稿にはコメントできません</p>
+  <p class="text-muted text-center">※自分の投稿にはコメントできません</p>
 <% end %>
