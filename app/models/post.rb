@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorited_users, through: :favorites, source: :user
+
   belongs_to :user
   belongs_to :prefecture
   belongs_to :visited_month
@@ -17,6 +18,10 @@ class Post < ApplicationRecord
   validates :visited_time_zone_id, presence: true
 
   validate :image_must_be_attached
+
+  # --- geocoder設定（教材準拠） ---
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
 
   # 外部キーと関連名が重複してエラーが出る場合に片方を削除
   after_validation :deduplicate_foreign_key_errors
