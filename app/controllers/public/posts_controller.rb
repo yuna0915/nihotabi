@@ -4,8 +4,15 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!, only: [:follow_feed]
   
   def index
-    @posts = Post.includes(:user, image_attachment: :blob).order(created_at: :desc)
-  end
+    respond_to do |format|
+      format.html do
+        @posts = Post.all
+      end
+      format.json do
+        @posts = Post.includes(:user).all
+      end
+    end
+  end  
   
   def follow_feed
     if params[:user_id].present? && params[:user_id].to_i != current_user.id
@@ -24,26 +31,18 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comments = @post.comments.includes(:user)
-    return unless user_signed_in?
-
-    return if @post.user == current_user
   
-    if params[:from] == "follow_feed" && current_user.following_ids.include?(@post.user_id)
+    # 未ログインかつトップページ経由でない場合はログインページへ
+    unless user_signed_in? || params[:from] == "top"
+      redirect_to new_user_session_path, alert: "投稿の詳細を見るにはログインが必要です。"
       return
     end
-
-    if params[:from] == "favorites" && current_user.favorited_posts.exists?(@post.id)
-      return
-    end
-
-    redirect_to my_page_user_path(current_user), alert: "この投稿の詳細は閲覧できません。"
-  end
+  end  
 
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     # 未実装のplace関連フィールドにダミーを入れる（null: false対策）
-    @post.place_id = "temp_place_id"
     @post.latitude = 0.0
     @post.longitude = 0.0
     if @post.save

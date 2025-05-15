@@ -64,7 +64,7 @@
                 <h4 class="card-title"><strong><%= post.title %></strong></h4>
                 <p class="card-text">場所名：<%= post.location_name %></p>
                 <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
-                <p class="card-text">コメント数：<%= post.comments.count %>件</p>
+                <p class="card-text">💬：<%= post.comments.count %>件</p>
               </div>
             </div>
           </div>

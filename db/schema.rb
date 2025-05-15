@@ -1,4 +1,4 @@
-nano db/schema.rb# This file is auto-generated from the current state of the database. Instead
+# This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
@@ -10,7 +10,7 @@ nano db/schema.rb# This file is auto-generated from the current state of the dat
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_15_050403) do
+ActiveRecord::Schema.define(version: 2025_05_15_123702) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -87,10 +87,9 @@ ActiveRecord::Schema.define(version: 2025_05_15_050403) do
     t.string "title", null: false
     t.text "body", null: false
     t.string "location_name", null: false
-    t.string "address", null: false
-    t.string "place_id", null: false
-    t.float "latitude", null: false
-    t.float "longitude", null: false
+    t.string "address", default: "", null: false
+    t.float "latitude", default: 0.0, null: false
+    t.float "longitude", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["location_genre_id"], name: "index_posts_on_location_genre_id"
