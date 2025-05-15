@@ -26,6 +26,8 @@
         <%= link_to '検索結果へ戻る', request.referer || search_path, class: "custom-outline-btn mt-2" %>
       <% elsif from == 'genre' %>
         <%= link_to 'ジャンル検索へ戻る', location_genre_path(@post.location_genre), class: "custom-outline-btn mt-2" %>
+      <% elsif from == 'favorites' %>
+        <%= link_to 'お気に入り一覧へ戻る', favorited_posts_path, class: "custom-outline-btn mt-2" %>
       <% elsif from == 'top' %>
         <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
       <% else %>

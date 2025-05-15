@@ -1,17 +1,43 @@
-<div class="mb-4">
-  <div class="card h-100 position-relative">
-    <%= link_to post_path(post, from: from), class: "stretched-link" do %>
-      <!-- 空タグでstretched-linkを有効化 -->
-    <% end %>
+<div class="col-lg-4 col-md-6 col-sm-12">
+  <div class="mb-4">
+    <div class="card h-100 position-relative">
 
-    <%= image_tag post.get_post_image(300, 200), class: "card-img-top" %>
+      <!-- 投稿画像リンク -->
+      <%= link_to post_path(post, from: from) do %>
+        <%= image_tag post.get_post_image(300, 200), class: "card-img-top" %>
+      <% end %>
 
-    <div class="card-body">
-      <h4 class="card-title"><strong><%= post.title %></strong></h4>
-      <p class="card-text">場所：<%= post.location_name %></p>
-      <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
-      <p class="card-text">投稿者：<%= post.user.nickname %></p>
-      <p class="card-text">コメント数：<%= post.comments.count %>件</p>
+      <div class="card-body position-relative">
+
+        <!-- タイトル＋いいねボタン -->
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <h4 class="card-title flex-grow-1 mb-0">
+            <%= link_to post.title, post_path(post, from: from), class: "text-decoration-none text-dark" %>
+          </h4>
+          <% if user_signed_in? && current_user != post.user %>
+            <div id="favorite-button-<%= post.id %>">
+              <%= render 'public/posts/favorite_button', post: post %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- 投稿者 -->
+        <div class="d-flex align-items-center mb-2">
+          <%= image_tag post.user.get_profile_image(40, 40), class: "rounded-circle me-2", alt: "投稿者画像" %>
+          <p class="mb-0"><strong><%= post.user.nickname %></strong></p>
+        </div>
+
+        <!-- 投稿情報 -->
+        <p class="card-text">場所：<%= post.location_name %></p>
+        <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
+        <p class="card-text">コメント数：<%= post.comments.count %>件</p>
+        <p class="card-text" id="favorite-count-<%= post.id %>">
+          いいね数：<%= post.favorites.count %>件
+        </p>
+        
+      </div>
     </div>
   </div>
 </div>
+
+

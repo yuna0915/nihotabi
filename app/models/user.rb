@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_one_attached :image  
   has_one_attached :profile_image
+  has_many :favorites, dependent: :destroy
+has_many :favorited_posts, through: :favorites, source: :post
   
   # アクティブユーザー判定
   def active_for_authentication?
