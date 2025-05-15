@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     root to: "homes#top"
     get 'about', to: 'homes#about'
     get 'search', to: 'searches#search', as: 'search'
+    get 'favorites', to: 'favorites#index', as: 'favorited_posts'
 
     resources :location_genres, only: [:show]
 
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
 
     resources :posts do
       resources :comments, only: [:create, :destroy]
+      resource :favorite, only: [:create, :destroy]
     end
   end
 

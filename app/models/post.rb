@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   has_one_attached :image
 
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_users, through: :favorites, source: :user
   belongs_to :user
   belongs_to :prefecture
   belongs_to :visited_month

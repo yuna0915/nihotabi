@@ -9,20 +9,26 @@
 <!-- テーブル -->
 <table class="table table-borderless border-bottom" style="width: 880px;">
   <tbody>
+    <!-- 投稿者 -->
     <tr class="border-bottom">
       <th class="text-start align-middle">投稿者</th>
-      <td>
+      <td class="d-flex align-items-center">
+        <%= image_tag post.user.get_profile_image(40, 40), class: "rounded-circle me-2", alt: "投稿者画像" %>
         <% if user_signed_in? %>
-          <%= link_to post.user.nickname, my_page_user_path(post.user, from: 'post') %>
+          <%= link_to post.user.nickname, my_page_user_path(post.user, from: 'post'), class: "text-decoration-none fw-bold" %>
         <% else %>
           <span style="color: black;"><%= post.user.nickname %></span>
         <% end %>
       </td>
     </tr>
+
+    <!-- 本文 -->
     <tr class="border-bottom">
       <th class="text-start align-middle">本文</th>
       <td><%= simple_format(post.body) %></td>
     </tr>
+
+    <!-- その他の情報 -->
     <tr class="border-bottom">
       <th class="text-start align-middle">都道府県</th>
       <td><%= post.prefecture.name %></td>
@@ -51,5 +57,20 @@
       <th class="text-start align-middle">投稿日時</th>
       <td><%= l(post.created_at, format: :long) %></td>
     </tr>
+
+    <!-- いいね（件数だけ表示） -->
+    <tr class="border-bottom">
+      <th class="text-start align-middle">いいね数</th>
+      <td class="d-flex align-items-center" id="favorite-count-<%= post.id %>">
+        <span>いいね数：<%= post.favorites.count %>件</span>
+      </td>
+    </tr>
   </tbody>
 </table>
+
+<!-- いいねボタン（非同期） -->
+<% if user_signed_in? && current_user != post.user %>
+  <div class="text-end mt-2" id="favorite-button-<%= post.id %>" style="width: 880px;">
+    <%= render 'public/posts/favorite_button', post: post %>
+  </div>
+<% end %>

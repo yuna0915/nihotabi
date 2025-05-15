@@ -45,7 +45,8 @@
           <% if (controller_path.starts_with?("public/") && (
                 (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
                 (controller_name == "location_genres" && action_name == "show") ||
-                (controller_name == "searches" && action_name == "search")
+                (controller_name == "searches" && action_name == "search") ||
+                (controller_name == "favorites" && action_name == "index")
               )) %>
             <div class="col-md-3 mt-5">
               <%= render 'public/shared/genre_sidebar' %>
@@ -53,10 +54,11 @@
           <% end %>
 
           <div class="<%= (controller_path.starts_with?("public/") && (
-                            (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
-                            (controller_name == 'location_genres' && action_name == 'show') ||
-                            (controller_name == 'searches' && action_name == 'search')
-                          )) ? 'col-md-9' : 'col-12' %>">
+                  (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
+                  (controller_name == 'location_genres' && action_name == 'show') ||
+                  (controller_name == 'searches' && action_name == 'search') ||
+                  (controller_name == 'favorites' && action_name == 'index') # ←ここ足す！
+                )) ? 'col-md-9' : 'col-12' %>">
             <%= yield %>
           </div>
         </div>

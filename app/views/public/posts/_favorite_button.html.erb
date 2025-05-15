@@ -1,0 +1,15 @@
+<% if current_user.favorites.exists?(post_id: post.id) %>
+  <%= form_with url: post_favorite_path(post), method: :delete, local: false, html: { id: "favorite-form-#{post.id}" } do %>
+    <%= submit_tag "♥ いいね解除", class: "btn btn-danger btn-sm ms-3" %>
+  <% end %>
+<% else %>
+  <%= form_with url: post_favorite_path(post), method: :post, local: false, html: { id: "favorite-form-#{post.id}" } do %>
+    <%= submit_tag "♡ いいねする", class: "btn btn-outline-danger btn-sm ms-3" %>
+  <% end %>
+<% end %>
+
+<!-- いいね数（常に表示） -->
+<%# これで差し替え対象に一緒に入る %>
+<script type="text/template" id="favorite-count-html-<%= post.id %>">
+  いいね数：<%= post.favorites.count %>件
+</script>
