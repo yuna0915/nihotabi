@@ -25,8 +25,14 @@ class Public::FavoritesController < ApplicationController
   end
 
   def index
-    @favorited_posts = current_user.favorited_posts
+    if params[:user_id].present? && params[:user_id].to_i != current_user.id
+      flash[:alert] = "他ユーザーのお気に入り一覧は閲覧できません。"
+      redirect_to my_page_user_path(current_user) and return
+    end
+  
+    @favorited_posts = current_user.favorited_posts.order(created_at: :desc)
   end
+  
 
   private
 

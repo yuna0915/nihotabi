@@ -30,9 +30,13 @@
         <%= link_to 'お気に入り一覧へ戻る', favorited_posts_path, class: "custom-outline-btn mt-2" %>
       <% elsif from == 'top' %>
         <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
+
+      <% elsif from == 'follow_feed' %> 
+        <%= link_to 'フォローしている人の投稿一覧へ戻る', follow_feed_posts_path, class: "custom-outline-btn mt-2" %>
       <% else %>
         <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn mt-2" %>
       <% end %>
+
     </div>
 
   </div>
