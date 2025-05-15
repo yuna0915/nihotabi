@@ -45,6 +45,15 @@
 
           <% elsif user_signed_in? %>
             <div class="d-flex align-items-center">
+              <%= link_to public_notifications_index_path, title: '通知', class: 'nav-link position-relative mx-2', style: 'color: #2e6044;' do %>
+                <i class="fa-solid fa-bell fa-lg"></i>
+                <% unread_count = current_user.passive_notifications.where(checked: false).count %>
+                <% if unread_count > 0 %>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <%= unread_count %>
+                  </span>
+                <% end %>
+              <% end %>
               <%= link_to my_page_user_path(current_user), title: 'マイページ', class: 'nav-link mx-2', style: 'color: #2e6044;' do %>
                 <i class="fa-solid fa-user fa-lg"></i>
               <% end %>

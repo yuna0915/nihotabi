@@ -5,13 +5,14 @@ class Public::FavoritesController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-    current_user.favorites.create(post: @post)
-    
+    current_user.favorites.create(post: @post) 
+  
     respond_to do |format|
       format.js
       format.html { redirect_back fallback_location: root_path }
     end
   end
+  
   
   def destroy
     @post = Post.find(params[:post_id])

@@ -43,7 +43,7 @@
       <div class="container-fluid">
         <div class="row">
           <% if (controller_path.starts_with?("public/") && (
-                (controller_name == "posts" && (action_name == "index" || action_name == "show")) ||
+                (controller_name == "posts" && ((action_name == "index") || (action_name == "follow_feed") || (action_name == "show" && params[:from] != "top"))) ||
                 (controller_name == "location_genres" && action_name == "show") ||
                 (controller_name == "searches" && action_name == "search") ||
                 (controller_name == "favorites" && action_name == "index")
@@ -54,7 +54,7 @@
           <% end %>
 
           <div class="<%= (controller_path.starts_with?("public/") && (
-                  (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
+                  (controller_name == 'posts' && ((action_name == 'index') || (action_name == 'follow_feed') || (action_name == 'show' && params[:from] != 'top'))) ||
                   (controller_name == 'location_genres' && action_name == 'show') ||
                   (controller_name == 'searches' && action_name == 'search') ||
                   (controller_name == 'favorites' && action_name == 'index') 

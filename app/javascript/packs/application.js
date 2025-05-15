@@ -21,5 +21,5 @@ import Swiper from 'swiper/swiper-bundle';
 import 'swiper/swiper-bundle.css';
 import "../script";
 
-// ✅ Webpackに画像を認識させる（背景画像やimage_tag補完用）
+// Webpackに画像を認識させる
 const images = require.context('../images', true, /\.(png|jpe?g|svg)$/);

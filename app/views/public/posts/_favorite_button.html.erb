@@ -1,16 +1,36 @@
-<% if current_user.favorites.exists?(post_id: post.id) %>
-  <%= form_with url: post_favorite_path(post), method: :delete, local: false, html: { id: "favorite-form-#{post.id}" } do %>
-    <%= submit_tag "♥ いいね解除", class: "btn btn-danger btn-sm ms-3" %>
+<% if user_signed_in? %>
+  <% if current_user == post.user %>
+  <!-- 自分の投稿の場合 -->
+    <p class="text-secondary small ms-3">※自分の投稿にはいいねできません。</p>
+  <% elsif current_user.guest_user? %>
+    <!-- ゲストユーザーの場合 -->
+    <p class="text-secondary small ms-3">
+      ※いいねするには、
+      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up",
+          method: :delete,
+          data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" },
+          class: "text-decoration-underline" %> または
+      <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login",
+          method: :delete,
+          data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" },
+          class: "text-decoration-underline" %>
+      が必要です。
+    </p>
+  <% else %>
+    <!-- 通常ユーザーで他人の投稿の場合 -->
+    <% if current_user.favorites.exists?(post_id: post.id) %>
+      <%= form_with url: post_favorite_path(post), method: :delete, local: false, html: { id: "favorite-form-#{post.id}" } do %>
+        <%= submit_tag "♥ いいね解除", class: "btn btn-danger btn-sm ms-3" %>
+      <% end %>
+    <% else %>
+      <%= form_with url: post_favorite_path(post), method: :post, local: false, html: { id: "favorite-form-#{post.id}" } do %>
+        <%= submit_tag "♡ いいねする", class: "btn btn-outline-danger btn-sm ms-3" %>
+      <% end %>
+    <% end %>
   <% end %>
 <% else %>
-  <%= form_with url: post_favorite_path(post), method: :post, local: false, html: { id: "favorite-form-#{post.id}" } do %>
-    <%= submit_tag "♡ いいねする", class: "btn btn-outline-danger btn-sm ms-3" %>
-  <% end %>
+  <!-- 未ログインユーザーの場合 -->
+  <p class="text-secondary small ms-3">
+    ※いいねするには、ログインまたは新規登録が必要です。
+  </p>
 <% end %>
-
-<!-- いいね数（常に表示） -->
-<%# これで差し替え対象に一緒に入る %>
-<script type="text/template" id="favorite-count-html-<%= post.id %>">
-  いいね数：<%= post.favorites.count %>件
-</script>
-

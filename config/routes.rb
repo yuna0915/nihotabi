@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   namespace :public do
+    get 'notifications/index'
+  end
+  namespace :public do
     get 'location_genres/show'
   end
 
@@ -23,6 +26,16 @@ Rails.application.routes.draw do
 
     # フォロー中ユーザーの投稿一覧（feed）
     get 'follow_feed', to: 'posts#follow_feed', as: 'follow_feed_posts'
+
+    # 通知（既読化含む）
+    resources :notifications, only: [:index] do
+      member do
+        patch :mark_as_read
+      end
+      collection do
+        patch :mark_all_as_read 
+      end
+    end    
 
     # 投稿ジャンル
     resources :location_genres, only: [:show]
@@ -75,7 +88,9 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :edit, :update] do
       patch :withdraw, on: :member
     end
+
     resources :posts, only: [:index, :show, :destroy]
     resources :comments, only: [:index, :destroy]
+    resources :notifications, only: [:index]
   end
 end

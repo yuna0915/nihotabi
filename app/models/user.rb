@@ -26,6 +26,10 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
 
+  # 通知機能アソシエーション
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'user_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'notified_user_id', dependent: :destroy
+
   # アクティブユーザー判定
   def active_for_authentication?
     super && is_active?
@@ -51,6 +55,10 @@ class User < ApplicationRecord
       user.phone_number = "00000000000"
       user.is_active = true
     end
+  end
+
+  def guest_user?
+    email == GUEST_USER_EMAIL
   end
 
   def get_profile_image(width, height)

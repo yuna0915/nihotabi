@@ -1,3 +1,2 @@
-$("#follow-button-<%= @user.id %>").html("<%= j(render 'public/relationships/follow_button', user: @user) %>");
-$("#follow-button-<%= @user.id %>").html("<%= j(render 'public/relationships/follow_button', user: @user) %>");
-$("#follow-counts-<%= @user.id %>").html("<%= j(render 'public/relationships/follow_counts', user: @user) %>");
+document.getElementById("follow-button-<%= @user.id %>").innerHTML = `<%= j(render 'public/relationships/follow_button', user: @user) %>`;
+document.getElementById("follow-counts-<%= @user.id %>").innerHTML = `<%= j(render 'public/relationships/follow_counts', user: @user) %>`;

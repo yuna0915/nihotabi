@@ -9,17 +9,10 @@
 
       <div class="card-body position-relative">
 
-        <!-- タイトル＋いいねボタン -->
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <h4 class="card-title flex-grow-1 mb-0">
-            <%= link_to post.title, post_path(post, from: from || nil), class: "text-decoration-none text-dark" %>
-          </h4>
-          <% if user_signed_in? && current_user != post.user %>
-            <div id="favorite-button-<%= post.id %>">
-              <%= render 'public/posts/favorite_button', post: post %>
-            </div>
-          <% end %>
-        </div>
+        <!-- タイトルのみ -->
+        <h4 class="card-title mb-2">
+          <%= link_to post.title, post_path(post, from: from || nil), class: "text-decoration-none text-dark" %>
+        </h4>
 
         <!-- 投稿者 -->
         <div class="d-flex align-items-center mb-2">
@@ -31,13 +24,18 @@
         <p class="card-text">場所：<%= post.location_name %></p>
         <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
         <p class="card-text">💬：<%= post.comments.count %>件</p>
+
+        <!-- いいね数 -->
         <p class="card-text" id="favorite-count-<%= post.id %>">
           ❤️：<%= post.favorites.count %>件
         </p>
-        
+
+        <!-- いいねボタン -->
+        <div id="favorite-button-<%= post.id %>">
+          <%= render 'public/posts/favorite_button', post: post %>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
-
-
