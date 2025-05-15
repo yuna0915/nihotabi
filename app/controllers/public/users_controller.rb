@@ -41,12 +41,17 @@ class Public::UsersController < ApplicationController
     redirect_to new_user_registration_path, notice: "退会が完了しました。"
   end
 
+  
   def followings
-    # 実装予定
+    @user = User.find(params[:id])
+    @users = @user.followings
+    render 'public/users/follow_list', locals: { list_type: 'followings' }
   end
-
+  
   def followers
-    # 実装予定
+    @user = User.find(params[:id])
+    @users = @user.followers
+    render 'public/users/follow_list', locals: { list_type: 'followers' }
   end
 
   private

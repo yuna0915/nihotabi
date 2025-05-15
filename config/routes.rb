@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :public do
     get 'location_genres/show'
   end
+
   # ユーザー用 Devise
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -20,15 +21,24 @@ Rails.application.routes.draw do
     get 'search', to: 'searches#search', as: 'search'
     get 'favorites', to: 'favorites#index', as: 'favorited_posts'
 
+    # フォロー中ユーザーの投稿一覧（feed）
+    get 'follow_feed', to: 'posts#follow_feed', as: 'follow_feed_posts'
+
+    # 投稿ジャンル
     resources :location_genres, only: [:show]
 
+    # ユーザー関連
     resources :users, only: [:edit, :update, :show] do
       get 'my_page', on: :member
-      get 'followings', on: :member
-      get 'followers', on: :member
+      get 'followings', on: :member     # フォロー一覧
+      get 'followers', on: :member      # フォロワー一覧
       patch 'withdraw', on: :member
+
+      # フォロー／フォロー解除
+      resource :relationship, only: [:create, :destroy]
     end
 
+    # 投稿
     resources :posts do
       resources :comments, only: [:create, :destroy]
       resource :favorite, only: [:create, :destroy]

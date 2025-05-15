@@ -1,0 +1,17 @@
+<% linkable = local_assigns[:linkable].nil? ? true : local_assigns[:linkable] %>
+
+<p class="mb-0">
+  <strong>フォロー中：</strong>
+  <% if linkable %>
+    <%= link_to "#{user.followings.count}人", followings_user_path(user), class: "text-decoration-none text-primary" %>
+  <% else %>
+    <%= user.followings.count %>人
+  <% end %>
+  　
+  <strong>フォロワー：</strong>
+  <% if linkable %>
+    <%= link_to "#{user.followers.count}人", followers_user_path(user), class: "text-decoration-none text-primary" %>
+  <% else %>
+    <%= user.followers.count %>人
+  <% end %>
+</p>

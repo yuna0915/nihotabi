@@ -1,0 +1,37 @@
+<% list_type = params[:list_type].presence || (request.path.include?("followers") ? "followers" : "followings") %>
+<% from_user = @user %>
+
+<h1 class="text-center mt-5 mb-4">
+  <% if from_user == current_user %>
+    <%= list_type == 'followers' ? "フォロワー一覧" : "フォロー中のユーザー一覧" %>
+  <% else %>
+    <%= list_type == 'followers' ? "#{from_user.nickname}さんのフォロワー一覧" : "#{from_user.nickname}さんがフォロー中のユーザー一覧" %>
+  <% end %>
+</h1>
+
+<% if @users.any? %>
+  <div class="container">
+    <div class="row">
+      <%= render partial: 'public/users/user_card',
+                 collection: @users,
+                 as: :user,
+                 locals: { from: list_type, from_user_id: from_user.id } %>
+    </div>
+  </div>
+<% else %>
+  <p class="text-center">
+    <%= list_type == 'followers' ? 'フォロワーはいません。' : 'フォロー中のユーザーはいません。' %>
+  </p>
+<% end %>
+
+<div class="text-center mt-5 mb-5">
+  <% if from_user == current_user %>
+    <%= link_to 'マイページへ戻る',
+                my_page_user_path(current_user.id, from: list_type, from_user_id: current_user.id),
+                class: "custom-outline-btn" %>
+  <% else %>
+    <%= link_to "#{from_user.nickname}さんのマイページへ戻る",
+                my_page_user_path(from_user.id, from: list_type, from_user_id: from_user.id),
+                class: "custom-outline-btn" %>
+  <% end %>
+</div>
