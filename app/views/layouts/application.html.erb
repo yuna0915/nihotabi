@@ -57,7 +57,7 @@
                   (controller_name == 'posts' && (action_name == 'index' || action_name == 'show')) ||
                   (controller_name == 'location_genres' && action_name == 'show') ||
                   (controller_name == 'searches' && action_name == 'search') ||
-                  (controller_name == 'favorites' && action_name == 'index') # ←ここ足す！
+                  (controller_name == 'favorites' && action_name == 'index') 
                 )) ? 'col-md-9' : 'col-12' %>">
             <%= yield %>
           </div>
