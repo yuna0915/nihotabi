@@ -1,4 +1,4 @@
-<% from = params[:from] || 'index' %>
+<% from = params[:from].presence %>
 <% genre_id = params[:genre_id] %>
 
 <h1 class="text-center mt-5 mb-5">
@@ -6,12 +6,12 @@
 </h1>
 
 <div class="text-center mb-4">
-<% if current_user == @user %>
-  <%= link_to '新規投稿', new_post_path, class: "custom-register-btn me-2" %>
-  <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn me-2" %>
-  <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn" %>
-<% end %>
-
+  <% if current_user == @user %>
+    <%= link_to '新規投稿', new_post_path, class: "custom-register-btn me-2" %>
+    <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn me-2" %>
+    <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn me-2" %>
+    <%= link_to 'フォローしている人の投稿', follow_feed_posts_path, class: "custom-outline-btn" %>
+  <% end %>
 </div>
 
 <div class="profile-section mb-5 d-flex justify-content-center">
@@ -30,6 +30,17 @@
             <%= simple_format(@user.introduction) %>
           </p>
         <% end %>
+
+        <div id="follow-counts-<%= @user.id %>">
+          <%= render 'public/relationships/follow_counts', user: @user %>
+        </div>
+
+        <% if current_user != @user %>
+          <div id="follow-button-<%= @user.id %>">
+            <%= render 'public/relationships/follow_button', user: @user %>
+          </div>
+        <% end %>
+
       </td>
     </tr>
   </table>
@@ -64,19 +75,45 @@
     <p class="text-center">投稿はまだありません。</p>
   <% end %>
 
-  <% valid_from_values = %w[post search genre top] %> <%# ← 'index' を除外！ %>
-  <% if from.present? && valid_from_values.include?(from) %>
-    <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
-      <% if from == 'post' %>
-        <%= link_to '投稿詳細へ戻る', request.referer || posts_path, class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'search' %>
-        <%= link_to '検索結果へ戻る', search_path(model: 'user', keyword: ''), class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'genre' && genre_id.present? %>
+  <% valid_from_values = %w[post search genre top followings followers] %>
+<% if from.present? && valid_from_values.include?(from) %>
+  <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
+
+    <% case from
+       when 'post' %>
+      <%= link_to '投稿詳細へ戻る', request.referer || posts_path, class: "custom-outline-btn mt-2" %>
+
+    <% when 'search' %>
+      <%= link_to '検索結果へ戻る', search_path(model: 'user', keyword: ''), class: "custom-outline-btn mt-2" %>
+
+    <% when 'genre' %>
+      <% if genre_id.present? %>
         <%= link_to 'ジャンル検索へ戻る', location_genre_path(genre_id), class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'top' %>
-        <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
       <% end %>
-    </div>
-  <% end %>
+
+    <% when 'top' %>
+      <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
+
+    <% when 'followers', 'followings' %>
+      <% from_user = User.find_by(id: params[:from_user_id]) %>
+      <% list_name = from == 'followers' ? 'フォロワー一覧' : 'フォロー中一覧' %>
+
+      <% if from_user.present? && from_user == current_user %>
+        <%= link_to "#{list_name}へ戻る",
+                    from == 'followers' ? followers_user_path(current_user) : followings_user_path(current_user),
+                    class: "custom-outline-btn mt-2" %>
+      <% elsif from_user.present? %>
+        <%= link_to "#{from_user.nickname}さんの#{list_name}へ戻る",
+                    from == 'followers' ? followers_user_path(from_user) : followings_user_path(from_user),
+                    class: "custom-outline-btn mt-2" %>
+      <% end %>
+    <% end %>
+
+  </div>
+<% end %>
+
+
+
 
 </div>
+

@@ -1,19 +1,15 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
   # Devise
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
   # バリデーション
   validates :last_name, :first_name, :prefecture, presence: true
   validates :last_name_kana, :first_name_kana, presence: true,
             format: { with: /\A[ァ-ヶー－]+\z/, message: "は全角カタカナで入力してください" }
   validates :nickname, presence: true, length: { maximum: 20 }
-  # 電話番号（11桁のみ、半角数字）
   validates :phone_number, presence: true,
-  format: { with: /\A\d{11}\z/, message: "は11桁の半角数字で入力してください" }
+            format: { with: /\A\d{11}\z/, message: "は11桁の半角数字で入力してください" }
 
   # アソシエーション
   has_many :posts, dependent: :destroy
@@ -21,8 +17,15 @@ class User < ApplicationRecord
   has_one_attached :image  
   has_one_attached :profile_image
   has_many :favorites, dependent: :destroy
-has_many :favorited_posts, through: :favorites, source: :post
-  
+  has_many :favorited_posts, through: :favorites, source: :post
+
+  # フォロー機能用アソシエーション（編集済）
+  has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followings, through: :active_relationships, source: :followed
+
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :passive_relationships, source: :follower
+
   # アクティブユーザー判定
   def active_for_authentication?
     super && is_active?
@@ -52,7 +55,7 @@ has_many :favorited_posts, through: :favorites, source: :post
 
   def get_profile_image(width, height)
     unless profile_image.attached?
-      file_path = Rails.root.join('app/assets/images/no_image.jpg')  # ← ここを変更
+      file_path = Rails.root.join('app/assets/images/no_image.jpg')
       profile_image.attach(
         io: File.open(file_path),
         filename: 'no_image.jpg',
@@ -61,6 +64,17 @@ has_many :favorited_posts, through: :favorites, source: :post
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
-  
-  
+
+  # フォロー機能用メソッド
+  def follow(user)
+    active_relationships.create(followed_id: user.id)
+  end
+
+  def unfollow(user)
+    active_relationships.find_by(followed_id: user.id)&.destroy
+  end
+
+  def following?(user)
+    followings.include?(user)
+  end
 end

@@ -1,9 +1,18 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_post_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:follow_feed]
   
   def index
     @posts = Post.includes(:user, image_attachment: :blob).order(created_at: :desc)
+  end
+  
+  def follow_feed
+    if params[:user_id].present? && params[:user_id].to_i != current_user.id
+      redirect_to root_path, alert: "他ユーザーのフォロー投稿一覧は閲覧できません。" and return
+    end
+  
+    @posts = Post.where(user_id: current_user.following_ids).order(created_at: :desc)
   end
   
 
@@ -15,6 +24,19 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comments = @post.comments.includes(:user)
+    return unless user_signed_in?
+
+    return if @post.user == current_user
+  
+    if params[:from] == "follow_feed" && current_user.following_ids.include?(@post.user_id)
+      return
+    end
+
+    if params[:from] == "favorites" && current_user.favorited_posts.exists?(@post.id)
+      return
+    end
+
+    redirect_to my_page_user_path(current_user), alert: "この投稿の詳細は閲覧できません。"
   end
 
   def create
