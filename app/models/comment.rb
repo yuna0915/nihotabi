@@ -9,7 +9,7 @@ class Comment < ApplicationRecord
   private
 
   def create_notification
-    return if post.user == user 
+    return if post.user == user
 
     Notification.create!(
       user_id: user.id,

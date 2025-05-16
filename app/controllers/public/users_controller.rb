@@ -8,7 +8,7 @@ class Public::UsersController < ApplicationController
     if @user.nil?
       redirect_to root_path, alert: "ユーザーが見つかりませんでした。"
     else
-      @posts = @user.posts.order(created_at: :desc)  # ← 投稿一覧を取得
+      @posts = @user.posts.order(created_at: :desc).page(params[:page])
     end
   end  
 
@@ -44,13 +44,13 @@ class Public::UsersController < ApplicationController
   
   def followings
     @user = User.find(params[:id])
-    @users = @user.followings
+    @users = @user.followings.page(params[:page]).per(10)
     render 'public/users/follow_list', locals: { list_type: 'followings' }
   end
   
   def followers
     @user = User.find(params[:id])
-    @users = @user.followers
+    @users = @user.followers.page(params[:page]).per(10)
     render 'public/users/follow_list', locals: { list_type: 'followers' }
   end
 

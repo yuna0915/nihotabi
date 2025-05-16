@@ -46,6 +46,11 @@
         <% end %>
       <% end %>
     </div>
+
+    <div class="d-flex justify-content-center my-4">
+      <%= paginate @notifications %>
+    </div>
+
   </div>
 <% else %>
   <p class="text-center mt-4">通知はありません。</p>

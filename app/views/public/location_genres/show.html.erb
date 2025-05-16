@@ -5,6 +5,11 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <%= render partial: "public/posts/post_card", collection: @posts, as: :post, locals: { from: 'genre', genre_id: @location_genre.id } %>
     </div>
+
+    <div class="d-flex justify-content-center my-4">
+      <%= paginate @posts %>
+    </div>
+
   <% else %>
     <p class="text-center">このジャンルの投稿はまだありません。</p>
   <% end %>

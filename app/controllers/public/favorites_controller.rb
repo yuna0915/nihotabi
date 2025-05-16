@@ -3,6 +3,15 @@ class Public::FavoritesController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:index]
 
+  def index
+    if params[:user_id].present? && params[:user_id].to_i != current_user.id
+      flash[:alert] = "他ユーザーのお気に入り一覧は閲覧できません。"
+      redirect_to my_page_user_path(current_user) and return
+    end
+  
+    @favorited_posts = current_user.favorited_posts.order(created_at: :desc).page(params[:page])
+  end
+
   def create
     @post = Post.find(params[:post_id])
     current_user.favorites.create(post: @post) 
@@ -24,16 +33,6 @@ class Public::FavoritesController < ApplicationController
       format.html { redirect_back fallback_location: root_path }
     end
   end
-
-  def index
-    if params[:user_id].present? && params[:user_id].to_i != current_user.id
-      flash[:alert] = "他ユーザーのお気に入り一覧は閲覧できません。"
-      redirect_to my_page_user_path(current_user) and return
-    end
-  
-    @favorited_posts = current_user.favorited_posts.order(created_at: :desc)
-  end
-  
 
   private
 

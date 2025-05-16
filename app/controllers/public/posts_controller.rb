@@ -6,7 +6,7 @@ class Public::PostsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @posts = Post.all
+        @posts = Post.all.page(params[:page])
       end
       format.json do
         @posts = Post.includes(:user).all
@@ -19,7 +19,7 @@ class Public::PostsController < ApplicationController
       redirect_to root_path, alert: "他ユーザーのフォロー投稿一覧は閲覧できません。" and return
     end
   
-    @posts = Post.where(user_id: current_user.following_ids).order(created_at: :desc)
+    @posts = Post.where(user_id: current_user.following_ids).order(created_at: :desc).page(params[:page])
   end
   
 

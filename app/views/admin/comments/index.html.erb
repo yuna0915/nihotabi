@@ -6,6 +6,11 @@
       <%= render partial: "admin/comments/comment_table", locals: { comments: @comments } %>
     </div>
   </div>
+
+  <div class="d-flex justify-content-center my-4">
+    <%= paginate @comments %>
+  </div>
+
 <% else %>
   <p class="text-center">コメントはまだありません。</p>
 <% end %>

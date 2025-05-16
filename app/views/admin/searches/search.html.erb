@@ -25,6 +25,10 @@
         </div>
     <% end %>
 
+    <div class="d-flex justify-content-center my-4">
+      <%= paginate @results %>
+    </div>
+
   <% else %>
     <p class="text-center text-muted mt-4">一致する結果が見つかりませんでした。</p>
   <% end %>

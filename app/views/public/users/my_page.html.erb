@@ -72,6 +72,10 @@
         <% end %>
       </div>
     </div>
+    
+    <div class="d-flex justify-content-center my-4">
+      <%= paginate @posts %>
+    </div>
   <% else %>
     <p class="text-center">投稿はまだありません。</p>
   <% end %>
@@ -112,9 +116,6 @@
 
   </div>
 <% end %>
-
-
-
 
 </div>
 
