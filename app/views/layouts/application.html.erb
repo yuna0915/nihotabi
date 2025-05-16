@@ -21,7 +21,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= "#{controller_name}-#{action_name}" %>">
+  <body class="<%= "#{controller_name}-#{action_name} #{'homes-top' if controller_name == 'homes' && action_name == 'top'}" %>">
     <%= render 'layouts/header' %>
 
     <%= render 'layouts/search' if user_signed_in? || admin_signed_in? %>

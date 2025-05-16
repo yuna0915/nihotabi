@@ -16,36 +16,14 @@ html, body {
 }
 
 /* -------------------------------------
-  トップページ（homes-top）専用スタイル
+  トップページ（homes-top）専用スタイル：5秒ごとに背景画像切り替え
 ---------------------------------------- */
-.homes-top .hero-section {
-  background: url("../images/top.jpg") no-repeat center center;
+.homes-top {
+  min-height: 100vh;
   background-size: cover;
-  padding: 120px 0;
-  min-height: 500px;
-  position: relative;
-
-  &::before {
-    display: none !important;
-  }
-
-  .container-fluid {
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-text h1,
-  .hero-text p {
-    color: #fff !important;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-  }
-
-  .hero-map img {
-    max-height: 1000px;
-    width: auto;
-    filter: none !important;
-    opacity: 0.7 !important;
-  }
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1s ease-in-out;
 }
 
 /* -------------------------------------
@@ -286,7 +264,7 @@ body {
 
   .page-item {
     .page-link {
-      color: #2e6044; // 通常文字色
+      color: #2e6044;
       background-color: #fff;
       border: 1px solid #ccc;
       padding: 0.4rem 0.75rem;
