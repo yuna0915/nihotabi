@@ -24,23 +24,45 @@ import "../script";
 // Webpackに画像を認識させる
 const images = require.context('../images', true, /\.(png|jpe?g|svg)$/);
 
-// ▼ トップページの背景画像切り替え処理
 document.addEventListener('turbolinks:load', () => {
+  // ▼ ユーザー側トップページの背景画像切り替え
   const el = document.querySelector('.homes-top');
-  if (!el) return;
+  if (el) {
+    const bgImages = [
+      images('./top1.jpg'),
+      images('./top2.jpg'),
+      images('./top3.jpg'),
+      images('./top4.jpg')
+    ];
 
-  const bgImages = [
-    images('./top1.jpg'),
-    images('./top2.jpg'),
-    images('./top3.jpg'),
-    images('./top4.jpg')
-  ];
-
-  let i = 0;
-  el.style.backgroundImage = `url(${bgImages[i]})`;
-
-  setInterval(() => {
-    i = (i + 1) % bgImages.length;
+    let i = 0;
     el.style.backgroundImage = `url(${bgImages[i]})`;
-  }, 5000);
+
+    setInterval(() => {
+      i = (i + 1) % bgImages.length;
+      el.style.backgroundImage = `url(${bgImages[i]})`;
+    }, 5000);
+  }
+
+  // ▼ 通常ページ用背景（main.jpg）
+  const body = document.querySelector('body');
+  if (body && body.classList.contains('main-background')) {
+    const mainImage = images('./main.jpg');
+    body.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url(${mainImage})`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
+    body.style.backgroundPosition = 'center';
+  }
+
+  // ▼ 管理者トップページ用背景（admin-homes-top）
+  const adminTop = document.querySelector('body.admin-homes-top');
+  if (adminTop) {
+    const mainImage = images('./main.jpg');
+    adminTop.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), url(${mainImage})`;
+    adminTop.style.backgroundSize = 'cover';
+    adminTop.style.backgroundRepeat = 'no-repeat';
+    adminTop.style.backgroundAttachment = 'fixed';
+    adminTop.style.backgroundPosition = 'center';
+  }
 });

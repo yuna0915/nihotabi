@@ -75,7 +75,7 @@
     </div>
     
     <div class="d-flex justify-content-center my-4">
-      <%= paginate @posts %>
+      <%= paginate @posts, params: { from: from, genre_id: genre_id, from_user_id: params[:from_user_id] } %>
     </div>
   <% else %>
     <p class="text-center">投稿はまだありません。</p>
@@ -83,7 +83,7 @@
 
   <% valid_from_values = %w[post search genre top followings followers] %>
 <% if from.present? && valid_from_values.include?(from) %>
-  <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
+  <div class="text-center mt-2 mb-5 d-flex flex-column align-items-center">
 
     <% case from
        when 'post' %>

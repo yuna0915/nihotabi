@@ -21,7 +21,8 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= "#{controller_name}-#{action_name} #{'homes-top' if controller_name == 'homes' && action_name == 'top'}" %>">
+  <body class="<%= "#{controller_path.tr('/', '-')}-#{action_name} #{'homes-top' if controller_path == 'public/homes' && action_name == 'top'} #{'main-background' unless controller_path == 'public/homes' && ['top', 'about'].include?(action_name) }" %>">
+
     <%= render 'layouts/header' %>
 
     <%= render 'layouts/search' if user_signed_in? || admin_signed_in? %>
@@ -40,29 +41,31 @@
     <% if controller_name == "homes" && action_name == "about" %>
       <%= yield %>
     <% else %>
-      <div class="container-fluid">
-        <div class="row">
-          <% if (controller_path.starts_with?("public/") && (
-                (controller_name == "posts" && ((action_name == "index") || (action_name == "follow_feed") || (action_name == "show" && params[:from] != "top"))) ||
-                (controller_name == "location_genres" && action_name == "show") ||
-                (controller_name == "searches" && action_name == "search") ||
-                (controller_name == "favorites" && action_name == "index")
-              )) %>
-            <div class="col-md-3 mt-5">
-              <%= render 'public/shared/genre_sidebar' %>
-            </div>
-          <% end %>
+      <main class="main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <% if (controller_path.starts_with?("public/") && (
+                  (controller_name == "posts" && ((action_name == "index") || (action_name == "follow_feed") || (action_name == "show" && params[:from] != "top"))) ||
+                  (controller_name == "location_genres" && action_name == "show") ||
+                  (controller_name == "searches" && action_name == "search") ||
+                  (controller_name == "favorites" && action_name == "index")
+                )) %>
+              <div class="col-md-3 mt-5">
+                <%= render 'public/shared/genre_sidebar' %>
+              </div>
+            <% end %>
 
-          <div class="<%= (controller_path.starts_with?("public/") && (
-                  (controller_name == 'posts' && ((action_name == 'index') || (action_name == 'follow_feed') || (action_name == 'show' && params[:from] != 'top'))) ||
-                  (controller_name == 'location_genres' && action_name == 'show') ||
-                  (controller_name == 'searches' && action_name == 'search') ||
-                  (controller_name == 'favorites' && action_name == 'index') 
-                )) ? 'col-md-9' : 'col-12' %>">
-            <%= yield %>
+            <div class="<%= (controller_path.starts_with?("public/") && (
+                    (controller_name == 'posts' && ((action_name == 'index') || (action_name == 'follow_feed') || (action_name == 'show' && params[:from] != 'top'))) ||
+                    (controller_name == 'location_genres' && action_name == 'show') ||
+                    (controller_name == 'searches' && action_name == 'search') ||
+                    (controller_name == 'favorites' && action_name == 'index') 
+                  )) ? 'col-md-9' : 'col-12' %>">
+              <%= yield %>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     <% end %>
 
     <%= render 'layouts/footer' %>
