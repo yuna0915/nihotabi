@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy]
       resource :favorite, only: [:create, :destroy]
     end
+
   end
 
   # 管理者用 Devise
@@ -93,4 +94,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:index, :destroy]
     resources :notifications, only: [:index]
   end
+
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
 end
