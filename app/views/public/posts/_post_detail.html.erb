@@ -58,6 +58,12 @@
       <td><%= l(post.created_at, format: :long) %></td>
     </tr>
 
+    <!-- 閲覧数 -->
+    <tr class="border-bottom">
+      <th class="text-start align-middle">閲覧数</th>
+      <td><%= post.view_count %>回</td>
+    </tr>
+
     <!-- いいね（件数だけ表示） -->
     <tr class="border-bottom">
       <th class="text-start align-middle">いいね数</th>

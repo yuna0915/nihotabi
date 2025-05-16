@@ -30,6 +30,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @post.increment!(:view_count)
     @comments = @post.comments.includes(:user)
   
     # 未ログインかつトップページ経由でない場合はログインページへ

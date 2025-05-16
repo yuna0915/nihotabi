@@ -24,7 +24,10 @@
         <p class="card-text">場所：<%= post.location_name %></p>
         <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
         <p class="card-text">💬：<%= post.comments.count %>件</p>
-
+        
+        <!-- 閲覧数 -->
+        <p class="card-text">👀：<%= post.view_count %>回</p>
+        
         <!-- いいね数 -->
         <p class="card-text" id="favorite-count-<%= post.id %>">
           ❤️：<%= post.favorites.count %>件
