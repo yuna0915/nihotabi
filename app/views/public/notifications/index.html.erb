@@ -18,19 +18,19 @@
             <!-- 左側：通知内容 -->
             <div class="flex-grow-1 me-3">
               <% if notification.action == 'follow' %>
-                <i class="fas fa-user-plus text-primary me-2"></i>
+                👤 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
                 <%= link_to notification.user.nickname, my_page_user_path(notification.user), class: "text-primary text-decoration-none" %>
                 さんがあなたをフォローしました。
 
               <% elsif notification.action == 'favorite' && notification.post.present? %>
-                <i class="fas fa-heart text-danger me-2"></i>
+                ❤️ <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
                 <%= link_to notification.user.nickname, my_page_user_path(notification.user), class: "text-primary text-decoration-none" %>
                 さんがあなたの
                 <%= link_to '投稿', mark_as_read_notification_path(notification), method: :patch, class: "text-decoration-none text-success-subtle" %>
                 にいいねしました。
 
               <% elsif notification.action == 'comment' && notification.post.present? %>
-                <i class="fas fa-comment text-warning me-2"></i>
+                💬 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
                 <%= link_to notification.user.nickname, my_page_user_path(notification.user), class: "text-primary text-decoration-none" %>
                 さんがあなたの
                 <%= link_to '投稿', mark_as_read_notification_path(notification), method: :patch, class: "text-decoration-none text-success-subtle" %>
