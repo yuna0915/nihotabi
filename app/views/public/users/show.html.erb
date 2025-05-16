@@ -20,6 +20,9 @@
       <div class="mb-3">
         <%= link_to "プロフィールを編集", edit_user_path(@user), class: "custom-green-btn me-2 mb-2" %>
         <%= link_to "退会する", withdraw_user_path, method: :patch, data: { confirm: "本当に退会しますか？" }, class: "custom-red-btn mb-2" %>
+        <p class="text-muted small mt-4">
+          ※退会後に投稿を削除することはできません。
+        </p>
       </div>
     <% end %>
   <% end %>
