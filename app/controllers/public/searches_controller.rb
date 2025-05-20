@@ -28,8 +28,8 @@ class Public::SearchesController < ApplicationController
                         visited_months.number LIKE :kw OR visited_time_zones.hour LIKE :kw",
                        kw: "%#{@keyword}%"
                      )
-                     .sorted(params[:sort]) # 投稿モデルに scope :sorted が定義されている前提
-                     .page(params[:page])
+                     .sorted(params[:sort])
+                     .page(params[:page]).per(10)
 
     else
       @results = Kaminari.paginate_array([]).page(params[:page])

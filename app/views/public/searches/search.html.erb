@@ -6,16 +6,25 @@
     <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 mb-3">
       <%= link_to '新着順',
                   url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
-                  class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+                  class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
 
       <% if @model == 'user' %>
         <%= link_to '名前順',
                     url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
-                    class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
+                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'name'}" %>
+
       <% elsif @model == 'post' %>
-        <%= link_to '評価順',
+        <%= link_to 'コメント数順',
+                    url_for(params.to_unsafe_h.merge(sort: 'comments', page: nil)),
+                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'comments'}" %>
+
+        <%= link_to '閲覧数順',
+                    url_for(params.to_unsafe_h.merge(sort: 'views', page: nil)),
+                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'views'}" %>
+
+        <%= link_to 'いいね数順',
                     url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
-                    class: "custom-outline-btn #{'active' if params[:sort] == 'likes'}" %>
+                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'likes'}" %>
       <% end %>
     </div>
   <% end %>
