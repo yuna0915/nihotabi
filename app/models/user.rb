@@ -73,6 +73,22 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
 
+  # 並び替えスコープ
+  scope :sorted_by_new, -> { order(created_at: :desc) }
+
+  scope :sorted_by_name, -> {
+    order(Arel.sql("CONCAT(last_name_kana, first_name_kana) ASC"))
+  }
+
+  scope :sorted, -> (sort_param) {
+    case sort_param
+    when 'name'
+      sorted_by_name
+    else
+      sorted_by_new
+    end
+  }
+
   # フォロー機能用メソッド
   def follow(user)
     active_relationships.create(followed_id: user.id)

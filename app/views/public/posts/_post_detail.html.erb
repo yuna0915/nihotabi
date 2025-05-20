@@ -1,5 +1,5 @@
 <!-- タイトル -->
-<h2 class="mt-4 mb-4 text-break"><%= post.title %></h2>
+<h2 class="mt-4 mb-4"><%= post.title %></h2>
 
 <!-- 画像 -->
 <div class="mb-4">
@@ -26,7 +26,7 @@
       <!-- 本文 -->
       <tr class="border-bottom">
         <th class="text-start align-middle">本文</th>
-        <td class="text-break"><%= simple_format(post.body) %></td>
+        <td><%= post.body.gsub(/\r\n|\r|\n/, ' ') %></td>
       </tr>
 
       <!-- その他の情報 -->
@@ -40,11 +40,11 @@
       </tr>
       <tr class="border-bottom">
         <th class="text-start align-middle">場所名</th>
-        <td class="text-break"><%= post.location_name %></td>
+        <td><div><%= post.location_name %></div></td>
       </tr>
       <tr class="border-bottom">
         <th class="text-start align-middle">住所</th>
-        <td class="text-break"><%= post.address %></td>
+        <td><%= post.address %></td>
       </tr>
       <tr class="border-bottom">
         <th class="text-start align-middle">訪問月</th>
@@ -71,7 +71,6 @@
         <td id="favorite-count-<%= post.id %>">
           <div class="d-inline"><%= post.favorites.count %>件</div>
         </td>
-
       </tr>
     </tbody>
   </table>

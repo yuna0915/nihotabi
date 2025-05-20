@@ -7,6 +7,10 @@
     <% end %>
 
   <% elsif @model == "post" %>
+    <% if @results.any? %>
+      <%= render 'public/posts/sort_links' %>
+    <% end %>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <% @results.each do |result| %>
         <%= render partial: "public/posts/post_card", object: result, as: :post, locals: { from: 'search', genre_id: nil } %>

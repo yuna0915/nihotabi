@@ -9,6 +9,9 @@
   <% end %>
 </h1>
 
+<!-- 並び替えUI -->
+<%= render 'public/users/sort_user_links' %>
+
 <% if @users.any? %>
   <div class="container">
     <div class="row">
@@ -23,6 +26,10 @@
     <%= list_type == 'followers' ? 'フォロワーはいません。' : 'フォロー中のユーザーはいません。' %>
   </p>
 <% end %>
+
+<div class="d-flex justify-content-center my-4">
+  <%= paginate @users %>
+</div>
 
 <div class="text-center mt-5 mb-5">
   <% if from_user == current_user %>

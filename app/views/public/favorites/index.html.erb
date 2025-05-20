@@ -1,6 +1,8 @@
 <h1 class="text-center mt-5 mb-4">お気に入りした投稿一覧</h1>
 
 <% if @favorited_posts.any? %>
+  <%= render 'public/posts/sort_links' %>
+
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <%= render partial: "public/posts/post_card", collection: @favorited_posts, as: :post, locals: { from: 'favorites', genre_id: nil } %>
   </div>
@@ -8,7 +10,6 @@
   <div class="d-flex justify-content-center my-4">
     <%= paginate @favorited_posts %>
   </div>
-
 <% else %>
   <p class="text-center">お気に入りした投稿はまだありません。</p>
 <% end %>

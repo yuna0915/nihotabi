@@ -50,6 +50,8 @@
   <h2 class="text-center mb-4">投稿一覧</h2>
 
   <% if @posts.any? %>
+    <%= render 'public/posts/sort_links' %>
+
     <div class="container"> 
       <div class="row">
         <% @posts.each do |post| %>
@@ -80,6 +82,7 @@
   <% else %>
     <p class="text-center">投稿はまだありません。</p>
   <% end %>
+</div>
 
   <% valid_from_values = %w[post search genre top followings followers] %>
 <% if from.present? && valid_from_values.include?(from) %>

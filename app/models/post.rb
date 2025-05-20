@@ -30,6 +30,38 @@ class Post < ApplicationRecord
     image.variant(resize_to_fill: [width, height]).processed
   end
 
+  # 並び替え用スコープ
+  scope :sorted_by_new, -> { order(created_at: :desc) }
+
+  scope :sorted_by_likes, -> {
+    left_joins(:favorites)
+      .group(:id)
+      .order(Arel.sql('COUNT(favorites.id) DESC'))
+  }
+
+  scope :sorted_by_comments, -> {
+    left_joins(:comments)
+      .group(:id)
+      .order(Arel.sql('COUNT(comments.id) DESC'))
+  }
+
+  scope :sorted_by_views, -> {
+    order(view_count: :desc)
+  }
+
+  scope :sorted, ->(sort_param) {
+    case sort_param
+    when 'likes'
+      sorted_by_likes
+    when 'comments'
+      sorted_by_comments
+    when 'views'
+      sorted_by_views
+    else
+      sorted_by_new
+    end
+  }
+
   private
 
   def image_must_be_attached

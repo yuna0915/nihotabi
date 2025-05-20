@@ -9,8 +9,8 @@
 
       <div class="card-body position-relative">
 
-        <!-- タイトルのみ -->
-        <h4 class="card-title mb-2">
+        <!-- タイトル（2行省略） -->
+        <h4 class="card-title mb-2 truncate-multiline">
           <%= link_to post.title, post_path(post, from: from || nil), class: "text-decoration-none text-dark" %>
         </h4>
 
@@ -20,14 +20,20 @@
           <p class="mb-0"><strong><%= post.user.nickname %></strong></p>
         </div>
 
-        <!-- 投稿情報 -->
-        <p class="card-text">場所：<%= post.location_name %></p>
+        <!-- 場所（1行省略） -->
+        <div class="card-text text-truncate" style="max-width: 100%;" title="<%= post.location_name %>">
+          場所：<%= post.location_name %>
+        </div>
+
+        <!-- 投稿日 -->
         <p class="card-text">投稿日：<%= l(post.created_at, format: :short) %></p>
+
+        <!-- コメント数 -->
         <p class="card-text">💬：<%= post.comments.count %>件</p>
-        
+
         <!-- 閲覧数 -->
         <p class="card-text">👀：<%= post.view_count %>回</p>
-        
+
         <!-- いいね数 -->
         <p class="card-text" id="favorite-count-<%= post.id %>">
           ❤️：<%= post.favorites.count %>件

@@ -9,7 +9,7 @@ class Public::FavoritesController < ApplicationController
       redirect_to my_page_user_path(current_user) and return
     end
   
-    @favorited_posts = current_user.favorited_posts.order(created_at: :desc).page(params[:page])
+    @favorited_posts = current_user.favorited_posts.sorted(params[:sort]).page(params[:page])
   end
 
   def create

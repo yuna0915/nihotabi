@@ -367,3 +367,11 @@ body {
     text-align: center;
   }
 }
+
+/* タイトルを1行で省略 */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
