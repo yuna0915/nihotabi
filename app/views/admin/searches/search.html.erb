@@ -2,6 +2,30 @@
   <h1 class="text-center mb-4">検索結果</h1>
 
   <% if @results.present? %>
+    <!-- 並び替えボタン -->
+    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 mb-3">
+      <%= link_to '新着順',
+                  url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
+                  class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+
+      <% if @model == 'user' %>
+        <%= link_to '名前順',
+                    url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
+
+      <% elsif @model == 'post' %>
+        <%= link_to '評価順',
+                    url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'likes'}" %>
+
+      <% elsif @model == 'comment' %>
+        <%= link_to 'あいうえお順',
+                    url_for(params.to_unsafe_h.merge(sort: 'kana', page: nil)),
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'kana'}" %>
+      <% end %>
+    </div>
+
+    <!-- 検索結果の表示 -->
     <% case @model
       when "user" %>
         <div class="d-flex justify-content-center">

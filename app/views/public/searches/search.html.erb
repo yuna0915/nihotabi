@@ -1,16 +1,32 @@
 <h1 class="text-center mt-5 mb-4">検索結果（<%= @model == "user" ? "ユーザー" : "投稿" %>）</h1>
 
 <% if @results.any? %>
+  <!-- 並び替えUI -->
+  <% if @model == "user" || @model == "post" %>
+    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 mb-3">
+      <%= link_to '新着順',
+                  url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
+                  class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+
+      <% if @model == 'user' %>
+        <%= link_to '名前順',
+                    url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
+      <% elsif @model == 'post' %>
+        <%= link_to '評価順',
+                    url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'likes'}" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- 検索結果の表示 -->
   <% if @model == "user" %>
     <% @results.each do |result| %>
       <%= render partial: "public/users/user_card", object: result, as: :user, locals: { from: 'search' } %>
     <% end %>
 
   <% elsif @model == "post" %>
-    <% if @results.any? %>
-      <%= render 'public/posts/sort_links' %>
-    <% end %>
-
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <% @results.each do |result| %>
         <%= render partial: "public/posts/post_card", object: result, as: :post, locals: { from: 'search', genre_id: nil } %>

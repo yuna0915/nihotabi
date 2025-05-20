@@ -1,5 +1,7 @@
 <h1 class="text-center my-5">ユーザー一覧</h1>
 
+<%= render 'admin/shared/sort_links' %>
+
 <div class="d-flex justify-content-center">
   <div class="table-responsive" style="max-width: 1100px;">
     <% if @users.present? %>

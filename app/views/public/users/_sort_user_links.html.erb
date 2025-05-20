@@ -1,9 +1,11 @@
-<div class="d-flex justify-content-center gap-2 mb-3">
-  <%= link_to '新着順',
-              url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
-              class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+<% if @users.any? %>
+  <div class="d-flex justify-content-center gap-2 mb-3">
+    <%= link_to '新着順',
+                url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
+                class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
 
-  <%= link_to 'ニックネーム順',
-              url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
-              class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
-</div>
+    <%= link_to 'ニックネーム順',
+                url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
+                class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
+  </div>
+<% end %>
