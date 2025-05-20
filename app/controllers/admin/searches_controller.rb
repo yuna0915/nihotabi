@@ -19,7 +19,7 @@ class Admin::SearchesController < ApplicationController
 
       @results = case params[:sort]
                  when 'name'
-                   users.order(:nickname)
+                   users.order(:last_name, :first_name)  # セイ → メイ順
                  else
                    users.order(created_at: :desc)
                  end
@@ -36,20 +36,19 @@ class Admin::SearchesController < ApplicationController
                   )
 
       @results = case params[:sort]
-                 when 'likes'
-                   posts.left_joins(:favorites)
-                        .group(:id)
-                        .order('COUNT(favorites.id) DESC')
+                 when 'title'
+                   posts.order(:title)  # 投稿タイトル順
                  else
                    posts.order(created_at: :desc)
                  end
 
     when "comment"
-      comments = Comment.where("body LIKE ?", "%#{@keyword}%")
+      comments = Comment.joins(:user)
+                        .where("comments.body LIKE :kw OR users.last_name LIKE :kw OR users.first_name LIKE :kw", kw: "%#{@keyword}%")
 
       @results = case params[:sort]
-                 when 'kana'
-                   comments.joins(:user).order('users.nickname_kana ASC') # 読み仮名がないなら 'users.nickname ASC'
+                 when 'aiueo'  # ← ここを修正（旧: 'kana'）
+                   comments.order(:body)  # ← コメント本文のあいうえお順（シンプル）
                  else
                    comments.order(created_at: :desc)
                  end

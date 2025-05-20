@@ -3,17 +3,16 @@ class Admin::CommentsController < ApplicationController
 
   def index
     @comments = case params[:sort]
-                when 'name'  # ← パラメータ名を 'kana' から 'name' に変えるとわかりやすい
-                  Comment.joins(:user)
-                         .includes(:post)
-                         .order('users.last_name ASC, users.first_name ASC')
+                when 'aiueo'
+                  Comment.includes(:user, :post)
+                         .order(:body) # ← これだけでOK！
                          .page(params[:page]).per(10)
                 else
                   Comment.includes(:user, :post)
                          .order(created_at: :desc)
                          .page(params[:page]).per(10)
                 end
-  end
+  end  
 
   def destroy
     comment = Comment.find(params[:id])

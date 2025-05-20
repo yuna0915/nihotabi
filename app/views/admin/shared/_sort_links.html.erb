@@ -23,10 +23,9 @@
     <%= link_to '新着順',
                 url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
                 class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
-
-    <%= link_to '名前順',
-            url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
-            class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
+    <%= link_to 'あいうえお順',
+                url_for(params.to_unsafe_h.merge(sort: 'aiueo', page: nil)),
+                class: "custom-outline-btn #{'active' if params[:sort] == 'aiueo'}" %>
 
   </div>
 <% end %>

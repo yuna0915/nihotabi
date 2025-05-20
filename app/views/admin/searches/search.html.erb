@@ -14,15 +14,16 @@
                     class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
 
       <% elsif @model == 'post' %>
-        <%= link_to '評価順',
-                    url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
-                    class: "custom-outline-btn #{'active' if params[:sort] == 'likes'}" %>
+  <%= link_to 'タイトル順',
+              url_for(params.to_unsafe_h.merge(sort: 'title', page: nil)),
+              class: "custom-outline-btn #{'active' if params[:sort] == 'title'}" %>
 
       <% elsif @model == 'comment' %>
         <%= link_to 'あいうえお順',
-                    url_for(params.to_unsafe_h.merge(sort: 'kana', page: nil)),
-                    class: "custom-outline-btn #{'active' if params[:sort] == 'kana'}" %>
+                    url_for(params.to_unsafe_h.merge(sort: 'aiueo', page: nil)), 
+                    class: "custom-outline-btn #{'active' if params[:sort] == 'aiueo'}" %>
       <% end %>
+
     </div>
 
     <!-- 検索結果の表示 -->
