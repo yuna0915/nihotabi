@@ -5,11 +5,11 @@
   <%= @user == current_user ? "マイページ" : "#{@user.nickname}さんのマイページ" %>
 </h1>
 
-<div class="text-center mb-4">
+<div class="button-group">
   <% if current_user == @user %>
-    <%= link_to '新規投稿', new_post_path, class: "custom-register-btn me-2" %>
-    <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn me-2" %>
-    <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn me-2" %>
+    <%= link_to '新規投稿', new_post_path, class: "custom-register-btn" %>
+    <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn" %>
+    <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn" %>
     <%= link_to 'フォローしている人の投稿', follow_feed_posts_path, class: "custom-outline-btn" %>
   <% end %>
 </div>

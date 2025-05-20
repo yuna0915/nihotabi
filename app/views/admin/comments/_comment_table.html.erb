@@ -1,53 +1,57 @@
-<table class="table table-hover text-center bg-white">
-  <thead class="table-light">
-    <tr>
-      <th class="align-middle">ID</th>
-      <th class="align-middle" style="width: 100px;">コメント日</th>
-      <th class="align-middle" style="width: 250px;">コメント内容</th>
-      <th class="align-middle" style="width: 220px;">コメント者</th>
-      <th class="align-middle" style="width: 220px;">投稿タイトル</th>
-      <th class="align-middle" style="width: 220px;">投稿者</th>
-      <th class="align-middle" style="width: 120px;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% comments.each do |comment| %>
+<div class="table-responsive">
+  <table class="table table-hover text-center bg-white">
+    <thead class="table-light">
       <tr>
-        <td class="align-middle"><%= comment.id %></td>
-        <td class="align-middle"><%= comment.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
-        <td class="align-middle"><%= truncate(comment.body, length: 60) %></td>
-        
-        <!-- コメント者 -->
-        <td class="align-middle">
-          <div>
-            <%= link_to "#{comment.user.last_name} #{comment.user.first_name}", admin_user_path(comment.user), class: "text-primary" %>
-          </div>
-          <div><%= comment.user.last_name_kana %> <%= comment.user.first_name_kana %></div>
-          <div>（<%= comment.user.nickname %>）</div>
-        </td>
-
-        <!-- 投稿タイトル -->
-        <td class="align-middle">
-          <%= link_to comment.post.title, admin_post_path(comment.post), class: "text-decoration-none" %>
-        </td>
-
-        <!-- 投稿者 -->
-        <td class="align-middle">
-          <div>
-            <%= link_to "#{comment.post.user.last_name} #{comment.post.user.first_name}", admin_user_path(comment.post.user), class: "text-primary" %>
-          </div>
-          <div><%= comment.post.user.last_name_kana %> <%= comment.post.user.first_name_kana %></div>
-          <div>（<%= comment.post.user.nickname %>）</div> 
-        </td>
-
-        <!-- 削除 -->
-        <td class="align-middle">
-          <%= button_to "削除", admin_comment_path(comment),
-                        method: :delete,
-                        data: { confirm: "本当に削除しますか？" },
-                        class: "custom-red-btn btn-sm" %>
-        </td>
+        <th class="align-middle">ID</th>
+        <th class="align-middle" style="width: 100px;">コメント日</th>
+        <th class="align-middle" style="width: 250px;">コメント内容</th>
+        <th class="align-middle" style="width: 220px;">コメント者</th>
+        <th class="align-middle" style="width: 220px;">投稿タイトル</th>
+        <th class="align-middle" style="width: 220px;">投稿者</th>
+        <th class="align-middle" style="width: 120px;"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% comments.each do |comment| %>
+        <tr>
+          <td class="align-middle"><%= comment.id %></td>
+          <td class="align-middle"><%= comment.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+
+          <!-- コメント内容：長文対応 -->
+          <td class="align-middle text-break"><%= truncate(comment.body, length: 60) %></td>
+
+          <!-- コメント者 -->
+          <td class="align-middle text-break">
+            <div>
+              <%= link_to "#{comment.user.last_name} #{comment.user.first_name}", admin_user_path(comment.user), class: "text-primary" %>
+            </div>
+            <div><%= comment.user.last_name_kana %> <%= comment.user.first_name_kana %></div>
+            <div>（<%= comment.user.nickname %>）</div>
+          </td>
+
+          <!-- 投稿タイトル：長い場合の改行対応 -->
+          <td class="align-middle text-break">
+            <%= link_to comment.post.title, admin_post_path(comment.post), class: "text-decoration-none" %>
+          </td>
+
+          <!-- 投稿者 -->
+          <td class="align-middle text-break">
+            <div>
+              <%= link_to "#{comment.post.user.last_name} #{comment.post.user.first_name}", admin_user_path(comment.post.user), class: "text-primary" %>
+            </div>
+            <div><%= comment.post.user.last_name_kana %> <%= comment.post.user.first_name_kana %></div>
+            <div>（<%= comment.post.user.nickname %>）</div> 
+          </td>
+
+          <!-- 削除 -->
+          <td class="align-middle">
+            <%= button_to "削除", admin_comment_path(comment),
+                          method: :delete,
+                          data: { confirm: "本当に削除しますか？" },
+                          class: "custom-red-btn btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

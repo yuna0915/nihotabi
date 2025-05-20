@@ -65,4 +65,25 @@ document.addEventListener('turbolinks:load', () => {
     adminTop.style.backgroundAttachment = 'fixed';
     adminTop.style.backgroundPosition = 'center';
   }
+
+  // ▼ アバウトページのスライダー初期化（←ここが今回の追記部分）
+  const aboutSwiper = document.querySelector('.about-swiper .swiper');
+  if (aboutSwiper) {
+    new Swiper(aboutSwiper, {
+      loop: true,
+      speed: 800,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      }
+    });
+  }
 });

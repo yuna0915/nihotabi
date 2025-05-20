@@ -1,41 +1,53 @@
-<table class="table table-borderless text-center align-middle bg-white border-top">
-  <thead class="table-light border-bottom">
-    <tr>
-      <th class="align-middle">ID</th>
-      <th class="align-middle" style="width: 160px;">登録日</th>
-      <th class="align-middle" style="width: 200px;">氏名</th>
-      <th class="align-middle" style="width: 200px;">メールアドレス</th>
-      <th class="align-middle" style="width: 80px;">電話番号</th>
-      <th class="align-middle" style="width: 120px;">ステータス</th>
-      <th class="align-middle" style="min-width: 120px;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% users.each do |user| %>
-      <tr class="border-bottom">
-        <td class="align-middle"><%= user.id %></td>
-        <td class="align-middle"><%= user.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
-        <td class="align-middle">
-          <div>
-            <%= link_to "#{user.last_name} #{user.first_name}", admin_user_path(user), class: "text-primary" %>
-          </div>
-          <div>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
-          <div>（<%= user.nickname %>）</div>
-        </td>
-        <td class="align-middle"><%= user.email %></td>
-        <td class="align-middle"><%= user.phone_number %></td>
-        <td class="align-middle">
-          <% if user.is_active? %>
-            <span class="text-success">有効</span>
-          <% else %>
-            <span class="text-danger">退会</span>
-          <% end %>
-        </td>
-        <td class="align-middle">
-          <%= link_to "編集", edit_admin_user_path(user),
-                      class: "custom-green-btn btn-sm", style: "min-width: 80px;" %>
-        </td>
+<div class="table-responsive w-100">
+  <table class="table table-borderless text-center align-middle bg-white border-top">
+    <thead class="table-light border-bottom">
+      <tr>
+        <th class="align-middle">ID</th>
+        <th class="align-middle" style="width: 160px;">登録日</th>
+        <th class="align-middle" style="width: 170px;">氏名</th>
+        <th class="align-middle" style="width: 170px;">メールアドレス</th>
+        <th class="align-middle" style="width: 140px;">電話番号</th>
+        <th class="align-middle" style="width: 120px;">ステータス</th>
+        <th class="align-middle" style="min-width: 100px;"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% users.each do |user| %>
+        <tr class="border-bottom">
+          <td class="align-middle"><%= user.id %></td>
+          <td class="align-middle"><%= user.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+
+          <!-- 氏名 -->
+          <td class="align-middle text-break">
+            <div>
+              <%= link_to "#{user.last_name} #{user.first_name}", admin_user_path(user), class: "text-primary" %>
+            </div>
+            <div>（<%= user.last_name_kana %> <%= user.first_name_kana %>）</div>
+            <div>（<%= user.nickname %>）</div>
+          </td>
+
+          <!-- メールアドレス -->
+          <td class="align-middle text-break"><%= user.email %></td>
+
+          <!-- 電話番号 -->
+          <td class="align-middle text-break"><%= user.phone_number %></td>
+
+          <!-- ステータス -->
+          <td class="align-middle">
+            <% if user.is_active? %>
+              <span class="text-success">有効</span>
+            <% else %>
+              <span class="text-danger">退会</span>
+            <% end %>
+          </td>
+
+          <!-- 編集ボタン -->
+          <td class="align-middle">
+            <%= link_to "編集", edit_admin_user_path(user),
+                        class: "custom-green-btn btn-sm", style: "min-width: 80px;" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

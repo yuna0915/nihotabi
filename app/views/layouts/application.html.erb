@@ -21,7 +21,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= "#{controller_path.tr('/', '-')}-#{action_name} #{'homes-top' if controller_path == 'public/homes' && action_name == 'top'} #{'main-background' unless controller_path == 'public/homes' && ['top', 'about'].include?(action_name) }" %>">
+  <body class="<%= [
+    "#{controller_path.tr('/', '-')}-#{action_name}",
+    ('homes-top' if controller_path == 'public/homes' && action_name == 'top'),
+    ('main-background' unless controller_path == 'public/homes' && ['top', 'about'].include?(action_name)),
+    ('no-scroll' if controller_path == 'public/homes' && action_name == 'about'),
+    ('public-homes-about' if controller_path == 'public/homes' && action_name == 'about')
+  ].compact.join(' ') %>">
 
     <%= render 'layouts/header' %>
 
@@ -38,10 +44,10 @@
       <%= yield :full_width_section %>
     <% end %>
 
-    <% if controller_name == "homes" && action_name == "about" %>
-      <%= yield %>
-    <% else %>
-      <main class="main-content">
+    <main class="main-content <%= 'about-main-wrapper' if controller_name == 'homes' && action_name == 'about' %>">
+      <% if controller_name == "homes" && action_name == "about" %>
+        <%= yield %>
+      <% else %>
         <div class="container-fluid">
           <div class="row">
             <% if (controller_path.starts_with?("public/") && (
@@ -65,8 +71,8 @@
             </div>
           </div>
         </div>
-      </main>
-    <% end %>
+      <% end %>
+    </main>
 
     <%= render 'layouts/footer' %>
   </body>

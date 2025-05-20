@@ -1,45 +1,47 @@
-<table class="table table-hover text-center bg-white">
-  <thead class="table-light">
-    <tr>
-      <th class="align-middle">ID</th>
-      <th class="align-middle" style="width: 160px;">投稿日</th>
-      <th class="align-middle" style="width: 100px;">画像</th>
-      <th class="align-middle" style="width: 220px;">タイトル</th>
-      <th class="align-middle" style="width: 300px;">内容</th>
-      <th class="align-middle" style="width: 220px;">投稿者</th>
-      <th class="align-middle" style="min-width: 120px;"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% posts.each do |post| %>
+<div class="table-responsive">
+  <table class="table table-hover text-center bg-white">
+    <thead class="table-light">
       <tr>
-        <td class="align-middle"><%= post.id %></td>
-        <td class="align-middle"><%= post.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
-        <td class="align-middle">
-          <% if post.image.attached? %>
-            <%= image_tag post.image.variant(resize_to_limit: [100, 100]), class: "img-thumbnail" %>
-          <% else %>
-            <%= image_tag "no_image.jpg", width: 100, height: 100, class: "img-thumbnail" %>
-          <% end %>
-        </td>
-        <td class="align-middle">
-          <%= link_to post.title, admin_post_path(post), class: "text-decoration-none" %>
-        </td>
-        <td class="align-middle"><%= truncate(post.body, length: 60) %></td>
-        <td class="align-middle">
-          <div>
-            <%= link_to "#{post.user.last_name} #{post.user.first_name}", admin_user_path(post.user), class: "text-primary" %>
-          </div>
-          <div><%= post.user.last_name_kana %> <%= post.user.first_name_kana %></div>
-          <div>（<%= post.user.nickname %>）</div>
-        </td>
-        <td class="align-middle">
-          <%= button_to "削除", admin_post_path(post),
-                        method: :delete,
-                        data: { confirm: "本当に削除しますか？" },
-                        class: "custom-red-btn btn-sm" %>
-        </td>
+        <th class="align-middle">ID</th>
+        <th class="align-middle" style="width: 160px;">投稿日</th>
+        <th class="align-middle" style="width: 100px;">画像</th>
+        <th class="align-middle" style="width: 220px;">タイトル</th>
+        <th class="align-middle" style="width: 300px;">内容</th>
+        <th class="align-middle" style="width: 220px;">投稿者</th>
+        <th class="align-middle" style="min-width: 120px;"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% posts.each do |post| %>
+        <tr>
+          <td class="align-middle"><%= post.id %></td>
+          <td class="align-middle"><%= post.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+          <td class="align-middle">
+            <% if post.image.attached? %>
+              <%= image_tag post.image.variant(resize_to_limit: [100, 100]), class: "img-thumbnail" %>
+            <% else %>
+              <%= image_tag "no_image.jpg", width: 100, height: 100, class: "img-thumbnail" %>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <%= link_to post.title, admin_post_path(post), class: "text-decoration-none text-break" %>
+          </td>
+          <td class="align-middle text-break"><%= truncate(post.body, length: 60) %></td>
+          <td class="align-middle text-break">
+            <div>
+              <%= link_to "#{post.user.last_name} #{post.user.first_name}", admin_user_path(post.user), class: "text-primary" %>
+            </div>
+            <div><%= post.user.last_name_kana %> <%= post.user.first_name_kana %></div>
+            <div>（<%= post.user.nickname %>）</div>
+          </td>
+          <td class="align-middle">
+            <%= button_to "削除", admin_post_path(post),
+                          method: :delete,
+                          data: { confirm: "本当に削除しますか？" },
+                          class: "custom-red-btn btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
