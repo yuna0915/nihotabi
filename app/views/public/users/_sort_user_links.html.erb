@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-end gap-2 mb-3">
+<div class="d-flex justify-content-center gap-2 mb-3">
   <%= link_to '新着順',
-              url_for(params.merge(sort: 'new', page: nil)),
-              class: "btn btn-outline-secondary #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+              url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
+              class: "custom-outline-btn #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
 
-  <%= link_to '名前順',
-              url_for(params.merge(sort: 'name', page: nil)),
-              class: "btn btn-outline-secondary #{'active' if params[:sort] == 'name'}" %>
+  <%= link_to 'ニックネーム順',
+              url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
+              class: "custom-outline-btn #{'active' if params[:sort] == 'name'}" %>
 </div>
