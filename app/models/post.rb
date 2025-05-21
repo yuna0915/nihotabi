@@ -1,9 +1,8 @@
 class Post < ApplicationRecord
-  has_one_attached :image
-
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorited_users, through: :favorites, source: :user
+  has_many_attached :images
 
   belongs_to :user
   belongs_to :prefecture
@@ -17,7 +16,7 @@ class Post < ApplicationRecord
   validates :visited_month_id, presence: true
   validates :visited_time_zone_id, presence: true
 
-  validate :image_must_be_attached
+  validate :images_must_be_attached
 
   # --- geocoder設定（教材準拠） ---
   geocoded_by :address
@@ -25,10 +24,6 @@ class Post < ApplicationRecord
 
   # 外部キーと関連名が重複してエラーが出る場合に片方を削除
   after_validation :deduplicate_foreign_key_errors
-
-  def get_post_image(width, height)
-    image.variant(resize_to_fill: [width, height]).processed
-  end
 
   # 並び替え用スコープ
   scope :sorted_by_new, -> { order(created_at: :desc) }
@@ -64,8 +59,10 @@ class Post < ApplicationRecord
 
   private
 
-  def image_must_be_attached
-    errors.add(:image, "を選択してください") unless image.attached?
+  def images_must_be_attached
+    if images.blank?
+      errors.add(:images, "を1枚以上選択してください")
+    end
   end
 
   def deduplicate_foreign_key_errors

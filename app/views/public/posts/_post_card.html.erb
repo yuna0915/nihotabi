@@ -4,7 +4,9 @@
 
       <!-- 投稿画像リンク -->
       <%= link_to post_path(post, from: from || nil) do %>
-        <%= image_tag post.get_post_image(300, 200), class: "card-img-top" %>
+        <% if post.images.attached? %>
+          <%= image_tag post.images.first.variant(resize_to_fill: [300, 200]), class: "card-img-top fixed-image" %>
+        <% end %>
       <% end %>
 
       <div class="card-body position-relative">

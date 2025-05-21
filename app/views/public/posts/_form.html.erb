@@ -6,12 +6,31 @@
       <tr>
         <th class="text-center align-middle">画像</th>
         <td class="text-center">
-          <% if post.image.attached? %>
-            <%= image_tag post.image.variant(resize_to_fill: [300, 200]), class: "mb-2 d-block mx-auto" %>
+          <% if post.images.attached? %>
+            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+              <% post.images.each do |image| %>
+                <div>
+                <%= image_tag image.variant(resize_to_fill: [300, 200]), class: "mb-2 d-block mx-auto", style: "object-fit: cover; border-radius: 4px;" %>
+                  <% unless post.new_record? %>
+                    <label class="form-check-label">
+                      <%= check_box_tag "post[remove_image_ids][]", image.id %> 削除
+                    </label>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
           <% end %>
-          <%= f.file_field :image, accept: "image/*", class: "form-control form-input mx-auto" %>
+
+          <%= f.file_field :images, multiple: true, accept: "image/*", id: "image_upload", class: "form-control form-input mx-auto" %>
+          <div id="image-preview-area" class="mt-3 text-start"></div>
+          <p class="small text-muted mt-1">
+            ※画像は追加アップロードされます（最大5枚まで選択可能）
+          </p>
+          <ul id="image-name-list" class="list-unstyled small mt-2 text-center text-dark"></ul>
+
         </td>
       </tr>
+
 
       <tr>
         <th class="text-center align-middle">タイトル</th>

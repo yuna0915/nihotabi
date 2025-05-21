@@ -375,3 +375,53 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* -------------------------------------
+  投稿詳細ページ Swiper スライドショー用スタイル
+---------------------------------------- */
+
+.swiper {
+  width: 100%;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  display: flex;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #fff !important;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.swiper-pagination-bullet {
+  background: #fff !important;
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background: #fff !important;
+  opacity: 1;
+}
+

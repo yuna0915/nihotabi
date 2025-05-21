@@ -1,10 +1,22 @@
 <!-- タイトル -->
 <h2 class="mt-4 mb-4"><%= post.title %></h2>
 
-<!-- 画像 -->
-<div class="mb-4">
-  <%= image_tag post.get_post_image(880, 586), class: "img-fluid" %>
-</div>
+<!-- 画像（Swiper対応済） -->
+<% if post.images.attached? %>
+  <div class="swiper mb-4" style="max-width: 880px; margin: 0 auto;">
+    <div class="swiper-wrapper">
+      <% post.images.each do |image| %>
+        <div class="swiper-slide">
+        <%= image_tag image.variant(resize_to_fill: [880, 586]), class: "img-fluid rounded" %>
+
+        </div>
+      <% end %>
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+<% end %>
 
 <!-- テーブル -->
 <div class="table-responsive">

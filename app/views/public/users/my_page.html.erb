@@ -57,9 +57,9 @@
         <% @posts.each do |post| %>
           <div class="col-lg-4 col-md-6 col-sm-12 mb-4"> 
             <div class="card h-100">
-              <% if post.image.attached? %>
+              <% if post.images.attached? %>
                 <%= link_to post_path(post, from: 'mypage') do %>
-                  <%= image_tag post.image, class: "card-img-top", style: "height: 240px; object-fit: cover;" %>
+                  <%= image_tag post.images.first.variant(resize_to_fill: [360, 240]), class: "card-img-top", style: "object-fit: cover;" %>
                 <% end %>
               <% end %>
               <div class="card-body">
@@ -84,7 +84,7 @@
   <% end %>
 </div>
 
-  <% valid_from_values = %w[post search genre top followings followers] %>
+<% valid_from_values = %w[post search genre top followings followers] %>
 <% if from.present? && valid_from_values.include?(from) %>
   <div class="text-center mt-2 mb-5 d-flex flex-column align-items-center">
 
@@ -120,6 +120,3 @@
 
   </div>
 <% end %>
-
-</div>
-

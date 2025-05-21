@@ -63,7 +63,15 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
   
-    if @post.update(post_params)
+    # チェックされた画像を削除
+    if params[:post][:remove_image_ids]
+      params[:post][:remove_image_ids].each do |image_id|
+        image = @post.images.find_by(id: image_id)
+        image.purge if image
+      end
+    end
+  
+    if @post.update(post_params.except(:remove_image_ids))
       flash[:notice] = "投稿を更新しました。"
       redirect_to post_path(@post)
     else
@@ -89,11 +97,12 @@ class Public::PostsController < ApplicationController
       :place_id,
       :latitude,
       :longitude,
-      :image,
       :prefecture_id,
       :visited_month_id,
       :visited_time_zone_id,
-      :location_genre_id
+      :location_genre_id,
+      images: [],
+      remove_image_ids: []
     )
   end
 

@@ -20,6 +20,7 @@ ActiveStorage.start()
 import Swiper from 'swiper/swiper-bundle';
 import 'swiper/swiper-bundle.css';
 import "../script";
+import "./image_upload_preview";
 
 // Webpackに画像を認識させる
 const images = require.context('../images', true, /\.(png|jpe?g|svg)$/);
