@@ -15,8 +15,9 @@
           title: "<%= j @post.location_name %>"
         };
       </script>
+      <%= javascript_pack_tag 'show_map', 'data-turbolinks-track': 'reload' %>
     </div>
-
+  
     <!-- コメントセクション -->
     <div id="comment-section" class="mt-5">
       <%= render 'public/comments/comments', post: @post %>
@@ -43,20 +44,12 @@
         <%= link_to 'お気に入り一覧へ戻る', favorited_posts_path, class: "custom-outline-btn mt-2" %>
       <% elsif from == 'top' %>
         <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
-
-      <% elsif from == 'follow_feed' %> 
+      <% elsif from == 'follow_feed' %>
         <%= link_to 'フォローしている人の投稿一覧へ戻る', follow_feed_posts_path, class: "custom-outline-btn mt-2" %>
       <% else %>
         <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn mt-2" %>
       <% end %>
-
     </div>
 
   </div>
 </div>
-
-<script>
-  window.GOOGLE_MAPS_API_KEY = "<%= ENV['Maps_API_Key'] %>";
-</script>
-
-<%= javascript_pack_tag 'show_map', 'data-turbolinks-track': 'reload' %>

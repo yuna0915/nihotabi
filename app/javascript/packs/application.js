@@ -21,6 +21,7 @@ import Swiper from 'swiper/swiper-bundle';
 import 'swiper/swiper-bundle.css';
 import "../script";
 import "./image_upload_preview";
+import "./address_autocomplete";
 
 // Webpackに画像を認識させる
 const images = require.context('../images', true, /\.(png|jpe?g|svg)$/);

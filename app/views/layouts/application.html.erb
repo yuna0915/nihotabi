@@ -19,7 +19,14 @@
     <!-- WebpackerでビルドされたCSS/JSを読み込む -->
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <!-- Google Maps JavaScript API 読み込み -->
+    <script async
+      src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['Maps_API_Key'] %>&libraries=places"
+      defer>
+    </script>
   </head>
+
 
   <body class="<%= [
     "#{controller_path.tr('/', '-')}-#{action_name}",

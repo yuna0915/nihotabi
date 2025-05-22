@@ -3,34 +3,38 @@
 
   <table class="table table-borderless w-100">
     <tbody>
-      <tr>
-        <th class="text-center align-middle">画像</th>
-        <td class="text-center">
-          <% if post.images.attached? %>
-            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
-              <% post.images.each do |image| %>
-                <div>
-                <%= image_tag image.variant(resize_to_fill: [300, 200]), class: "mb-2 d-block mx-auto", style: "object-fit: cover; border-radius: 4px;" %>
-                  <% unless post.new_record? %>
-                    <label class="form-check-label">
-                      <%= check_box_tag "post[remove_image_ids][]", image.id %> 削除
-                    </label>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+    <tr>
+    <th class="text-center align-middle">画像</th>
+    <td class="text-center">
+  
+    <% if post.images.attached? && !post.new_record? %>
+  <div class="mb-3 text-center small">
+    <% post.images.each do |image| %>
+      <div class="mb-1 text-start" style="max-width: 320px; margin-left: auto; margin-right: auto;">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-dark"><%= image.filename.to_s %></span>
+          <label class="form-check-label ms-3 mb-0">
+            <%= check_box_tag "post[remove_image_ids][]", image.id %> 削除
+          </label>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
-          <%= f.file_field :images, multiple: true, accept: "image/*", id: "image_upload", class: "form-control form-input mx-auto" %>
-          <div id="image-preview-area" class="mt-3 text-start"></div>
-          <p class="small text-muted mt-1">
-            ※画像は追加アップロードされます（最大5枚まで選択可能）
-          </p>
-          <ul id="image-name-list" class="list-unstyled small mt-2 text-center text-dark"></ul>
 
-        </td>
-      </tr>
-
+  
+      <%= f.file_field :images, multiple: true, accept: "image/*", id: "image_upload", class: "form-control form-input mx-auto mt-2" %>
+  
+      <p class="small text-muted mt-1">
+        ※画像は追加アップロードされます（最大5枚まで選択可能）
+      </p>
+  
+      <ul id="image-name-list" class="list-unstyled small mt-2 text-center text-dark"></ul>
+  
+    </td>
+  </tr>
+  
 
       <tr>
         <th class="text-center align-middle">タイトル</th>
