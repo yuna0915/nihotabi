@@ -26,7 +26,7 @@
 </section>
 
 <div class="py-5 px-4" style="max-width: 1320px; margin: 0 auto;">
-  <h2 class="mb-4 fw-bold pb-2 text-white">新着投稿(4件)</h2>
+  <h2 class="mb-4 fw-bold pb-2 text-white">新着投稿(<%= @latest_posts.size %>件)</h2>
 
   <% if @latest_posts.present? %>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
