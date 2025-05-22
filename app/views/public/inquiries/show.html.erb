@@ -1,0 +1,26 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4">お問い合わせ詳細</h1>
+
+  <div class="mb-4 p-3 border rounded bg-light">
+    <h5 class="fw-bold"><%= @inquiry.title %></h5>
+    <p class="mb-2"><%= simple_format(@inquiry.body) %></p>
+    <p class="text-muted small mb-0">送信日時：<%= l(@inquiry.created_at, format: :long) %></p>
+  </div>
+
+  <h4 class="text-center mb-3">管理者からの返信</h4>
+ 
+  <% if @replies.any? %>
+    <% @replies.each do |reply| %>
+      <div class="mb-3 p-3 border-start border-3 border-primary bg-white rounded">
+        <p class="mb-2"><%= simple_format(reply.body) %></p>
+        <p class="text-muted small mb-0">返信日時：<%= l(reply.created_at, format: :long) %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-center text-muted">まだ返信はありません。</p>
+  <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to "お問い合わせ一覧に戻る", inquiries_path, class: "custom-outline-btn" %>
+  </div>
+</div>

@@ -30,6 +30,11 @@ class User < ApplicationRecord
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'user_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'notified_user_id', dependent: :destroy
 
+  # 問い合わせ機能アソシエーション
+  has_many :inquiries, dependent: :destroy            # ユーザーからの問い合わせ一覧
+  has_many :inquiry_replies, foreign_key: "admin_id", class_name: "InquiryReply", dependent: :destroy
+
+
   # アクティブユーザー判定
   def active_for_authentication?
     super && is_active?

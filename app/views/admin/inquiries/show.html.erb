@@ -1,0 +1,53 @@
+<div class="container py-5">
+  <h1 class="mb-4 fw-bold">お問い合わせ詳細</h1>
+
+  <!-- 問い合わせ内容 -->
+  <div class="mb-4 p-3 border rounded bg-light">
+    <h5 class="fw-bold"><%= @inquiry.title %></h5>
+    <p><%= simple_format(@inquiry.body) %></p>
+    <p class="text-muted small">
+      ユーザー名：<%= @inquiry.user.nickname %><br>
+      投稿日：<%= l(@inquiry.created_at, format: :long) %>
+    </p>
+  </div>
+
+  <!-- 返信履歴 -->
+  <h4 class="mb-3 mt-5">返信履歴</h4>
+
+  <% if @replies.any? %>
+    <div class="list-group">
+      <% @replies.each do |reply| %>
+        <div class="list-group-item">
+          <p class="mb-1"><%= simple_format(reply.body) %></p>
+          <div class="text-muted small">
+            管理者（ID: <%= reply.admin_id %>）が <%= l(reply.created_at, format: :short) %> に返信
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted">まだ返信はありません。</p>
+  <% end %>
+
+
+
+  <!-- 返信フォーム -->
+  <hr class="my-4">
+  <h4 class="mb-3">返信する</h4>
+
+  <%= form_with model: @reply, url: admin_inquiry_replies_path, local: true do |f| %>
+    <%= f.hidden_field :inquiry_id, value: @inquiry.id %>
+
+    <div class="mb-3">
+      <%= f.label :body, "返信内容", class: "form-label" %>
+      <%= f.text_area :body, rows: 5, class: "form-control" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "返信を送信", class: "custom-register-btn" %>
+    </div>
+  <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to "一覧に戻る", admin_inquiries_path, class: "custom-outline-btn" %>
+  </div>

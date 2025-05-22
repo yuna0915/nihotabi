@@ -1,0 +1,19 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4">お問い合わせフォーム</h1>
+
+  <%= form_with model: @inquiry, url: inquiries_path, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :title, "件名", class: "form-label" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "例）アプリの不具合について" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :body, "内容", class: "form-label" %>
+      <%= f.text_area :body, rows: 6, class: "form-control", placeholder: "詳細な内容をご記入ください。" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "送信する", class: "custom-register-btn" %>
+    </div>
+  <% end %>
+</div>

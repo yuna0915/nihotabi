@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_16_134803) do
+ActiveRecord::Schema.define(version: 2025_05_22_060452) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -71,6 +71,26 @@ ActiveRecord::Schema.define(version: 2025_05_16_134803) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
+  create_table "inquiries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title"
+    t.text "body"
+    t.boolean "is_checked"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_inquiries_on_user_id"
+  end
+
+  create_table "inquiry_replies", force: :cascade do |t|
+    t.integer "inquiry_id", null: false
+    t.integer "admin_id", null: false
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["admin_id"], name: "index_inquiry_replies_on_admin_id"
+    t.index ["inquiry_id"], name: "index_inquiry_replies_on_inquiry_id"
+  end
+
   create_table "location_genres", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -87,7 +107,10 @@ ActiveRecord::Schema.define(version: 2025_05_16_134803) do
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "notifiable_type"
+    t.integer "notifiable_id"
     t.index ["comment_id"], name: "index_notifications_on_comment_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
     t.index ["notified_user_id"], name: "index_notifications_on_notified_user_id"
     t.index ["post_id"], name: "index_notifications_on_post_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
@@ -170,6 +193,9 @@ ActiveRecord::Schema.define(version: 2025_05_16_134803) do
   add_foreign_key "comments", "users"
   add_foreign_key "favorites", "posts"
   add_foreign_key "favorites", "users"
+  add_foreign_key "inquiries", "users"
+  add_foreign_key "inquiry_replies", "admins"
+  add_foreign_key "inquiry_replies", "inquiries"
   add_foreign_key "notifications", "comments"
   add_foreign_key "notifications", "posts"
   add_foreign_key "notifications", "users"

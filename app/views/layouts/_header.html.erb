@@ -36,6 +36,9 @@
                 <%= link_to 'コメント一覧', admin_comments_path, class: 'nav-link fw-semibold', style: 'color: #2e6044;' %>
               </li>
               <li class="nav-item">
+                <%= link_to 'お問い合わせ一覧', admin_inquiries_path, class: 'nav-link fw-semibold', style: 'color: #2e6044;' %>
+              </li>
+              <li class="nav-item">
                 <%= link_to 'データ管理', admin_master_data_path, class: 'nav-link fw-semibold', style: 'color: #2e6044;' %>
               </li>
               <li class="nav-item">
@@ -45,7 +48,7 @@
 
           <% elsif user_signed_in? %>
             <div class="d-flex align-items-center">
-              <%= link_to public_notifications_index_path, title: '通知', class: 'nav-link position-relative mx-2', style: 'color: #2e6044;' do %>
+              <%= link_to notifications_path, title: '通知', class: 'nav-link position-relative mx-2', style: 'color: #2e6044;' do %>
                 <i class="fa-solid fa-bell fa-lg"></i>
                 <% unread_count = current_user.passive_notifications.where(checked: false).count %>
                 <% if unread_count > 0 %>

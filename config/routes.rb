@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  namespace :public do
-    get 'notifications/index'
-  end
-  namespace :public do
-    get 'location_genres/show'
-  end
 
   # ユーザー用 Devise
   devise_for :users, skip: [:passwords], controllers: {
@@ -57,6 +51,8 @@ Rails.application.routes.draw do
       resource :favorite, only: [:create, :destroy]
     end
 
+    # 問い合わせ
+    resources :inquiries, only: [:index, :show, :new, :create]
   end
 
   # 管理者用 Devise
@@ -93,8 +89,13 @@ Rails.application.routes.draw do
     resources :posts, only: [:index, :show, :destroy]
     resources :comments, only: [:index, :destroy]
     resources :notifications, only: [:index]
+
+    # 問い合わせ・返信
+    resources :inquiries, only: [:index, :show]
+    resources :inquiry_replies, only: [:create]
   end
 
+  # エラーページ
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
