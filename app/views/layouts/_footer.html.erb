@@ -8,10 +8,11 @@
       &copy; 2025 ニホタビ | 旅と地域の魅力をつなぐSNS
     </small>
 
-    <% if user_signed_in? %>
-      <p class="mt-2 mb-0">
+    <div class="mt-2 mb-0 d-flex justify-content-center gap-4">
+      <% if user_signed_in? %>
         <%= link_to 'お問い合わせ', new_inquiry_path, class: 'text-decoration-none fw-semibold', style: 'color: #2e6044;' %>
-      </p>
-    <% end %>
+      <% end %>
+      <%= link_to '利用規約', term_path, class: 'text-decoration-none fw-semibold', style: 'color: #2e6044;' %>
+    </div>
   </div>
 </footer>

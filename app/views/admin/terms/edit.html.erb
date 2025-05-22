@@ -1,0 +1,18 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4 fw-bold">利用規約を編集</h1>
+
+  <%= form_with model: @term, url: admin_term_path, method: :patch, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :content, "利用規約の内容", class: "form-label" %>
+      <%= f.text_area :content, rows: 20, class: "form-control" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "更新する", class: "custom-register-btn" %>
+    </div>
+  <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to '戻る', admin_term_path, class: 'custom-outline-btn' %>
+  </div>
+</div>

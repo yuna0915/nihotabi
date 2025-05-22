@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
     # 問い合わせ
     resources :inquiries, only: [:index, :show, :new, :create]
+
+    resource :term, only: [:show]
   end
 
   # 管理者用 Devise
@@ -93,6 +95,8 @@ Rails.application.routes.draw do
     # 問い合わせ・返信
     resources :inquiries, only: [:index, :show]
     resources :inquiry_replies, only: [:create]
+
+    resource :term, only: [:show, :edit, :update]
   end
 
   # エラーページ
