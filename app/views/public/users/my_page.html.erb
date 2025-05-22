@@ -22,7 +22,7 @@
       </td>
       <td class="ps-4 text-start">
         <p class="mb-2"><strong>都道府県：</strong>
-          <%= @user.prefecture.is_a?(Prefecture) ? @user.prefecture.name : @user.prefecture %>
+          <%= @user.prefecture.name %>
         </p>
 
         <% if @user.introduction.present? %>

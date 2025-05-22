@@ -27,6 +27,16 @@ ja:
         visited_time_zone_id: 訪問時間帯
         visited_time_zone: 訪問時間帯
         image: 画像
+      user:
+        last_name: 姓
+        first_name: 名
+        last_name_kana: セイ
+        first_name_kana: メイ
+        nickname: ニックネーム
+        email: メールアドレス
+        password: パスワード
+        phone_number: 電話番号
+        prefecture_id: 都道府県
   errors:
     messages:
       not_saved: "%{count}件のエラーにより%{resource}できませんでした。"

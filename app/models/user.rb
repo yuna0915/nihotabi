@@ -4,7 +4,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # バリデーション
-  validates :last_name, :first_name, :prefecture, presence: true
+  # 修正後（prefecture_idだけ独自メッセージを設定）
+  validates :last_name, :first_name, presence: true
+  validates :prefecture_id, presence: { message: "を選択してください" }
   validates :last_name_kana, :first_name_kana, presence: true,
             format: { with: /\A[ァ-ヶー－]+\z/, message: "は全角カタカナで入力してください" }
   validates :nickname, presence: true, length: { maximum: 20 }
@@ -34,6 +36,7 @@ class User < ApplicationRecord
   has_many :inquiries, dependent: :destroy            # ユーザーからの問い合わせ一覧
   has_many :inquiry_replies, foreign_key: "admin_id", class_name: "InquiryReply", dependent: :destroy
 
+  belongs_to :prefecture, optional: true
 
   # アクティブユーザー判定
   def active_for_authentication?
@@ -55,7 +58,7 @@ class User < ApplicationRecord
       user.first_name = "ユーザー"
       user.last_name_kana = "ゲスト"
       user.first_name_kana = "ユーザー"
-      user.prefecture = "〇〇県" 
+      user.prefecture_id = 13
       user.introduction = "こんにちは、ゲストユーザーです。"
       user.phone_number = "00000000000"
       user.is_active = true

@@ -44,7 +44,10 @@
         </tr>
         <tr>
           <th class="text-end">都道府県</th>
-          <td><%= f.select :prefecture, Prefecture.where(is_active: true).pluck(:name, :id), { include_blank: "選択してください" }, class: "form-control form-input" %></td>
+          <td>
+            <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name,
+                { prompt: "選択してください" }, class: "form-control form-input" %>
+          </td>
         </tr>
         <tr>
           <td colspan="2" class="text-center">
