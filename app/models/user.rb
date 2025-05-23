@@ -36,7 +36,7 @@ class User < ApplicationRecord
   has_many :inquiries, dependent: :destroy            # ユーザーからの問い合わせ一覧
   has_many :inquiry_replies, foreign_key: "admin_id", class_name: "InquiryReply", dependent: :destroy
 
-  belongs_to :prefecture, optional: true
+  belongs_to :prefecture
 
   # アクティブユーザー判定
   def active_for_authentication?
