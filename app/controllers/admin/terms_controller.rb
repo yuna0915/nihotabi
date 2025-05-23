@@ -2,7 +2,7 @@ class Admin::TermsController < ApplicationController
   before_action :authenticate_admin!
 
   def show
-    @term = Term.first!
+    @term = Term.first
   end
 
   def edit

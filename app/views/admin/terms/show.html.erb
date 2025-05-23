@@ -1,13 +1,17 @@
 <div class="container py-5">
   <h1 class="text-center mb-4 fw-bold">利用規約（管理者）</h1>
 
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <pre style="white-space: pre-wrap;"><%= @term.content %></pre>
+  <% if @term.present? %>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <pre style="white-space: pre-wrap;"><%= @term.content %></pre>
+      </div>
     </div>
-  </div>
 
-  <div class="text-center mt-4">
-    <%= link_to '編集する', edit_admin_term_path, class: 'custom-register-btn' %>
-  </div>
+    <div class="text-center mt-4">
+      <%= link_to '編集する', edit_admin_term_path, class: 'custom-register-btn' %>
+    </div>
+  <% else %>
+    <p class="text-center text-danger">利用規約がまだ登録されていません。</p>
+  <% end %>
 </div>
