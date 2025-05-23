@@ -4,7 +4,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # バリデーション
-  # 修正後（prefecture_idだけ独自メッセージを設定）
   validates :last_name, :first_name, presence: true
   validates :prefecture_id, presence: { message: "を選択してください" }
   validates :last_name_kana, :first_name_kana, presence: true,
