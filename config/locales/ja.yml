@@ -14,6 +14,7 @@ ja:
       location_genre: 場所ジャンル
     attributes:
       post:
+        images: 画像
         title: タイトル
         body: 本文
         location_name: 場所名
@@ -26,7 +27,6 @@ ja:
         visited_month: 訪問月
         visited_time_zone_id: 訪問時間帯
         visited_time_zone: 訪問時間帯
-        image: 画像
       user:
         last_name: 姓
         first_name: 名

@@ -11,10 +11,10 @@ class Post < ApplicationRecord
   belongs_to :location_genre
 
   validates :title, :body, :location_name, :address, presence: true
-  validates :prefecture_id, presence: true
-  validates :location_genre_id, presence: true
-  validates :visited_month_id, presence: true
-  validates :visited_time_zone_id, presence: true
+  validates :prefecture_id, presence: { message: "を選択してください" }
+  validates :location_genre_id, presence: { message: "を選択してください" }
+  validates :visited_month_id, presence: { message: "を選択してください" }
+  validates :visited_time_zone_id, presence: { message: "を選択してください" }
 
   validate :images_must_be_attached
 
