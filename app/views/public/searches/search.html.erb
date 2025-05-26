@@ -1,52 +1,75 @@
-<h1 class="text-center mt-5 mb-4">検索結果（<%= @model == "user" ? "ユーザー" : "投稿" %>）</h1>
+<div class="container py-5">
 
-<% if @results.any? %>
-  <!-- 並び替えUI -->
-  <% if @model == "user" || @model == "post" %>
-    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 mb-3">
-      <%= link_to '新着順',
-                  url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
-                  class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+  <h1 class="text-center mb-4">
+    検索結果（<%= @model == "user" ? "ユーザー" : "投稿" %>）
+  </h1>
 
-      <% if @model == 'user' %>
-        <%= link_to '名前順',
-                    url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
-                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'name'}" %>
-
-      <% elsif @model == 'post' %>
-        <%= link_to 'コメント数順',
-                    url_for(params.to_unsafe_h.merge(sort: 'comments', page: nil)),
-                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'comments'}" %>
-
-        <%= link_to '閲覧数順',
-                    url_for(params.to_unsafe_h.merge(sort: 'views', page: nil)),
-                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'views'}" %>
-
-        <%= link_to 'いいね数順',
-                    url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
-                    class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'likes'}" %>
-      <% end %>
+  <% if user_signed_in? && current_user.email == "guest@example.com" %>
+    <!-- ゲストユーザーには検索結果を非表示＋ログイン／登録を促す -->
+    <div class="alert alert-warning text-center" role="alert">
+      ※検索結果を見るには、
+      <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login",
+          method: :delete,
+          data: { confirm: "ゲストユーザーをログアウトしてログインします。よろしいですか？" },
+          class: "text-primary text-decoration-underline" %> または
+      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up",
+          method: :delete,
+          data: { confirm: "ゲストユーザーをログアウトして新規登録します。よろしいですか？" },
+          class: "text-primary text-decoration-underline" %>
+      が必要です。
     </div>
-  <% end %>
 
-  <!-- 検索結果の表示 -->
-  <% if @model == "user" %>
-    <% @results.each do |result| %>
-      <%= render partial: "public/users/user_card", object: result, as: :user, locals: { from: 'search' } %>
+  <% else %>
+    <% if @results.any? %>
+      <!-- 並び替えボタン（モデルごとに切替） -->
+      <% if @model == "user" || @model == "post" %>
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 mb-3">
+          <%= link_to '新着順',
+                      url_for(params.to_unsafe_h.merge(sort: 'new', page: nil)),
+                      class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'new' || params[:sort].blank?}" %>
+
+          <% if @model == 'user' %>
+            <%= link_to '名前順',
+                        url_for(params.to_unsafe_h.merge(sort: 'name', page: nil)),
+                        class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'name'}" %>
+
+          <% elsif @model == 'post' %>
+            <%= link_to 'コメント数順',
+                        url_for(params.to_unsafe_h.merge(sort: 'comments', page: nil)),
+                        class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'comments'}" %>
+
+            <%= link_to '閲覧数順',
+                        url_for(params.to_unsafe_h.merge(sort: 'views', page: nil)),
+                        class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'views'}" %>
+
+            <%= link_to 'いいね数順',
+                        url_for(params.to_unsafe_h.merge(sort: 'likes', page: nil)),
+                        class: "custom-outline-btn w-auto px-4 #{'active' if params[:sort] == 'likes'}" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- 検索結果の中身を表示 -->
+      <% if @model == "user" %>
+        <% @results.each do |result| %>
+          <%= render partial: "public/users/user_card", object: result, as: :user, locals: { from: 'search' } %>
+        <% end %>
+
+      <% elsif @model == "post" %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% @results.each do |result| %>
+            <%= render partial: "public/posts/post_card", object: result, as: :post, locals: { from: 'search', genre_id: nil } %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="d-flex justify-content-center my-4">
+        <%= paginate @results %>
+      </div>
+
+    <% else %>
+      <p class="text-center">該当する結果はありませんでした。</p>
     <% end %>
-
-  <% elsif @model == "post" %>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      <% @results.each do |result| %>
-        <%= render partial: "public/posts/post_card", object: result, as: :post, locals: { from: 'search', genre_id: nil } %>
-      <% end %>
-    </div>
   <% end %>
 
-  <div class="d-flex justify-content-center my-4">
-    <%= paginate @results %>
-  </div>
-
-<% else %>
-  <p class="text-center">該当する結果はありませんでした。</p>
-<% end %>
+</div>

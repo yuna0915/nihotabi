@@ -31,4 +31,10 @@ class Public::NotificationsController < ApplicationController
       redirect_to notifications_path
     end
   end
+
+  def mark_all_as_read
+    current_user.passive_notifications.update_all(checked: true)
+    redirect_to notifications_path, notice: "すべての通知を既読にしました。"
+  end
+
 end

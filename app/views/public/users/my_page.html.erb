@@ -1,127 +1,134 @@
-<% from = params[:from].presence %>
-<% genre_id = params[:genre_id] %>
+<div class="container py-5">
 
-<h1 class="text-center mt-5 mb-5">
-  <%= @user == current_user ? "マイページ" : "#{@user.nickname}さんのマイページ" %>
-</h1>
+  <% from = params[:from].presence %> <!-- 遷移元の判定（戻るボタンに使う） -->
+  <% genre_id = params[:genre_id] %>  <!-- ジャンルID（戻るボタン用） -->
 
-<div class="button-group">
-  <% if current_user == @user %>
-    <%= link_to '新規投稿', new_post_path, class: "custom-register-btn" %>
-    <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn" %>
-    <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn" %>
-    <%= link_to 'フォローしている人の投稿', follow_feed_posts_path, class: "custom-outline-btn" %>
-  <% end %>
-</div>
+  <!-- マイページタイトル（自分・他人で切替） -->
+  <h1 class="text-center mt-5 mb-5">
+    <%= @user == current_user ? "マイページ" : "#{@user.nickname}さんのマイページ" %>
+  </h1>
 
-<div class="profile-section mb-5 d-flex justify-content-center">
-  <table class="table table-borderless w-auto text-center">
-    <tr>
-      <td class="align-top">
-        <%= image_tag @user.get_profile_image(120, 120), class: "rounded-circle" %>
-      </td>
-      <td class="ps-4 text-start">
-        <p class="mb-2"><strong>都道府県：</strong>
-          <%= @user.prefecture&.name || "未設定" %>
-        </p>
+  <!-- 自分のマイページのみ表示するボタン -->
+  <div class="button-group">
+    <% if current_user == @user %>
+      <%= link_to '新規投稿', new_post_path, class: "custom-register-btn" %>
+      <%= link_to 'プロフィール詳細', user_path(@user), class: "custom-outline-btn" %>
+      <%= link_to 'お気に入り一覧', favorited_posts_path, class: "custom-outline-btn" %>
+      <%= link_to 'フォローしている人の投稿', follow_feed_posts_path, class: "custom-outline-btn" %>
+    <% end %>
+  </div>
 
-        <% if @user.introduction.present? %>
-          <p><strong>自己紹介文：</strong><br>
-            <%= simple_format(@user.introduction) %>
-          </p>
-        <% end %>
+  <!-- プロフィール情報エリア -->
+  <div class="profile-section mb-5 d-flex justify-content-center">
+    <table class="table table-borderless w-auto text-center">
+      <tr>
+        <td class="align-top">
+          <!-- プロフィール画像 -->
+          <%= image_tag @user.get_profile_image(120, 120), class: "rounded-circle" %>
+        </td>
+        <td class="ps-4 text-start">
+          <!-- 都道府県 -->
+          <p class="mb-2"><strong>都道府県：</strong><%= @user.prefecture&.name || "未設定" %></p>
 
-        <div id="follow-counts-<%= @user.id %>">
-          <%= render 'public/relationships/follow_counts', user: @user %>
-        </div>
+          <!-- 自己紹介文（あるときだけ表示） -->
+          <% if @user.introduction.present? %>
+            <p><strong>自己紹介文：</strong><br><%= simple_format(@user.introduction) %></p>
+          <% end %>
 
-        <% if current_user != @user %>
-          <div id="follow-button-<%= @user.id %>">
-            <%= render 'public/relationships/follow_button', user: @user %>
+          <!-- フォロー数／フォロワー数表示 -->
+          <div id="follow-counts-<%= @user.id %>">
+            <%= render 'public/relationships/follow_counts', user: @user %>
           </div>
-        <% end %>
 
-      </td>
-    </tr>
-  </table>
-</div>
+          <!-- 他人のマイページに表示されるフォローボタン -->
+          <% if current_user != @user %>
+            <div id="follow-button-<%= @user.id %>">
+              <%= render 'public/relationships/follow_button', user: @user %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-<div class="post-section">
-  <h2 class="text-center mb-4">投稿一覧</h2>
+  <!-- 投稿一覧表示エリア -->
+  <div class="post-section">
+    <h2 class="text-center mb-4">投稿一覧</h2>
 
-  <% if @posts.any? %>
-    <%= render 'public/posts/sort_links' %>
+    <% if @posts.any? %>
+      <!-- 並び替えUI（新着順・いいね順など） -->
+      <%= render 'public/posts/sort_links' %>
 
-    <div class="container"> 
-      <div class="row">
-        <% @posts.each do |post| %>
-          <div class="col-lg-4 col-md-6 col-sm-12 mb-4"> 
-            <div class="card h-100">
-              <% if post.images.attached? %>
-                <%= link_to post_path(post, from: 'mypage') do %>
-                  <%= image_tag post.images.first.variant(resize_to_fill: [360, 240]), class: "card-img-top", style: "object-fit: cover;" %>
+      <div class="container">
+        <div class="row">
+          <% @posts.each do |post| %>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+              <div class="card h-100">
+                <% if post.images.attached? %>
+                  <%= link_to post_path(post, from: 'mypage') do %>
+                    <%= image_tag post.images.first.variant(resize_to_fill: [360, 240]), class: "card-img-top", style: "object-fit: cover;" %>
+                  <% end %>
                 <% end %>
-              <% end %>
-              <div class="card-body">
-                <h4 class="card-title"><strong><%= post.title %></strong></h4>
-                <p class="card-text">場所名：<%= post.location_name %></p>
-                <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
-                <p class="card-text">💬：<%= post.comments.count %>件</p>
-                <p class="card-text">👀：<%= post.view_count %>回</p>
-                <p class="card-text">❤️：<%= post.favorites.count %>件</p>
+                <div class="card-body">
+                  <h4 class="card-title"><strong><%= post.title %></strong></h4>
+                  <p class="card-text">場所名：<%= post.location_name %></p>
+                  <p class="card-text">投稿日：<%= l(post.created_at, format: :long) %></p>
+                  <p class="card-text">💬：<%= post.comments.count %>件</p>
+                  <p class="card-text">👀：<%= post.view_count %>回</p>
+                  <p class="card-text">❤️：<%= post.favorites.count %>件</p>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
-    </div>
-    
-    <div class="d-flex justify-content-center my-4">
-      <%= paginate @posts, params: { from: from, genre_id: genre_id, from_user_id: params[:from_user_id] } %>
-    </div>
-  <% else %>
-    <p class="text-center">投稿はまだありません。</p>
-  <% end %>
-</div>
 
-<% valid_from_values = %w[post search genre top followings followers notification] %>
-<% if from.present? && valid_from_values.include?(from) %>
-  <div class="text-center mt-2 mb-5 d-flex flex-column align-items-center">
-
-    <% case from
-       when 'post' %>
-      <%= link_to '投稿詳細へ戻る', request.referer || posts_path, class: "custom-outline-btn mt-2" %>
-
-    <% when 'search' %>
-      <%= link_to '検索結果へ戻る', search_path(model: 'user', keyword: ''), class: "custom-outline-btn mt-2" %>
-
-    <% when 'genre' %>
-      <% if genre_id.present? %>
-        <%= link_to 'ジャンル検索へ戻る', location_genre_path(genre_id), class: "custom-outline-btn mt-2" %>
-      <% end %>
-
-    <% when 'top' %>
-      <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
-
-    <% when 'followers', 'followings' %>
-      <% from_user = User.find_by(id: params[:from_user_id]) %>
-      <% list_name = from == 'followers' ? 'フォロワー一覧' : 'フォロー中一覧' %>
-
-      <% if from_user.present? && from_user == current_user %>
-        <%= link_to "#{list_name}へ戻る",
-                    from == 'followers' ? followers_user_path(current_user) : followings_user_path(current_user),
-                    class: "custom-outline-btn mt-2" %>
-      <% elsif from_user.present? %>
-        <%= link_to "#{from_user.nickname}さんの#{list_name}へ戻る",
-                    from == 'followers' ? followers_user_path(from_user) : followings_user_path(from_user),
-                    class: "custom-outline-btn mt-2" %>
-      <% end %>
-
-    <% when 'notification' %>
-      <%= link_to '通知一覧へ戻る', notifications_path, class: "custom-outline-btn mt-2" %>
-
+      <!-- ページネーション（戻り先のパラメータ維持） -->
+      <div class="d-flex justify-content-center my-4">
+        <%= paginate @posts, params: { from: from, genre_id: genre_id, from_user_id: params[:from_user_id] } %>
+      </div>
+    <% else %>
+      <p class="text-center">投稿はまだありません。</p>
     <% end %>
-
   </div>
-<% end %>
 
+  <!-- 戻るボタン -->
+  <% valid_from_values = %w[post search genre top followings followers notification] %>
+  <% if from.present? && valid_from_values.include?(from) %>
+    <div class="text-center mt-2 mb-5 d-flex flex-column align-items-center">
+      <% case from
+         when 'post' %>
+        <%= link_to '投稿詳細へ戻る', request.referer || posts_path, class: "custom-outline-btn mt-2" %>
+
+      <% when 'search' %>
+        <%= link_to '検索結果へ戻る', search_path(model: 'user', keyword: ''), class: "custom-outline-btn mt-2" %>
+
+      <% when 'genre' %>
+        <% if genre_id.present? %>
+          <%= link_to 'ジャンル検索へ戻る', location_genre_path(genre_id), class: "custom-outline-btn mt-2" %>
+        <% end %>
+
+      <% when 'top' %>
+        <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
+
+      <% when 'followers', 'followings' %>
+        <% from_user = User.find_by(id: params[:from_user_id]) %>
+        <% list_name = from == 'followers' ? 'フォロワー一覧' : 'フォロー中一覧' %>
+
+        <% if from_user.present? && from_user == current_user %>
+          <%= link_to "#{list_name}へ戻る",
+                      from == 'followers' ? followers_user_path(current_user) : followings_user_path(current_user),
+                      class: "custom-outline-btn mt-2" %>
+        <% elsif from_user.present? %>
+          <%= link_to "#{from_user.nickname}さんの#{list_name}へ戻る",
+                      from == 'followers' ? followers_user_path(from_user) : followings_user_path(from_user),
+                      class: "custom-outline-btn mt-2" %>
+        <% end %>
+
+      <% when 'notification' %>
+        <%= link_to '通知一覧へ戻る', notifications_path, class: "custom-outline-btn mt-2" %>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

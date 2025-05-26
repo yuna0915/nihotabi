@@ -1,20 +1,28 @@
 <div class="container py-5">
+
   <h1 class="text-center mb-4">お問い合わせ一覧</h1>
 
   <% if @inquiries.any? %>
+    <!-- お問い合わせがある場合：一覧表示 -->
     <div class="list-group">
       <% @inquiries.each do |inquiry| %>
+        <!-- 各お問い合わせをリンク付きリストとして表示 -->
         <%= link_to inquiry_path(inquiry), class: "list-group-item list-group-item-action" do %>
           <div class="d-flex justify-content-between align-items-center">
+            
+            <!-- タイトルと送信日（左側） -->
             <div class="text-truncate" style="max-width: 75%;">
               <strong><%= inquiry.title %></strong>
               <div class="small text-muted">送信日：<%= l(inquiry.created_at, format: :short) %></div>
             </div>
+
+            <!-- ステータス表示（右側） -->
             <% if inquiry.is_checked? %>
               <span class="badge bg-success">返信あり</span>
             <% else %>
               <span class="badge bg-secondary">未確認</span>
             <% end %>
+
           </div>
         <% end %>
       <% end %>
@@ -27,6 +35,7 @@
   <% else %>
     <p class="text-center">まだお問い合わせはありません。</p>
   <% end %>
+
 </div>
 
 <div class="text-center mt-4">

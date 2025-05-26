@@ -1,32 +1,45 @@
 <div class="container py-5">
+
   <h1 class="text-center mb-4">お問い合わせフォーム</h1>
 
+  <!-- お問い合わせフォーム本体 -->
   <%= form_with model: @inquiry, url: inquiries_path, local: true do |f| %>
+
+    <!-- 件名入力欄 -->
     <div class="mb-3">
       <%= f.label :title, "件名", class: "form-label" %>
       <%= f.text_field :title, class: "form-control", placeholder: "例）アプリの不具合について" %>
     </div>
 
+    <!-- 内容入力欄 -->
     <div class="mb-3">
       <%= f.label :body, "内容", class: "form-label" %>
       <%= f.text_area :body, rows: 6, class: "form-control", placeholder: "詳細な内容をご記入ください。" %>
     </div>
 
+    <!-- 送信エリア：ログイン状況に応じて分岐 -->
     <div class="text-center pt-4">
+
       <% if user_signed_in? && current_user.email == "guest@example.com" %>
+        <!-- ゲストユーザー：送信不可・新規登録/ログインを促す -->
         <p class="mb-2">
           お問い合わせするには、
-          <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
-          または
           <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+          または
+          <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
           が必要です。
         </p>
+
         <p class="mb-2 text-muted small">
-          ＊新規登録・ログインに進むと、<strong>入力内容はすべてリセット</strong>されます。
+          ＊ログイン・新規登録に進むと、<strong>入力内容はすべてリセット</strong>されます。
         </p>
+
       <% elsif user_signed_in? %>
+        <!-- ログイン済ユーザー：送信ボタン表示 -->
         <%= f.submit "送信する", class: "custom-register-btn" %>
+
       <% else %>
+        <!-- 未ログインユーザー：ログイン/登録を促す -->
         <p class="mb-2">
           お問い合わせするには、
           <%= link_to "ログイン", new_user_session_path, class: "text-primary text-decoration-underline" %>
@@ -38,10 +51,12 @@
           ＊ログイン・登録に進むと、<strong>入力内容はすべてリセット</strong>されます。
         </p>
       <% end %>
+
     </div>
   <% end %>
 
   <div class="text-center mt-4">
     <%= link_to 'トップページへ戻る', root_path, class: 'custom-outline-btn' %>
   </div>
+
 </div>

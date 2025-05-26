@@ -1,22 +1,27 @@
 <h5 class="mt-4 mb-2">💬コメント一覧（<%= post.comments.count %>件）</h5>
 
 <% if post.comments.any? %>
+  <!-- コメントがある場合：一覧を表示（新着順） -->
   <div id="comments-list">
     <%= render partial: 'public/comments/comment', collection: post.comments.includes(:user).order(created_at: :desc), as: :comment %>
   </div>
 <% else %>
+  <!-- コメントがない場合 -->
   <p class="text-muted text-center">まだコメントはありません。</p>
 <% end %>
 
 <% if post.user != current_user %>
+  <!-- 投稿者本人以外ならコメントフォームを表示 -->
   <h5 class="mt-5 mb-3">コメントする</h5>
 
   <% if !user_signed_in? %>
+    <!-- 未ログインユーザー向け案内 -->
     <p class="text-secondary text-center">
       ※コメントするには、<%= link_to 'ログイン', new_user_session_path %> または <%= link_to '新規登録', new_user_registration_path %> が必要です。
     </p>
 
   <% elsif current_user.email == "guest@example.com" %>
+    <!-- ゲストユーザー向け：ログアウト後に登録/ログイン画面へ誘導 -->
     <p class="text-secondary mb-2 text-center">
       ※コメントするには、
       <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
@@ -26,6 +31,7 @@
     </p>
 
   <% else %>
+    <!-- 通常ユーザーのコメントフォーム -->
     <%= form_with(model: [post, Comment.new], local: true) do |f| %>
       <div class="form-group d-flex justify-content-center">
         <%= f.text_area :body, rows: 3, class: "form-control", style: "max-width: 880px; width: 100%;" %>
@@ -35,6 +41,7 @@
       </div>
     <% end %>
   <% end %>
+
 <% else %>
   <p class="text-muted text-center">※自分の投稿にはコメントできません</p>
 <% end %>

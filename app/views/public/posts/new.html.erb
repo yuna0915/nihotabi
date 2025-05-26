@@ -1,10 +1,16 @@
-<h1 class="text-center mt-5 mb-4">投稿フォーム</h1>
+<div class="container py-5">
 
-<%= render 'form', post: @post %>
+  <h1 class="text-center mb-4">投稿フォーム</h1>
 
-<div class="text-center mt-4 mb-5">
-  <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "custom-outline-btn" %>
+  <!-- 投稿フォーム本体 -->
+  <%= render 'form', post: @post %>
+
+  <div class="text-center mt-4 mb-5">
+    <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "custom-outline-btn" %>
+  </div>
+
 </div>
 
+<!-- Google Maps の住所補完機能用JavaScript -->
 <%= javascript_pack_tag 'address_autocomplete', 'data-turbolinks-track': 'reload' %>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['Maps_API_Key'] %>&libraries=places"></script>

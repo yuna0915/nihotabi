@@ -1,2 +1,4 @@
-$("#favorite-button-<%= @post.id %>").html("<%= j(render 'public/posts/favorite_button', post: @post) %>");
+<!-- いいねボタンの非同期化 -->
+$("#favorite-button-<%= @post.id %>").html("<%= j(render 'public/favorites/favorite_button', post: @post) %>");
+<!-- いいね数の表示を更新 -->
 $("#favorite-count-<%= @post.id %>").text("<%= @post.favorites.count %>");

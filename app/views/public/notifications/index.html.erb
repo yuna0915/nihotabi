@@ -1,76 +1,83 @@
-<h1 class="text-center my-5">通知一覧</h1>
+<div class="container py-5">
 
-<% if @notifications.any? %>
-  <div class="container" style="max-width: 800px;">
+  <h1 class="text-center mb-5">通知一覧</h1>
 
-    <!-- 全て既読にするボタン -->
-    <div class="text-end mb-3">
-      <%= button_to "すべて既読にする", mark_all_as_read_notifications_path,
-                    method: :patch, class: "custom-register-btn btn-sm" %>
-    </div>
+  <% if @notifications.any? %>
+    <!-- 中身を幅800pxに制限 -->
+    <div style="max-width: 800px; margin: 0 auto;">
 
-    <div class="list-group">
-      <% @notifications.each do |notification| %>
-        <% if notification.user.present? %>
-          <div class="list-group-item d-flex justify-content-between align-items-center 
-                      <%= 'bg-light' unless notification.checked %>">
+      <!-- すべて既読にするボタン -->
+      <div class="text-end mb-3">
+        <%= button_to "すべて既読にする", mark_all_as_read_notifications_path,
+                      method: :patch, class: "custom-register-btn btn-sm" %>
+      </div>
 
-            <!-- 左側：通知内容 -->
-            <div class="flex-grow-1 me-3">
-              <% if notification.action == 'follow' %>
-                👤 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
-                <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
-                さんがあなたをフォローしました。
+      <!-- 通知一覧 -->
+      <div class="list-group">
+        <% @notifications.each do |notification| %>
+          <% if notification.user.present? %>
+            <div class="list-group-item d-flex justify-content-between align-items-center 
+                        <%= 'bg-light' unless notification.checked %>">
 
-              <% elsif notification.action == 'favorite' && notification.post.present? %>
-                ❤️ <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
-                <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
-                さんがあなたの
-                <%= link_to '投稿',
-                      mark_as_read_notification_path(notification, redirect_path: post_path(notification.post, from: 'notification')),
-                      method: :patch,
-                      class: "text-decoration-none text-success-subtle" %>
-                にいいねしました。
+              <!-- 通知内容（左側） -->
+              <div class="flex-grow-1 me-3">
+                <% if notification.action == 'follow' %>
+                  👤 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+                  <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
+                  さんがあなたをフォローしました。
 
-              <% elsif notification.action == 'comment' && notification.post.present? %>
-                💬 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
-                <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
-                さんがあなたの
-                <%= link_to '投稿',
-                      mark_as_read_notification_path(notification, redirect_path: post_path(notification.post, from: 'notification')),
-                      method: :patch,
-                      class: "text-decoration-none text-success-subtle" %>
-                にコメントしました。
+                <% elsif notification.action == 'favorite' && notification.post.present? %>
+                  ❤️ <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+                  <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
+                  さんがあなたの
+                  <%= link_to '投稿',
+                        mark_as_read_notification_path(notification, redirect_path: post_path(notification.post, from: 'notification')),
+                        method: :patch,
+                        class: "text-decoration-none text-success-subtle" %>
+                  にいいねしました。
 
-              <% elsif notification.action == 'inquiry_reply' && notification.inquiry.present? %>
-                📩 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
-                運営からあなたの
-                <%= link_to 'お問い合わせ',
-                      mark_as_read_notification_path(
-                        notification,
-                        redirect_path: inquiry_path(notification.inquiry, from: 'notification')
-                      ),
-                      method: :patch,
-                      class: "text-decoration-none text-success-subtle" %>
-                に返信が届きました。
-              
+                <% elsif notification.action == 'comment' && notification.post.present? %>
+                  💬 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+                  <%= link_to notification.user.nickname, my_page_user_path(notification.user, from: 'notification'), class: "text-primary text-decoration-none" %>
+                  さんがあなたの
+                  <%= link_to '投稿',
+                        mark_as_read_notification_path(notification, redirect_path: post_path(notification.post, from: 'notification')),
+                        method: :patch,
+                        class: "text-decoration-none text-success-subtle" %>
+                  にコメントしました。
+
+                <% elsif notification.action == 'inquiry_reply' && notification.inquiry.present? %>
+                  📩 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+                  運営からあなたの
+                  <%= link_to 'お問い合わせ',
+                        mark_as_read_notification_path(
+                          notification,
+                          redirect_path: inquiry_path(notification.inquiry, from: 'notification')
+                        ),
+                        method: :patch,
+                        class: "text-decoration-none text-success-subtle" %>
+                  に返信が届きました。
+                <% end %>
+              </div>
+
+              <!-- 未読バッジ（右側） -->
+              <% unless notification.checked %>
+                <span class="badge bg-danger">未読</span>
               <% end %>
+
             </div>
-
-            <!-- 右側：未読バッジ -->
-            <% unless notification.checked %>
-              <span class="badge bg-danger">未読</span>
-            <% end %>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @notifications %>
+      </div>
+
     </div>
 
-    <div class="d-flex justify-content-center my-4">
-      <%= paginate @notifications %>
-    </div>
+  <% else %>
+    <p class="text-center mt-4">通知はありません。</p>
+  <% end %>
 
-  </div>
-<% else %>
-  <p class="text-center mt-4">通知はありません。</p>
-<% end %>
+</div>

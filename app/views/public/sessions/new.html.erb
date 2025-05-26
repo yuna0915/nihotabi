@@ -1,42 +1,47 @@
-<h1 class="text-center mt-5 mb-4">ログイン</h1>
+<div class="container py-5">
 
-<p class="text-center">会員の方はこちらからログイン</p>
+  <h1 class="text-center mb-4 mt-5">ログイン</h1>
 
-<%= form_with scope: :user, url: user_session_path, html: { class: "login-form mx-auto" } do |f| %>
+  <p class="text-center">会員の方はこちらからログイン</p>
 
-  <div class="d-flex justify-content-center mb-3">
-    <div class="text-center">
-      <%= render "public/shared/error_messages", resource: resource %>
+  <%= form_with scope: :user, url: user_session_path, html: { class: "login-form mx-auto" } do |f| %>
+
+    <div class="d-flex justify-content-center mb-3">
+      <div class="text-center">
+        <%= render "public/shared/error_messages", resource: resource %>
+      </div>
     </div>
-  </div>
 
-  <div class="table-responsive">
-    <table class="table table-borderless text-center mx-auto w-auto">
-      <tbody>
-        <tr>
-          <th class="text-end align-middle">メールアドレス</th>
-          <td>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-input" %>
-          </td>
-        </tr>
-        <tr>
-          <th class="text-end align-middle">パスワード</th>
-          <td>
-            <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-input" %>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <%= f.submit "ログイン", class: "custom-register-btn mt-3" %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+    <div class="table-responsive">
+      <table class="table table-borderless text-center mx-auto w-auto">
+        <tbody>
+          <tr>
+            <th class="text-end align-middle">メールアドレス</th>
+            <td>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-input" %>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-end align-middle">パスワード</th>
+            <td>
+              <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-input" %>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <%= f.submit "ログイン", class: "custom-register-btn mt-3" %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<p class="text-center mb-5">
-  会員登録がお済みでない方は
-  <%= render "public/shared/links" %>
-  より新規登録を行ってください。
-</p>
+  <% end %>
+
+  <p class="text-center mb-5">
+    会員登録がお済みでない方は
+    <%= render "public/shared/links" %>
+    より新規登録を行ってください。
+  </p>
+
+</div>

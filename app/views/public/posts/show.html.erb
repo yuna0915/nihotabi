@@ -1,58 +1,70 @@
-<div class="d-flex justify-content-center">
-  <div style="max-width: 880px; width: 100%;">
+<div class="container py-5">
 
-    <!-- 投稿詳細の共通部分 -->
-    <%= render partial: 'public/posts/post_detail', locals: { post: @post } %>
+  <!-- 本文表示・マップ・コメント・ボタン類 -->
+  <div class="d-flex justify-content-center">
+    <div style="max-width: 880px; width: 100%;">
 
-    <!-- 地図表示 -->
-    <div class="my-4">
-      <h5 class="mt-4 mb-2">📍 この投稿の場所</h5>
-      <div id="post-map" style="height: 300px; width: 100%;"></div>
-      <script>
-        window.postLocation = {
-          lat: <%= @post.latitude %>,
-          lng: <%= @post.longitude %>,
-          title: "<%= j @post.location_name %>"
-        };
-      </script>
-      <%= javascript_pack_tag 'show_map', 'data-turbolinks-track': 'reload' %>
+      <!-- 投稿の詳細情報（タイトル・画像・説明など） -->
+      <%= render partial: 'public/posts/post_detail', locals: { post: @post } %>
+
+      <!-- Google Maps による地図表示 -->
+      <div class="my-4">
+        <h5 class="mt-4 mb-2">📍 この投稿の場所</h5>
+        <div id="post-map" style="height: 300px; width: 100%;"></div>
+
+        <!-- 地図描画用データをJavaScriptに渡す -->
+        <script>
+          window.postLocation = {
+            lat: <%= @post.latitude %>,
+            lng: <%= @post.longitude %>,
+            title: "<%= j @post.location_name %>"
+          };
+        </script>
+
+        <!-- 地図表示用JavaScript -->
+        <%= javascript_pack_tag 'show_map', 'data-turbolinks-track': 'reload' %>
+      </div>
+
+      <!-- コメント一覧＆投稿フォーム -->
+      <div id="comment-section" class="mt-5">
+        <%= render 'public/comments/comments', post: @post %>
+      </div>
+
+      <!-- 編集・削除ボタンと戻るボタン -->
+      <% from = params[:from] %>
+
+      <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
+        
+        <% if @post.user == current_user %>
+          <!-- 自分の投稿なら編集・削除ボタンを表示 -->
+          <div class="mb-4 d-flex justify-content-center gap-2">
+            <%= link_to '編集する', edit_post_path(@post), class: "custom-green-btn" %>
+            <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "custom-red-btn" %>
+          </div>
+        <% end %>
+
+        <!-- 戻るボタン：どの画面から来たかで遷移先を切り替え -->
+        <% if from == 'mypage' %>
+          <%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'search' %>
+          <%= link_to '検索結果へ戻る', request.referer || search_path, class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'genre' %>
+          <%= link_to 'ジャンル検索へ戻る', location_genre_path(@post.location_genre), class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'favorites' %>
+          <%= link_to 'お気に入り一覧へ戻る', favorited_posts_path, class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'top' %>
+          <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'follow_feed' %>
+          <%= link_to 'フォローしている人の投稿一覧へ戻る', follow_feed_posts_path, class: "custom-outline-btn mt-2" %>
+        <% elsif from == 'notification' %>
+          <%= link_to '通知一覧へ戻る', notifications_path, class: "custom-outline-btn mt-2" %>
+        <% else %>
+          <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn mt-2" %>
+        <% end %>
+
+      </div>
+
     </div>
-  
-    <!-- コメントセクション -->
-    <div id="comment-section" class="mt-5">
-      <%= render 'public/comments/comments', post: @post %>
-    </div>
-
-    <!-- ボタン類 -->
-    <% from = params[:from] %>
-
-    <div class="text-center mt-5 mb-5 d-flex flex-column align-items-center">
-      <% if @post.user == current_user %>
-        <div class="mb-4 d-flex justify-content-center gap-2">
-          <%= link_to '編集する', edit_post_path(@post), class: "custom-green-btn" %>
-          <%= link_to '削除する', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "custom-red-btn" %>
-        </div>
-      <% end %>
-
-      <% if from == 'mypage' %>
-        <%= link_to 'マイページへ戻る', my_page_user_path(current_user), class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'search' %>
-        <%= link_to '検索結果へ戻る', request.referer || search_path, class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'genre' %>
-        <%= link_to 'ジャンル検索へ戻る', location_genre_path(@post.location_genre), class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'favorites' %>
-        <%= link_to 'お気に入り一覧へ戻る', favorited_posts_path, class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'top' %>
-        <%= link_to 'トップページへ戻る', root_path, class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'follow_feed' %>
-        <%= link_to 'フォローしている人の投稿一覧へ戻る', follow_feed_posts_path, class: "custom-outline-btn mt-2" %>
-      <% elsif from == 'notification' %>
-        <%= link_to '通知一覧へ戻る', notifications_path, class: "custom-outline-btn mt-2" %>
-      <% else %>
-        <%= link_to '投稿一覧へ戻る', posts_path, class: "custom-outline-btn mt-2" %>
-      <% end %>
-
-    </div>
-
   </div>
+
 </div>

@@ -92,6 +92,6 @@
 <!-- いいねボタン（非同期） -->
 <% if user_signed_in? && current_user != post.user %>
   <div class="text-end mt-2 w-100" id="favorite-button-<%= post.id %>">
-    <%= render 'public/posts/favorite_button', post: post %>
+    <%= render 'public/favorites/favorite_button', post: post %>
   </div>
 <% end %>

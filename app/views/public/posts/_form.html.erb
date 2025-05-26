@@ -1,12 +1,17 @@
 <%= form_with model: post, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 700px;" } do |f| %>
+
   <%= render "public/shared/error_messages", resource: post %>
 
   <table class="table table-borderless w-100">
     <tbody>
+
+      <!-- 画像アップロード欄 -->
       <tr>
         <th class="text-center align-middle">画像</th>
         <td class="text-center">
+
           <% if post.images.attached? %>
+            <!-- 既に選択済みの画像のファイル名を表示 -->
             <div class="mb-3 text-center small">
               <% post.images.each do |image| %>
                 <div class="mb-1 text-start" style="max-width: 320px; margin-left: auto; margin-right: auto;">
@@ -19,25 +24,31 @@
           <% end %>
 
           <% if post.new_record? %>
+            <!-- 新規投稿時のみ画像を選択可能（複数対応） -->
             <%= f.file_field :images, multiple: true, accept: "image/*", id: "image_upload", class: "form-control form-input mx-auto mt-2" %>
 
+            <!-- 画像選択の説明 -->
             <p class="small text-muted mt-1 text-start" style="margin-left: 6.5rem;">
-  ※画像は <strong>最大5枚まで</strong> 選択可能です。<br>
-  ※追加・削除するには、画像を再選択してください。<br>
-  <strong>※再選択すると以前の画像はリセットされます。</strong><br>
-  <strong>※投稿後は画像の追加・削除はできません。</strong>
-</p>
+              ※画像は <strong>最大5枚まで</strong> 選択可能です。<br>
+              ※追加・削除するには、画像を再選択してください。<br>
+              <strong>※再選択すると以前の画像はリセットされます。</strong><br>
+              <strong>※投稿後は画像の追加・削除はできません。</strong>
+            </p>
 
-
+            <!-- 選択画像のファイル名表示エリア（JavaScriptで更新） -->
             <ul id="image-name-list" class="list-unstyled small mt-2 d-flex flex-column align-items-center gap-1"></ul>
             <input type="hidden" id="existing-image-count" value="<%= post.images.count %>">
             <p id="image-upload-warning" class="text-danger small mt-1"></p>
+
           <% else %>
+            <!-- 編集時は画像操作不可 -->
             <p class="small text-muted mt-1">※画像の追加・削除はできません。</p>
           <% end %>
+
         </td>
       </tr>
 
+      <!-- タイトル入力 -->
       <tr>
         <th class="text-center align-middle">タイトル</th>
         <td class="text-center">
@@ -45,6 +56,7 @@
         </td>
       </tr>
 
+      <!-- 本文入力 -->
       <tr>
         <th class="text-center align-middle">本文</th>
         <td class="text-center">
@@ -52,6 +64,7 @@
         </td>
       </tr>
 
+      <!-- 都道府県選択 -->
       <tr>
         <th class="text-center align-middle">都道府県</th>
         <td class="text-center">
@@ -59,6 +72,7 @@
         </td>
       </tr>
 
+      <!-- 場所ジャンル選択 -->
       <tr>
         <th class="text-center align-middle">場所ジャンル</th>
         <td class="text-center">
@@ -66,6 +80,7 @@
         </td>
       </tr>
 
+      <!-- 場所名入力 -->
       <tr>
         <th class="text-center align-middle">場所名</th>
         <td class="text-center">
@@ -73,6 +88,7 @@
         </td>
       </tr>
 
+      <!-- 住所入力（Googleマップ連携用） -->
       <tr>
         <th class="text-center align-middle">住所</th>
         <td class="text-center">
@@ -80,6 +96,7 @@
         </td>
       </tr>
 
+      <!-- 訪問月選択 -->
       <tr>
         <th class="text-center align-middle">訪問月</th>
         <td class="text-center">
@@ -87,6 +104,7 @@
         </td>
       </tr>
 
+      <!-- 訪問時間帯選択 -->
       <tr>
         <th class="text-center align-middle">訪問時間帯</th>
         <td class="text-center">
@@ -94,24 +112,31 @@
         </td>
       </tr>
 
+      <!-- フォーム送信ボタンまたはゲスト注意文 -->
       <tr>
         <td colspan="2" class="text-center pt-4">
           <% if current_user.email == "guest@example.com" %>
+            <!-- ゲストユーザーは投稿不可：登録・ログイン誘導 -->
             <p class="mb-2">
               投稿するには、
-              <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
-              または
               <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+              または
+              <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
               が必要です。
             </p>
+
             <p class="mb-2 text-muted small">
-              ＊新規登録・ログインに進むと、<strong>入力内容はすべてリセット</strong>されます。
+              ＊ログイン・新規登録に進むと、<strong>入力内容はすべてリセット</strong>されます。
             </p>
+
           <% else %>
+            <!-- 通常ユーザー：投稿 or 更新 -->
             <%= f.submit(post.new_record? ? "投稿" : "更新", { class: "custom-register-btn" }) %>
           <% end %>
         </td>
       </tr>
+
     </tbody>
   </table>
+
 <% end %>

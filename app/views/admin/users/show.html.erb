@@ -1,13 +1,23 @@
-<h1 class="text-center my-5">
-  <%= @user.nickname %>（<%= @user.last_name %> <%= @user.first_name %>／<%= @user.last_name_kana %> <%= @user.first_name_kana %>）さんの詳細
-</h1>
+<div class="container py-5">
 
-<div class="d-flex justify-content-center" style="min-height: 80vh;">
-  <div class="table-responsive" style="max-width: 800px;">
-    <%= render partial: "public/users/user_detail", locals: { user: @user } %>
+  <!-- ページタイトル（ユーザーの氏名・かな含む） -->
+  <h1 class="text-center my-5">
+    <%= @user.nickname %>（<%= @user.last_name %> <%= @user.first_name %>／<%= @user.last_name_kana %> <%= @user.first_name_kana %>）さんの詳細
+  </h1>
 
-    <div class="text-center mt-5 mb-5">
-      <%= link_to "編集する", edit_admin_user_path(@user), class: "custom-green-btn" %>
+  <!-- ユーザー情報表示エリア -->
+  <div class="d-flex justify-content-center" style="min-height: 80vh;">
+    <div class="table-responsive" style="max-width: 800px;">
+      
+      <!-- ユーザー詳細テーブル -->
+      <%= render partial: "public/users/user_detail", locals: { user: @user } %>
+
+      <!-- 編集ボタン -->
+      <div class="text-center mt-5 mb-5">
+        <%= link_to "編集する", edit_admin_user_path(@user), class: "custom-green-btn" %>
+      </div>
+
     </div>
   </div>
+
 </div>

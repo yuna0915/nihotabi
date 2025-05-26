@@ -1,17 +1,22 @@
 <% linkable = local_assigns[:linkable].nil? ? true : local_assigns[:linkable] %>
+<!-- linkable が指定されていない場合は true（リンクあり）とする -->
 
 <p class="mb-0">
   <strong>フォロー中：</strong>
   <% if linkable %>
+    <!-- フォロー中の人数をリンク付きで表示 -->
     <%= link_to "#{user.followings.count}人", followings_user_path(user), class: "text-decoration-none text-primary" %>
   <% else %>
+    <!-- リンクなしで人数のみ表示 -->
     <%= user.followings.count %>人
   <% end %>
   　
   <strong>フォロワー：</strong>
   <% if linkable %>
+    <!-- フォロワーの人数をリンク付きで表示 -->
     <%= link_to "#{user.followers.count}人", followers_user_path(user), class: "text-decoration-none text-primary" %>
   <% else %>
+    <!-- リンクなしで人数のみ表示 -->
     <%= user.followers.count %>人
   <% end %>
 </p>

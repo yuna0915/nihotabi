@@ -1,23 +1,32 @@
-<% from ||= nil %>
+<% from ||= nil %> 
+<!-- fromパラメータが未定義の場合は nil を代入（戻る先の判定に使用） -->
 
 <div class="col-12 mb-4">
+  <!-- ユーザーカード全体をリンクにして、マイページに遷移 -->
   <%= link_to my_page_user_path(user, from: from), class: "text-decoration-none" do %>
+
     <div class="card h-100 p-4 d-flex align-items-center flex-md-row text-start gap-4 position-relative">
+
       <% if user.profile_image.attached? %>
+        <!-- プロフィール画像 -->
         <%= image_tag user.profile_image.variant(resize_to_limit: [100, 100]), class: "rounded-circle" %>
       <% end %>
 
       <div>
+        <!-- ニックネーム表示 -->
         <p class="mb-2">
           <strong>ニックネーム：</strong><%= user.nickname %>
         </p>
+
+        <!-- 都道府県表示 -->
         <p class="mb-0">
           <strong>都道府県：</strong><%= user.prefecture.name %>
         </p>
-
       </div>
 
+      <!-- カード全体をクリック可能にするための透明リンク -->
       <span class="stretched-link"></span>
     </div>
+
   <% end %>
 </div>

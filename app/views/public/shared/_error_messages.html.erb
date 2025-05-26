@@ -1,9 +1,11 @@
 <% if resource&.errors&.any? %>
+  <!-- バリデーションエラーがある場合に表示 -->
   <div id="error_explanation" data-turbo-cache="false" class="mx-auto text-center" style="max-width: 600px;">
 
     <% ordered_keys =
       case controller_name
       when 'posts'
+        # 投稿フォームの項目順にエラーを並べる
         [
           :images,
           :title,
@@ -16,6 +18,7 @@
           :visited_time_zone_id
         ]
       when 'registrations'
+        # 新規会員登録の項目順
         [
           :last_name,
           :first_name,
@@ -29,26 +32,33 @@
           :prefecture_id
         ]
       when 'sessions'
+        # ログイン時のエラー順
         [
           :base,
           :email,
           :password
         ]
       else
-        []
+        [] # その他のコントローラでは順序指定なし
       end
     %>
 
-    <% base_messages = resource.errors[:base].uniq %>
-    <% ordered_messages = ordered_keys.reject { |k| k == :base }.flat_map { |key| resource.errors.full_messages_for(key) } %>
-    <% remaining_messages = resource.errors.full_messages - ordered_messages - base_messages %>
+    <% base_messages = resource.errors[:base].uniq %> 
+    <!-- :base は全体に関するエラー -->
 
-    <!-- エラー本文のみ表示、点なし、中央揃え -->
+    <% ordered_messages = ordered_keys.reject { |k| k == :base }
+                                      .flat_map { |key| resource.errors.full_messages_for(key) } %>
+    <!-- 上で定義した順序に従ってエラーメッセージを並べる -->
+
+    <% remaining_messages = resource.errors.full_messages - ordered_messages - base_messages %>
+    <!-- 順序未指定の残りのエラーメッセージ -->
+
+    <!-- エラーメッセージをリスト表示（・なし／中央揃え） -->
     <ul style="list-style: none; padding-left: 0;">
       <% (base_messages + ordered_messages + remaining_messages).each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
-    
+
   </div>
 <% end %>

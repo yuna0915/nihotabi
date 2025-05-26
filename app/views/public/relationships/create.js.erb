@@ -1,2 +1,7 @@
-document.getElementById("follow-button-<%= @user.id %>").innerHTML = `<%= j(render 'public/relationships/follow_button', user: @user) %>`;
-document.getElementById("follow-counts-<%= @user.id %>").innerHTML = `<%= j(render 'public/relationships/follow_counts', user: @user) %>`;
+// フォローボタンの表示を更新
+document.getElementById("follow-button-<%= @user.id %>").innerHTML =
+  `<%= j(render 'public/relationships/follow_button', user: @user) %>`;
+
+// フォロー中／フォロワー数の表示を更新
+document.getElementById("follow-counts-<%= @user.id %>").innerHTML =
+  `<%= j(render 'public/relationships/follow_counts', user: @user) %>`;

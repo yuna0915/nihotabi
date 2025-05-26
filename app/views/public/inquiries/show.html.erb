@@ -1,15 +1,19 @@
 <div class="container py-5">
+
   <h1 class="text-center mb-4">お問い合わせ詳細</h1>
 
+  <!-- お問い合わせ内容の表示（件名・本文・送信日時） -->
   <div class="mb-4 p-3 border rounded bg-light">
     <h5 class="fw-bold"><%= @inquiry.title %></h5>
     <p class="mb-2"><%= simple_format(@inquiry.body) %></p>
     <p class="text-muted small mb-0">送信日時：<%= l(@inquiry.created_at, format: :long) %></p>
   </div>
 
+  <!-- 管理者の返信セクション -->
   <h4 class="text-center mb-3">管理者からの返信</h4>
- 
+
   <% if @replies.any? %>
+    <!-- 返信がある場合：リスト表示 -->
     <% @replies.each do |reply| %>
       <div class="mb-3 p-3 border-start border-3 border-primary bg-white rounded">
         <p class="mb-2"><%= simple_format(reply.body) %></p>
@@ -20,12 +24,15 @@
     <p class="text-center text-muted">まだ返信はありません。</p>
   <% end %>
 
+  <!-- 戻るボタンの分岐（通知から来たかどうか） -->
   <% from = params[:from] %>
 
   <div class="text-center mt-4">
     <% if from == 'notification' %>
+      <!-- 通知一覧に戻るボタン -->
       <%= link_to "通知一覧へ戻る", notifications_path, class: "custom-outline-btn" %>
     <% else %>
+      <!-- お問い合わせ一覧に戻るボタン -->
       <%= link_to "お問い合わせ一覧に戻る", inquiries_path, class: "custom-outline-btn" %>
     <% end %>
   </div>

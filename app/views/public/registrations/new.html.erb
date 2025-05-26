@@ -1,67 +1,92 @@
-<h1 class="text-center mt-5 mb-4">新規会員登録</h1>
+<div class="container py-5">
 
-<%= form_with scope: :user, url: user_registration_path, html: { class: "register-form mx-auto" } do |f| %>
-  <%= render "public/shared/error_messages", resource: resource %>
+  <h1 class="text-center mb-4">新規会員登録</h1>
 
-  <div class="table-responsive">
-    <table class="table table-borderless text-center mx-auto register-table">
-      <tbody>
-        <tr>
-          <th class="text-end">氏名 (姓)</th>
-          <td><%= f.text_field :last_name, placeholder: "山田", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">(名)</th>
-          <td><%= f.text_field :first_name, placeholder: "太郎", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">フリガナ (セイ)</th>
-          <td><%= f.text_field :last_name_kana, placeholder: "ヤマダ", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">(メイ)</th>
-          <td><%= f.text_field :first_name_kana, placeholder: "タロウ", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">ニックネーム</th>
-          <td><%= f.text_field :nickname, placeholder: "タロちゃん", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">メールアドレス</th>
-          <td><%= f.email_field :email, placeholder: "sample@example.com", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">パスワード</th>
-          <td><%= f.password_field :password, placeholder: "password", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">パスワード確認</th>
-          <td><%= f.password_field :password_confirmation, placeholder: "password", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">電話番号</th>
-          <td><%= f.text_field :phone_number, placeholder: "00000000000", class: "form-control form-input" %></td>
-        </tr>
-        <tr>
-          <th class="text-end">都道府県</th>
-          <td>
-            <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name,
-                { prompt: "選択してください" }, class: "form-control form-input" %>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="text-center">
-            <%= f.submit "新規会員登録", class: "custom-register-btn mt-3" %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+  <!-- 会員登録フォーム -->
+  <%= form_with scope: :user, url: user_registration_path, html: { class: "register-form mx-auto" } do |f| %>
 
-<p class="text-center mb-5">
-  すでに会員登録済みの方は
-  <%= link_to "こちら", new_user_session_path, class: "text-decoration-none" %>
-  よりログインを行って下さい。
-</p>
+    <%= render "public/shared/error_messages", resource: resource %>
 
+    <!-- 入力欄 -->
+    <div class="table-responsive">
+      <table class="table table-borderless text-center mx-auto register-table">
+        <tbody>
+
+          <!-- 氏名（姓・名） -->
+          <tr>
+            <th class="text-end">氏名 (姓)</th>
+            <td><%= f.text_field :last_name, placeholder: "山田", class: "form-control form-input" %></td>
+          </tr>
+          <tr>
+            <th class="text-end">(名)</th>
+            <td><%= f.text_field :first_name, placeholder: "太郎", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- フリガナ（セイ・メイ） -->
+          <tr>
+            <th class="text-end">フリガナ (セイ)</th>
+            <td><%= f.text_field :last_name_kana, placeholder: "ヤマダ", class: "form-control form-input" %></td>
+          </tr>
+          <tr>
+            <th class="text-end">(メイ)</th>
+            <td><%= f.text_field :first_name_kana, placeholder: "タロウ", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- ニックネーム -->
+          <tr>
+            <th class="text-end">ニックネーム</th>
+            <td><%= f.text_field :nickname, placeholder: "タロちゃん", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- メールアドレス -->
+          <tr>
+            <th class="text-end">メールアドレス</th>
+            <td><%= f.email_field :email, placeholder: "sample@example.com", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- パスワード＆確認 -->
+          <tr>
+            <th class="text-end">パスワード</th>
+            <td><%= f.password_field :password, placeholder: "password", class: "form-control form-input" %></td>
+          </tr>
+          <tr>
+            <th class="text-end">パスワード確認</th>
+            <td><%= f.password_field :password_confirmation, placeholder: "password", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- 電話番号 -->
+          <tr>
+            <th class="text-end">電話番号</th>
+            <td><%= f.text_field :phone_number, placeholder: "00000000000", class: "form-control form-input" %></td>
+          </tr>
+
+          <!-- 都道府県選択 -->
+          <tr>
+            <th class="text-end">都道府県</th>
+            <td>
+              <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name,
+                  { prompt: "選択してください" }, class: "form-control form-input" %>
+            </td>
+          </tr>
+
+          <!-- 送信ボタン -->
+          <tr>
+            <td colspan="2" class="text-center">
+              <%= f.submit "新規会員登録", class: "custom-register-btn mt-3" %>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  <% end %>
+
+  <!-- ログイン誘導 -->
+  <p class="text-center mb-5">
+    すでに会員登録済みの方は
+    <%= link_to "こちら", new_user_session_path, class: "text-decoration-none" %>
+    よりログインを行って下さい。
+  </p>
+
+</div>

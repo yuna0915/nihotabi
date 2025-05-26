@@ -6,16 +6,17 @@
     <!-- ゲストユーザーの場合 -->
     <p class="text-secondary small ms-3">
       ※いいねするには、
-      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up",
-          method: :delete,
-          data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" },
-          class: "text-decoration-underline" %> または
       <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login",
           method: :delete,
           data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" },
+          class: "text-decoration-underline" %> または
+      <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up",
+          method: :delete,
+          data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" },
           class: "text-decoration-underline" %>
       が必要です。
     </p>
+
   <% else %>
     <!-- 通常ユーザーで他人の投稿の場合 -->
     <% if current_user.favorites.exists?(post_id: post.id) %>
