@@ -32,6 +32,7 @@ class Admin::VisitedMonthsController < ApplicationController
   end
 
   def toggle_active
+    # 表示／非表示の切り替え処理
     month = VisitedMonth.find(params[:id])
     month.update(is_active: !month.is_active)
     redirect_to admin_edit_visited_months_path, notice: "表示状態を変更しました"

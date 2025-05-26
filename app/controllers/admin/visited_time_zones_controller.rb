@@ -32,6 +32,7 @@ class Admin::VisitedTimeZonesController < ApplicationController
   end
 
   def toggle_active
+    # 表示／非表示の切り替え処理
     zone = VisitedTimeZone.find(params[:id])
     zone.update(is_active: !zone.is_active)
     redirect_to admin_edit_visited_time_zones_path, notice: "表示状態を変更しました"

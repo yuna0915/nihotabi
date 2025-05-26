@@ -32,6 +32,7 @@ class Admin::PrefecturesController < ApplicationController
   end
 
   def toggle_active
+     # 表示／非表示フラグの切り替え処理（is_activeを反転）
     prefecture = Prefecture.find(params[:id])
     prefecture.update(is_active: !prefecture.is_active)
     redirect_to admin_edit_prefectures_path, notice: "表示状態を変更しました"

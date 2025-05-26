@@ -4,10 +4,10 @@ class Admin::HomesController < ApplicationController
   def top
     @users = case params[:sort]
              when 'name'
-               User.where.not(email: 'guest@example.com')
-                   .order(:last_name, :first_name)
+               User.where.not(email: 'guest@example.com')   # ゲストユーザー除外
+                   .order(:last_name, :first_name)          # 名前順（姓→名）
              else
-               User.where.not(email: 'guest@example.com')
+               User.where.not(email: 'guest@example.com')   # 新着順
                    .order(created_at: :desc)
              end
 

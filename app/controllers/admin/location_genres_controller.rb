@@ -32,6 +32,7 @@ class Admin::LocationGenresController < ApplicationController
   end
 
   def toggle_active
+    # 表示／非表示の切り替え処理
     genre = LocationGenre.find(params[:id])
     genre.update(is_active: !genre.is_active)
     redirect_to admin_edit_location_genres_path, notice: "表示状態を変更しました"

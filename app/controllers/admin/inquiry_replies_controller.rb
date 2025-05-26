@@ -2,20 +2,19 @@ class Admin::InquiryRepliesController < ApplicationController
   before_action :authenticate_admin!
 
   def create
-    @inquiry = Inquiry.find(params[:inquiry_reply][:inquiry_id])
-    @reply = @inquiry.inquiry_replies.build(reply_params)
+    @inquiry = Inquiry.find(params[:inquiry_reply][:inquiry_id])  # 該当のお問い合わせ取得
+    @reply = @inquiry.inquiry_replies.build(reply_params)         # 問い合わせに紐づく返信作成
     @reply.admin = current_admin
 
     if @reply.save
-      # 既読フラグを更新
-      @inquiry.update(is_checked: true)
+      @inquiry.update(is_checked: true)  # 既読フラグ更新
 
-      # 通知作成（ユーザーに返信通知を送信）
+      # ユーザーの通知作成
       Notification.create!(
-        user_id: @inquiry.user_id,                # 作成者（管理者が返信するので空でも可）
-        notified_user_id: @inquiry.user_id,       # 通知の受け取り手（ユーザー）
-        action: "inquiry_reply",                  # 通知種別
-        notifiable: @reply                        # 通知対象（InquiryReply）
+        user_id: @inquiry.user_id,            # 通知に関係するユーザー
+        notified_user_id: @inquiry.user_id,   # 実際に通知を受け取るユーザー
+        action: "inquiry_reply",              # 通知の種類
+        notifiable: @reply                    # 通知の対象
       )
 
       redirect_to admin_inquiry_path(@inquiry), notice: "返信を送信しました。"

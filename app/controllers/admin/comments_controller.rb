@@ -5,10 +5,10 @@ class Admin::CommentsController < ApplicationController
     @comments = case params[:sort]
                 when 'aiueo'
                   Comment.includes(:user, :post)
-                         .order(:body) # ← これだけでOK！
+                         .order(:body)                  # あいうえお順
                          .page(params[:page]).per(10)
                 else
-                  Comment.includes(:user, :post)
+                  Comment.includes(:user, :post)        # 新着順
                          .order(created_at: :desc)
                          .page(params[:page]).per(10)
                 end
@@ -17,6 +17,6 @@ class Admin::CommentsController < ApplicationController
   def destroy
     comment = Comment.find(params[:id])
     comment.destroy
-    redirect_to admin_comments_path, notice: "コメントを削除しました"
+    redirect_to admin_comments_path, notice: "コメントを削除しました" 
   end
 end

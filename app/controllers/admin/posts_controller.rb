@@ -4,21 +4,20 @@ class Admin::PostsController < ApplicationController
   def index
     @posts = case params[:sort]
              when 'likes'
-               Post.left_joins(:favorites)
-                   .group(:id)
+               Post.left_joins(:favorites)               # 投稿といいねを結合
+                   .group(:id)                           # 投稿ごとに集計
                    .includes(:user)
-                   .order('COUNT(favorites.id) DESC')
+                   .order('COUNT(favorites.id) DESC')    # いいね数多い順
              when 'title'
                Post.includes(:user)
-                   .order(:title)
+                   .order(:title)                        # タイトルあいうえお順
              else
                Post.includes(:user)
-                   .order(created_at: :desc)
+                   .order(created_at: :desc)             # 新着順
              end
-  
+
     @posts = @posts.page(params[:page]).per(10)
   end
-  
 
   def show
     @post = Post.find(params[:id])
