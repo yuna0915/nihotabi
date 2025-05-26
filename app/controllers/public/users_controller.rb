@@ -43,13 +43,13 @@ class Public::UsersController < ApplicationController
 
   def followings
     @user = User.find(params[:id])
-    @users = @user.followings.sorted(params[:sort]).page(params[:page]).per(10) # フォロー中一覧
+    @users = User.where(id: @user.following_ids).sorted(params[:sort]).page(params[:page]).per(10)
     render 'public/users/follow_list', locals: { list_type: 'followings' }
   end
   
   def followers
     @user = User.find(params[:id])
-    @users = @user.followers.sorted(params[:sort]).page(params[:page]).per(10) # フォロワー一覧
+    @users = User.where(id: @user.follower_ids).sorted(params[:sort]).page(params[:page]).per(10)
     render 'public/users/follow_list', locals: { list_type: 'followers' }
   end  
 
