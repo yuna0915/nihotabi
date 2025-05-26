@@ -1,5 +1,4 @@
-// Swiperの初期化
-$(document).on('turbolinks:load', function () {
+document.addEventListener('turbolinks:load', () => {
   const swiper = new Swiper('.swiper', {
     loop: true,
     pagination: {

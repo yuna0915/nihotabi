@@ -1,20 +1,20 @@
+// Googleマップの住所自動補完機能を初期化
 function initAutocomplete() {
+  // 入力フォームを取得
   const input = document.getElementById("autocomplete");
   if (!input) return;
 
-  // Googleの自動補完（オートコンプリート）を使う
+  // Google Places Autocompleteを設定（日本の住所に限定）
   const autocomplete = new google.maps.places.Autocomplete(input, {
     types: ["geocode"],
-    componentRestrictions: { country: "jp" } // 日本の住所だけに制限
+    componentRestrictions: { country: "jp" }  // 日本国内限定
   });
 
-  // 補完で選ばれたら、place_changedイベントが発火する
+  // 場所が選択された際のイベント処理
   autocomplete.addListener("place_changed", function () {
     const place = autocomplete.getPlace();
-    // ここで住所を整形したり、必要なカスタム処理を追加することも可能
-    console.log(place); // デバッグ用
   });
 }
 
-// Google Maps APIの callback=initAutocomplete に対応
+// Google Maps APIロード完了時に自動で実行
 window.initAutocomplete = initAutocomplete;
