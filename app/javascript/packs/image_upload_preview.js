@@ -6,31 +6,21 @@ document.addEventListener("turbolinks:load", () => {
   if (!fileInput || !nameList) return;
 
   fileInput.addEventListener("change", (e) => {
-    const existingImageCount = getExistingImageCount();
     const files = Array.from(e.target.files);
 
-    const maxSelectable = 5 - existingImageCount;
-
     if (files.length === 0) {
-      alert("画像を1枚以上選択してください。");
+      nameList.innerHTML = "";
+      return;
+    }
+
+    if (files.length > 5) {
+      alert("画像は最大5枚までしか選べません。選び直してください。");
       fileInput.value = "";
       nameList.innerHTML = "";
       return;
     }
 
-    if (maxSelectable <= 0) {
-      alert("すでに5枚の画像が設定されています。新たに追加できません。");
-      fileInput.value = "";
-      nameList.innerHTML = "";
-      return;
-    }
-
-    const acceptedFiles = files.slice(0, maxSelectable);
-    if (files.length > maxSelectable) {
-      alert(`画像は最大5枚までです。うち ${files.length - maxSelectable} 枚は追加できませんでした。`);
-    }
-
-    updateFileList(nameList, acceptedFiles);
+    updateFileList(nameList, files);
   });
 
   if (clearButton) {
@@ -40,13 +30,6 @@ document.addEventListener("turbolinks:load", () => {
     });
   }
 });
-
-function getExistingImageCount() {
-  const existingImageInput = document.getElementById("existing-image-count");
-  if (!existingImageInput) return 0;
-  const count = parseInt(existingImageInput.value, 10);
-  return isNaN(count) ? 0 : count;
-}
 
 function updateFileList(nameList, files) {
   nameList.innerHTML = "";

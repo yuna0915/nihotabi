@@ -6,7 +6,6 @@
       <tr>
         <th class="text-center align-middle">画像</th>
         <td class="text-center">
-      
           <% if post.images.attached? %>
             <div class="mb-3 text-center small">
               <% post.images.each do |image| %>
@@ -18,23 +17,24 @@
               <% end %>
             </div>
           <% end %>
-      
+
           <% if post.new_record? %>
             <%= f.file_field :images, multiple: true, accept: "image/*", id: "image_upload", class: "form-control form-input mx-auto mt-2" %>
-      
-            <p class="small text-muted mt-1">
-              ※画像は追加アップロードされます（最大5枚まで選択可能）
-            </p>
-      
-            <button type="button" id="clear-images" class="btn btn-sm mt-2">画像をすべてクリア</button>
-      
+
+            <p class="small text-muted mt-1 text-start" style="margin-left: 6.5rem;">
+  ※画像は <strong>最大5枚まで</strong> 選択可能です。<br>
+  ※追加・削除するには、画像を再選択してください。<br>
+  <strong>※再選択すると以前の画像はリセットされます。</strong><br>
+  <strong>※投稿後は画像の追加・削除はできません。</strong>
+</p>
+
+
             <ul id="image-name-list" class="list-unstyled small mt-2 d-flex flex-column align-items-center gap-1"></ul>
             <input type="hidden" id="existing-image-count" value="<%= post.images.count %>">
             <p id="image-upload-warning" class="text-danger small mt-1"></p>
           <% else %>
-            <p class="small text-muted mt-1">※画像の削除・追加はできません。</p>
+            <p class="small text-muted mt-1">※画像の追加・削除はできません。</p>
           <% end %>
-      
         </td>
       </tr>
 
