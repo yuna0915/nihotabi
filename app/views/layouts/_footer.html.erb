@@ -9,9 +9,7 @@
     </small>
 
     <div class="mt-2 mb-0 d-flex justify-content-center gap-4">
-      <% if user_signed_in? %>
-        <%= link_to 'お問い合わせ', new_inquiry_path, class: 'text-decoration-none fw-semibold', style: 'color: #2e6044;' %>
-      <% end %>
+      <%= link_to 'お問い合わせ', new_inquiry_path, class: 'text-decoration-none fw-semibold', style: 'color: #2e6044;' %>
       <%= link_to '利用規約', term_path, class: 'text-decoration-none fw-semibold', style: 'color: #2e6044;' %>
     </div>
   </div>

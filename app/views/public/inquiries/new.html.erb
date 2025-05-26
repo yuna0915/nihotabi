@@ -12,8 +12,36 @@
       <%= f.text_area :body, rows: 6, class: "form-control", placeholder: "詳細な内容をご記入ください。" %>
     </div>
 
-    <div class="text-center">
-      <%= f.submit "送信する", class: "custom-register-btn" %>
+    <div class="text-center pt-4">
+      <% if user_signed_in? && current_user.email == "guest@example.com" %>
+        <p class="mb-2">
+          お問い合わせするには、
+          <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up", method: :delete, data: { confirm: "ゲストユーザーをログアウトして新規登録画面へ移動します。よろしいですか？" } %>
+          または
+          <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login", method: :delete, data: { confirm: "ゲストユーザーをログアウトしてログイン画面へ移動します。よろしいですか？" } %>
+          が必要です。
+        </p>
+        <p class="mb-2 text-muted small">
+          ＊新規登録・ログインに進むと、<strong>入力内容はすべてリセット</strong>されます。
+        </p>
+      <% elsif user_signed_in? %>
+        <%= f.submit "送信する", class: "custom-register-btn" %>
+      <% else %>
+        <p class="mb-2">
+          お問い合わせするには、
+          <%= link_to "ログイン", new_user_session_path, class: "text-primary text-decoration-underline" %>
+          または
+          <%= link_to "会員登録", new_user_registration_path, class: "text-primary text-decoration-underline" %>
+          をしてください。
+        </p>
+        <p class="mb-2 text-muted small">
+          ＊ログイン・登録に進むと、<strong>入力内容はすべてリセット</strong>されます。
+        </p>
+      <% end %>
     </div>
   <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to 'トップページへ戻る', root_path, class: 'custom-outline-btn' %>
+  </div>
 </div>

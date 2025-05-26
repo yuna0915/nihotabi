@@ -1,27 +1,26 @@
 class Public::InquiriesController < ApplicationController
-  before_action :authenticate_user!
-
-  # 他ユーザーの問い合わせを弾く
+  before_action :authenticate_user!, except: [:new, :create]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
-  # 一覧表示
   def index
     @inquiries = current_user.inquiries.order(created_at: :desc).page(params[:page]).per(10)
   end  
 
-  # 詳細表示（+返信）
   def show
     @inquiry = current_user.inquiries.find(params[:id])
     @replies = @inquiry.inquiry_replies.includes(:admin)
   end
 
-  # 新規作成フォーム
   def new
     @inquiry = Inquiry.new
   end
 
-  # 作成処理
   def create
+    if !user_signed_in? || current_user.email == "guest@example.com"
+      redirect_to new_inquiry_path, alert: "お問い合わせを送信するにはログインが必要です。"
+      return
+    end
+
     @inquiry = current_user.inquiries.build(inquiry_params)
     if @inquiry.save
       redirect_to inquiries_path, notice: "お問い合わせを送信しました。"
@@ -37,7 +36,6 @@ class Public::InquiriesController < ApplicationController
     params.require(:inquiry).permit(:title, :body)
   end
 
-  # 他人のデータ参照を防ぐ
   def handle_not_found
     redirect_to my_page_user_path(current_user), alert: "不正アクセスです。"
   end

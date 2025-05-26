@@ -10,7 +10,7 @@ class Admin::InquiryRepliesController < ApplicationController
       # 既読フラグを更新
       @inquiry.update(is_checked: true)
 
-      # 🔔 通知作成（ユーザーに返信通知を送信）
+      # 通知作成（ユーザーに返信通知を送信）
       Notification.create!(
         user_id: @inquiry.user_id,                # 作成者（管理者が返信するので空でも可）
         notified_user_id: @inquiry.user_id,       # 通知の受け取り手（ユーザー）
