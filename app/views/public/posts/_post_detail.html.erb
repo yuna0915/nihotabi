@@ -80,9 +80,10 @@
       <!-- いいね（件数だけ表示） -->
       <tr class="border-bottom">
         <th class="text-start align-middle">いいね数</th>
-        <td id="favorite-count-<%= post.id %>">
-          <div class="d-inline"><%= post.favorites.count %>件</div>
+        <td>
+          <span id="favorite-count-<%= post.id %>"><%= post.favorites.count %></span>件
         </td>
+
       </tr>
     </tbody>
   </table>

@@ -37,8 +37,9 @@
         <p class="card-text">👀：<%= post.view_count %>回</p>
 
         <!-- いいね数 -->
-        <p class="card-text" id="favorite-count-<%= post.id %>">
-          ❤️：<%= post.favorites.count %>件
+        <p class="card-text">
+          ❤️：
+          <span id="favorite-count-<%= post.id %>"><%= post.favorites.count %></span>件
         </p>
 
         <!-- いいねボタン -->

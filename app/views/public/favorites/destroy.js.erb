@@ -1,6 +1,2 @@
-// ボタンを差し替え
 $("#favorite-button-<%= @post.id %>").html("<%= j(render 'public/posts/favorite_button', post: @post) %>");
-
-// いいね数も差し替え（card or detail 対応）
-$("#favorite-count-<%= @post.id %>").html("いいね数：<%= @post.favorites.count %>件");
-
+$("#favorite-count-<%= @post.id %>").text("<%= @post.favorites.count %>");
