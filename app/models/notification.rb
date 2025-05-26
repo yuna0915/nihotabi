@@ -5,6 +5,5 @@ class Notification < ApplicationRecord
   belongs_to :notified_user, class_name: 'User', foreign_key: 'notified_user_id', optional: true
   belongs_to :post, optional: true
   belongs_to :comment, optional: true
-  belongs_to :inquiry, optional: true
   belongs_to :notifiable, polymorphic: true, optional: true
 end

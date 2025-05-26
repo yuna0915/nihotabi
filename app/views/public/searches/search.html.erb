@@ -6,15 +6,15 @@
 
   <% if user_signed_in? && current_user.email == "guest@example.com" %>
     <!-- ゲストユーザーには検索結果を非表示＋ログイン／登録を促す -->
-    <div class="alert alert-warning text-center" role="alert">
+    <div class="text-center text-dark bg-transparent">
       ※検索結果を見るには、
       <%= link_to "ログイン", destroy_user_session_path + "?redirect_to=login",
           method: :delete,
-          data: { confirm: "ゲストユーザーをログアウトしてログインします。よろしいですか？" },
+          data: { confirm: "ゲストユーザーをログアウトします。よろしいですか？" },
           class: "text-primary text-decoration-underline" %> または
       <%= link_to "新規登録", destroy_user_session_path + "?redirect_to=sign_up",
           method: :delete,
-          data: { confirm: "ゲストユーザーをログアウトして新規登録します。よろしいですか？" },
+          data: { confirm: "ゲストユーザーをログアウトします。よろしいですか？" },
           class: "text-primary text-decoration-underline" %>
       が必要です。
     </div>

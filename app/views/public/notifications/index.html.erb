@@ -19,7 +19,7 @@
             <div class="list-group-item d-flex justify-content-between align-items-center 
                         <%= 'bg-light' unless notification.checked %>">
 
-              <!-- 通知内容（左側） -->
+              <!-- 通知内容 -->
               <div class="flex-grow-1 me-3">
                 <% if notification.action == 'follow' %>
                   👤 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
@@ -46,25 +46,24 @@
                         class: "text-decoration-none text-success-subtle" %>
                   にコメントしました。
 
-                <% elsif notification.action == 'inquiry_reply' && notification.inquiry.present? %>
+                  <% elsif notification.action == 'inquiry_reply' && notification.notifiable&.inquiry.present? %>
                   📩 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
                   運営からあなたの
                   <%= link_to 'お問い合わせ',
                         mark_as_read_notification_path(
                           notification,
-                          redirect_path: inquiry_path(notification.inquiry, from: 'notification')
+                          redirect_path: inquiry_path(notification.notifiable.inquiry, from: 'notification')
                         ),
                         method: :patch,
                         class: "text-decoration-none text-success-subtle" %>
                   に返信が届きました。
+                
                 <% end %>
               </div>
 
-              <!-- 未読バッジ（右側） -->
               <% unless notification.checked %>
                 <span class="badge bg-danger">未読</span>
               <% end %>
-
             </div>
           <% end %>
         <% end %>
@@ -79,5 +78,9 @@
   <% else %>
     <p class="text-center mt-4">通知はありません。</p>
   <% end %>
+
+  <div class="text-center mt-4 mb-5">
+    <%= link_to "マイページへ戻る", my_page_user_path(current_user), class: "custom-outline-btn" %>
+  </div>
 
 </div>

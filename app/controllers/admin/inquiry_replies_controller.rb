@@ -4,17 +4,17 @@ class Admin::InquiryRepliesController < ApplicationController
   def create
     @inquiry = Inquiry.find(params[:inquiry_reply][:inquiry_id])  # 該当のお問い合わせ取得
     @reply = @inquiry.inquiry_replies.build(reply_params)         # 問い合わせに紐づく返信作成
-    @reply.admin = current_admin
+    @reply.admin = current_admin                                  # 管理者情報を紐づけ
 
     if @reply.save
-      @inquiry.update(is_checked: true)  # 既読フラグ更新
+      @inquiry.update(is_checked: true)                           # 問い合わせ側に既読フラグを付ける
 
-      # ユーザーの通知作成
+      # 通知を1件だけ作成（重複防止済み）
       Notification.create!(
-        user_id: @inquiry.user_id,            # 通知に関係するユーザー
-        notified_user_id: @inquiry.user_id,   # 実際に通知を受け取るユーザー
-        action: "inquiry_reply",              # 通知の種類
-        notifiable: @reply                    # 通知の対象
+        user_id: current_admin.id,
+        notified_user_id: @inquiry.user.id,
+        notifiable: @reply,
+        action: 'inquiry_reply'
       )
 
       redirect_to admin_inquiry_path(@inquiry), notice: "返信を送信しました。"

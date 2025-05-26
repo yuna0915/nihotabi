@@ -17,13 +17,13 @@ class Public::NotificationsController < ApplicationController
     # 通知の種類に応じてリダイレクト先切替
     case @notification.action
     when 'favorite', 'comment'
-      redirect_to post_path(@notification.post)
+      redirect_to post_path(@notification.post, from: 'notification')
     when 'follow'
       redirect_to user_path(@notification.user)
     when 'inquiry_reply'
-      # 問い合わせ返信通知
-      if @notification.notifiable&.inquiry
-        redirect_to inquiry_path(@notification.notifiable.inquiry)
+      # 問い合わせ返信通知（InquiryReplyを通じてinquiryにアクセス）
+      if @notification.notifiable&.inquiry.present?
+        redirect_to inquiry_path(@notification.notifiable.inquiry, from: 'notification')
       else
         redirect_to notifications_path, alert: "対象のお問い合わせが見つかりませんでした。"
       end
@@ -36,5 +36,4 @@ class Public::NotificationsController < ApplicationController
     current_user.passive_notifications.update_all(checked: true)
     redirect_to notifications_path, notice: "すべての通知を既読にしました。"
   end
-
 end
