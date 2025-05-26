@@ -42,17 +42,18 @@
                       class: "text-decoration-none text-success-subtle" %>
                 にコメントしました。
 
-              <% elsif notification.action == 'inquiry_reply' && notification.notifiable.present? %>
+              <% elsif notification.action == 'inquiry_reply' && notification.inquiry.present? %>
                 📩 <span class="text-muted small me-2"><%= notification.created_at.strftime("%Y/%m/%d %H:%M") %></span>
                 運営からあなたの
                 <%= link_to 'お問い合わせ',
                       mark_as_read_notification_path(
                         notification,
-                        redirect_path: inquiry_path(notification.notifiable.inquiry, from: 'notification')
+                        redirect_path: inquiry_path(notification.inquiry, from: 'notification')
                       ),
                       method: :patch,
                       class: "text-decoration-none text-success-subtle" %>
                 に返信が届きました。
+              
               <% end %>
             </div>
 
