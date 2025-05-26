@@ -20,7 +20,7 @@
 
         <!-- 都道府県表示 -->
         <p class="mb-0">
-          <strong>都道府県：</strong><%= user.prefecture.name %>
+          <strong>都道府県：</strong><%= user.prefecture&.name || "未設定" %>
         </p>
       </div>
 
