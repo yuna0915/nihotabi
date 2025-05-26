@@ -30,9 +30,11 @@ class Public::NotificationsController < ApplicationController
   end
   
 
-  def mark_all_as_read
-    current_user.passive_notifications.where(checked: false).update_all(checked: true)
-    redirect_to notifications_path, notice: "すべての通知を既読にしました"
+  def mark_as_read
+    @notification = current_user.passive_notifications.find(params[:id])
+    @notification.update(checked: true)
+    redirect_to params[:redirect_path] || notifications_path
   end
+  
   
 end

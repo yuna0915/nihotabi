@@ -84,7 +84,7 @@
   <% end %>
 </div>
 
-<% valid_from_values = %w[post search genre top followings followers] %>
+<% valid_from_values = %w[post search genre top followings followers notification] %>
 <% if from.present? && valid_from_values.include?(from) %>
   <div class="text-center mt-2 mb-5 d-flex flex-column align-items-center">
 
@@ -116,7 +116,12 @@
                     from == 'followers' ? followers_user_path(from_user) : followings_user_path(from_user),
                     class: "custom-outline-btn mt-2" %>
       <% end %>
+
+    <% when 'notification' %>
+      <%= link_to '通知一覧へ戻る', notifications_path, class: "custom-outline-btn mt-2" %>
+
     <% end %>
 
   </div>
 <% end %>
+

@@ -20,7 +20,14 @@
     <p class="text-center text-muted">まだ返信はありません。</p>
   <% end %>
 
+  <% from = params[:from] %>
+
   <div class="text-center mt-4">
-    <%= link_to "お問い合わせ一覧に戻る", inquiries_path, class: "custom-outline-btn" %>
+    <% if from == 'notification' %>
+      <%= link_to "通知一覧へ戻る", notifications_path, class: "custom-outline-btn" %>
+    <% else %>
+      <%= link_to "お問い合わせ一覧に戻る", inquiries_path, class: "custom-outline-btn" %>
+    <% end %>
   </div>
+
 </div>
