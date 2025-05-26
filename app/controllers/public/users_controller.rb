@@ -1,7 +1,7 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_guest_user, only: [:edit, :update, :withdraw]
-  before_action :ensure_correct_user, only: [:edit, :update, :withdraw]
+  before_action :ensure_guest_user, only: [:edit, :update, :withdraw]     # ゲストは編集・退会不可
+  before_action :ensure_correct_user, only: [:edit, :update, :withdraw]   # 他人の編集・退会は禁止
 
   def my_page
     @user = User.find_by(id: params[:id])
@@ -37,20 +37,19 @@ class Public::UsersController < ApplicationController
   def withdraw
     @user = User.find(params[:id])
     @user.update(is_active: false)
-    reset_session
+    reset_session   # セッション情報リセット（ログアウト）
     redirect_to new_user_registration_path, notice: "退会が完了しました。"
   end
 
-  
   def followings
     @user = User.find(params[:id])
-    @users = @user.followings.sorted(params[:sort]).page(params[:page]).per(10)
+    @users = @user.followings.sorted(params[:sort]).page(params[:page]).per(10) # フォロー中一覧
     render 'public/users/follow_list', locals: { list_type: 'followings' }
   end
   
   def followers
     @user = User.find(params[:id])
-    @users = @user.followers.sorted(params[:sort]).page(params[:page]).per(10)
+    @users = @user.followers.sorted(params[:sort]).page(params[:page]).per(10) # フォロワー一覧
     render 'public/users/follow_list', locals: { list_type: 'followers' }
   end  
 
@@ -59,18 +58,20 @@ class Public::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :last_name, :first_name, :last_name_kana, :first_name_kana,
-      :nickname, :email, :phone_number, :prefecture,
+      :nickname, :email, :phone_number, :prefecture_id,
       :introduction, :image
     )
-  end
+  end  
 
+  # 他人の情報にアクセスしようとした場合に拒否
   def ensure_correct_user
     user = User.find(params[:id])
     unless user == current_user
       redirect_to my_page_user_path(current_user), alert: "他人のユーザー情報は編集できません。"
     end
   end
-  
+
+  # ゲストユーザーの編集・退会を制限
   def ensure_guest_user
     user = User.find(params[:id])
     if user.email == "guest@example.com"

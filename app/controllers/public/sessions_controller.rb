@@ -31,9 +31,11 @@ class Public::SessionsController < Devise::SessionsController
     self.resource = resource_class.new # 空のリソースを用意
   
     if email.blank? || password.blank?
+      # 未入力チェック
       resource.errors.add(:base, "正しく入力してください")
       flash.now[:alert] = "メールアドレスとパスワードを入力してください。"
     elsif user.nil? || !user.valid_password?(password)
+      # 認証失敗（ユーザーがいない or パスワード違い）
       resource.errors.add(:base, "ご入力されたメールアドレスまたはパスワードが正しくありません")
       flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません。"
     elsif !user.is_active?
@@ -45,8 +47,9 @@ class Public::SessionsController < Devise::SessionsController
       return redirect_to after_sign_in_path_for(user)
     end
   
-    clean_up_passwords(resource)
-    render :new, status: :unprocessable_entity
+      clean_up_passwords(resource)                # 入力失敗時、パスワード欄を空にして再表示
+      render :new, status: :unprocessable_entity  # エラー付きでログイン画面をもう一度表示
+
   end
 
   def guest_sign_in

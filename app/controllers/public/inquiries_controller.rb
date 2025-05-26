@@ -1,6 +1,5 @@
 class Public::InquiriesController < ApplicationController
   before_action :authenticate_user!, except: [:new, :create]
-  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
   def index
     @inquiries = current_user.inquiries.order(created_at: :desc).page(params[:page]).per(10)
@@ -17,7 +16,7 @@ class Public::InquiriesController < ApplicationController
 
   def create
     if !user_signed_in? || current_user.email == "guest@example.com"
-      redirect_to new_inquiry_path, alert: "お問い合わせを送信するにはログインが必要です。"
+      redirect_to new_inquiry_path, alert: "お問い合わせを送信するにはログインまたは会員登録が必要です。"
       return
     end
 
@@ -34,9 +33,5 @@ class Public::InquiriesController < ApplicationController
 
   def inquiry_params
     params.require(:inquiry).permit(:title, :body)
-  end
-
-  def handle_not_found
-    redirect_to my_page_user_path(current_user), alert: "不正アクセスです。"
   end
 end

@@ -1,7 +1,8 @@
 class Public::PostsController < ApplicationController
+  # 投稿機能はログイン必須（詳細表示は例外）
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_post_user, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:follow_feed]
+  before_action :ensure_follow_feed_access, only: [:follow_feed]
 
   def index
     respond_to do |format|
@@ -15,10 +16,6 @@ class Public::PostsController < ApplicationController
   end  
   
   def follow_feed
-    if params[:user_id].present? && params[:user_id].to_i != current_user.id
-      redirect_to root_path, alert: "他ユーザーのフォロー投稿一覧は閲覧できません。" and return
-    end
-  
     @posts = Post
                .where(user_id: current_user.following_ids)
                .sorted(params[:sort])
@@ -34,27 +31,24 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.increment!(:view_count)
     @comments = @post.comments.includes(:user)
-  
-    # 未ログインかつトップページ経由でない場合はログインページへ
+
+    # 未ログインかつトップページ経由でない場合はログイン画面へリダイレクト
     unless user_signed_in? || params[:from] == "top"
-      redirect_to new_user_session_path, alert: "投稿の詳細を見るにはログインが必要です。"
-      return
+      redirect_to new_user_session_path, alert: "投稿の詳細を見るにはログインまたは会員登録が必要です。"
     end
   end  
 
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    # 未実装のplace関連フィールドにダミーを入れる（null: false対策）
-    @post.latitude = 0.0
-    @post.longitude = 0.0
+  
     if @post.save
       redirect_to post_path(@post), notice: "投稿が完了しました。"
     else
       flash.now[:alert] = "投稿に失敗しました。"
       render :new
     end
-  end
+  end  
 
   def edit
     @post = Post.find(params[:id])
@@ -62,7 +56,6 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-  
     if @post.update(post_params)
       redirect_to post_path(@post), notice: "投稿を更新しました。"
     else
@@ -104,4 +97,10 @@ class Public::PostsController < ApplicationController
     end
   end
 
+  # 他人のフォロー投稿一覧にアクセスした場合
+  def ensure_follow_feed_access
+    if params[:user_id].present? && params[:user_id].to_i != current_user.id
+      redirect_to root_path, alert: "他ユーザーのフォロー投稿一覧は閲覧できません。"
+    end
+  end
 end
