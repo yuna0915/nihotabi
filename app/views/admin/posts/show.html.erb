@@ -1,8 +1,9 @@
 <div class="container my-5">
+
   <div class="d-flex justify-content-center">
     <div style="max-width: 880px; width: 100%;">
 
-      <!-- 投稿の共通詳細部分を呼び出し -->
+      <!-- 投稿の共通詳細 -->
       <%= render partial: 'public/posts/post_detail', locals: { post: @post } %>
 
       <!-- コメント一覧 -->
@@ -30,4 +31,5 @@
 
     </div>
   </div>
+
 </div>

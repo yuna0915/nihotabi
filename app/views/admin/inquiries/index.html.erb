@@ -1,24 +1,36 @@
 <div class="container py-5">
-  <h1 class="text-center mb-4">お問い合わせ一覧</h1>
+
+  <h1 class="text-center my-5">お問い合わせ一覧</h1>
 
   <% if @inquiries.any? %>
+    <!-- お問い合わせリスト -->
     <div class="list-group">
+
       <% @inquiries.each do |inquiry| %>
+        <!-- お問い合わせ詳細ページへのリンク -->
         <%= link_to admin_inquiry_path(inquiry), class: "list-group-item list-group-item-action" do %>
+
           <div class="d-flex justify-content-between align-items-center">
+
             <div class="text-truncate" style="max-width: 75%;">
+              <!-- 件名 -->
               <strong><%= inquiry.title %></strong>
+
+              <!-- ニックネームと送信日時 -->
               <div class="small text-muted">
                 ユーザー: <%= inquiry.user.nickname %> /
                 送信日: <%= l(inquiry.created_at, format: :short) %>
               </div>
             </div>
+
+            <!-- 確認状況（返信済 or 未確認） -->
             <% if inquiry.is_checked? %>
               <span class="badge bg-success">返信済み</span>
             <% else %>
               <span class="badge bg-secondary">未確認</span>
             <% end %>
           </div>
+
         <% end %>
       <% end %>
     </div>
@@ -30,4 +42,5 @@
   <% else %>
     <p class="text-center">まだお問い合わせはありません。</p>
   <% end %>
+
 </div>

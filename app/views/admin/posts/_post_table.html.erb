@@ -1,4 +1,6 @@
 <div class="table-responsive">
+
+  <!-- 投稿一覧テーブル -->
   <table class="table table-hover text-center bg-white">
     <thead class="table-light">
       <tr>
@@ -11,22 +13,30 @@
         <th class="align-middle" style="min-width: 120px;"></th>
       </tr>
     </thead>
+
     <tbody>
       <% posts.each do |post| %>
         <tr>
+          <!-- 投稿ID -->
           <td class="align-middle"><%= post.id %></td>
+
+          <!-- 投稿日（日時付き） -->
           <td class="align-middle"><%= post.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+
+          <!-- 投稿画像（必ず1枚以上ある前提） -->
           <td class="align-middle">
-            <% if post.images.attached? %>
-              <%= image_tag post.images.first.variant(resize_to_limit: [100, 100]), class: "img-thumbnail" %>
-            <% else %>
-              <%= image_tag "no_image.jpg", width: 100, height: 100, class: "img-thumbnail" %>
-            <% end %>
+            <%= image_tag post.images.first.variant(resize_to_limit: [100, 100]), class: "img-thumbnail" %>
           </td>
+
+          <!-- 投稿タイトル -->
           <td class="align-middle">
             <%= link_to post.title, admin_post_path(post), class: "text-decoration-none text-break" %>
           </td>
+
+          <!-- 本文は最大60文字-->
           <td class="align-middle text-break"><%= truncate(post.body, length: 60) %></td>
+
+          <!-- 投稿者情報（氏名・カナ・ニックネーム） -->
           <td class="align-middle text-break">
             <div>
               <%= link_to "#{post.user.last_name} #{post.user.first_name}", admin_user_path(post.user), class: "text-primary" %>
@@ -34,6 +44,8 @@
             <div><%= post.user.last_name_kana %> <%= post.user.first_name_kana %></div>
             <div>（<%= post.user.nickname %>）</div>
           </td>
+
+          <!-- 削除ボタン（確認ダイアログ付き） -->
           <td class="align-middle">
             <%= button_to "削除", admin_post_path(post),
                           method: :delete,
@@ -43,5 +55,6 @@
         </tr>
       <% end %>
     </tbody>
+
   </table>
 </div>

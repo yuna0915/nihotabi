@@ -1,11 +1,14 @@
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container py-5">
+
+  <h1 class="text-center mb-5">マスターデータ管理メニュー</h1>
+
+  <div class="d-flex justify-content-center">
+    <div class="w-100" style="max-width: 600px;">
 
       <div class="card shadow-sm">
         <div class="card-body">
-          <h1 class="card-title text-center mb-4">マスターデータ管理メニュー</h1>
 
+          <!-- ボタンを縦並びに表示 -->
           <div class="d-grid gap-3">
             <%= link_to "都道府県の管理", admin_edit_prefectures_path, class: "custom-green-btn w-100 text-center py-2" %>
             <%= link_to "場所ジャンルの管理", admin_edit_location_genres_path, class: "custom-green-btn w-100 text-center py-2" %>
@@ -18,4 +21,5 @@
 
     </div>
   </div>
+
 </div>
