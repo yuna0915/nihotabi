@@ -63,17 +63,8 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
   
-    # チェックされた画像を削除
-    if params[:post][:remove_image_ids]
-      params[:post][:remove_image_ids].each do |image_id|
-        image = @post.images.find_by(id: image_id)
-        image.purge if image
-      end
-    end
-  
-    if @post.update(post_params.except(:remove_image_ids))
-      flash[:notice] = "投稿を更新しました。"
-      redirect_to post_path(@post)
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: "投稿を更新しました。"
     else
       flash.now[:alert] = "投稿の更新に失敗しました。入力内容をご確認ください。"
       render :edit

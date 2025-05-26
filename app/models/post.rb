@@ -16,52 +16,44 @@ class Post < ApplicationRecord
   validates :visited_month_id, presence: { message: "を選択してください" }
   validates :visited_time_zone_id, presence: { message: "を選択してください" }
 
-  validate :images_must_be_attached
+  validate :max_five_images_on_create, on: :create
 
-  # --- geocoder設定（教材準拠） ---
+  # --- geocoder設定 ---
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
 
-  # 外部キーと関連名が重複してエラーが出る場合に片方を削除
   after_validation :deduplicate_foreign_key_errors
 
-  # 並び替え用スコープ
   scope :sorted_by_new, -> { order(created_at: :desc) }
-
   scope :sorted_by_likes, -> {
     left_joins(:favorites)
       .group(:id)
       .order(Arel.sql('COUNT(favorites.id) DESC'))
   }
-
   scope :sorted_by_comments, -> {
     left_joins(:comments)
       .group(:id)
       .order(Arel.sql('COUNT(comments.id) DESC'))
   }
-
   scope :sorted_by_views, -> {
     order(view_count: :desc)
   }
-
   scope :sorted, ->(sort_param) {
     case sort_param
-    when 'likes'
-      sorted_by_likes
-    when 'comments'
-      sorted_by_comments
-    when 'views'
-      sorted_by_views
-    else
-      sorted_by_new
+    when 'likes' then sorted_by_likes
+    when 'comments' then sorted_by_comments
+    when 'views' then sorted_by_views
+    else sorted_by_new
     end
   }
 
   private
 
-  def images_must_be_attached
-    if images.blank?
+  def max_five_images_on_create
+    if images.size == 0
       errors.add(:images, "を1枚以上選択してください")
+    elsif images.size > 5
+      errors.add(:images, "は5枚までしか選択できません")
     end
   end
 
