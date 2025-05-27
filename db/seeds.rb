@@ -100,6 +100,7 @@ users_data = [
 ]
 
 users_data.each do |user|
+  users = User.all
   User.find_or_create_by!(email: user[:email]) do |u|
     u.last_name = user[:last_name]
     u.first_name = user[:first_name]
@@ -122,7 +123,7 @@ user1 = User.find_by(email: 'aa@aa')
 posts_user1 = [
   {
     title: '苔に包まれた癒しの地蔵',
-    caption: '静かな境内で出会った苔むしたお地蔵さま。ほっとするひとときでした。',
+    body: '静かな境内で出会った苔むしたお地蔵さま。ほっとするひとときでした。',
     location_name: '苔の苑',
     address: '京都府宇治市',
     images: %w[seed1.1.jpg seed1.2.jpg seed1.3.jpg],
@@ -131,16 +132,16 @@ posts_user1 = [
   },
   {
     title: '温泉に浸かるサルたち',
-    caption: '人間みたいに気持ちよさそうにしてて癒されました。',
+    body: '人間みたいに気持ちよさそうにしてて癒されました。',
     location_name: '湯の森どうぶつの里',
     address: '長野県松本市',
     images: %w[seed2.1.jpg],
-    genre: '温泉',
+    genre: 'その他',
     lat: 36.733, lng: 138.464, month: 1, hour: 14
   },
   {
     title: 'カフェラテとチーズケーキ',
-    caption: '木漏れ日の中で食べるケーキは格別でした。',
+    body: '木漏れ日の中で食べるケーキは格別でした。',
     location_name: 'カフェ風樹',
     address: '東京都八王子市',
     images: %w[seed3.1.jpg],
@@ -149,7 +150,7 @@ posts_user1 = [
   },
   {
     title: '遊園地の定番スポット',
-    caption: '観覧車やメリーゴーランド、レトロな雰囲気が好きです。',
+    body: '観覧車やメリーゴーランド、レトロな雰囲気が好きです。',
     location_name: 'ファンタジアパーク',
     address: '神奈川県横浜市',
     images: %w[seed4.1.jpg seed4.2.jpg seed4.3.jpg seed4.4.jpg seed4.5.jpg],
@@ -158,7 +159,7 @@ posts_user1 = [
   },
   {
     title: '夕暮れの海辺でひと休み',
-    caption: '海の音と夕日が最高の組み合わせでした。',
+    body: '海の音と夕日が最高の組み合わせでした。',
     location_name: '波の音プロムナード',
     address: '千葉県館山市',
     images: %w[seed5.1.jpg seed5.2.jpg],
@@ -167,7 +168,7 @@ posts_user1 = [
   },
   {
     title: '高原に沈む夕日',
-    caption: '空の色が毎秒変わっていくのが美しかったです。',
+    body: '空の色が毎秒変わっていくのが美しかったです。',
     location_name: '星見ヶ丘',
     address: '岐阜県高山市',
     images: %w[seed6.1.jpg],
@@ -176,7 +177,7 @@ posts_user1 = [
   },
   {
     title: '湖畔の静けさに耳を澄ます',
-    caption: '湖と森に囲まれて過ごす朝はとても贅沢でした。',
+    body: '湖と森に囲まれて過ごす朝はとても贅沢でした。',
     location_name: '湖畔の森テラス',
     address: '山梨県富士吉田市',
     images: %w[seed7.1.jpg],
@@ -185,38 +186,12 @@ posts_user1 = [
   }
 ]
 
-
-posts_user1.each do |data|
-  post = Post.create!(
-    user: user1,
-    title: data[:title],
-    caption: data[:caption],
-    location_name: data[:location_name],
-    address: data[:address],
-    latitude: data[:lat],
-    longitude: data[:lng],
-    prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user1.prefecture_id,
-    visited_month_id: data[:month],
-    visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
-    location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
-  )
-
-  data[:images].each do |filename|
-    path = Rails.root.join("app/assets/images/#{filename}")
-    post.images.attach(
-      io: File.open(path),
-      filename: filename,
-      content_type: 'image/jpeg'
-    )
-  end
-end
-
 user2 = User.find_by(email: 'bb@bb')
 
 posts_user2 = [
   {
     title: 'Wランチで大満足',
-    caption: '濃厚パスタとスパイシースープ、どちらも絶品でした。',
+    body: '濃厚パスタとスパイシースープ、どちらも絶品でした。',
     location_name: 'カフェ・ラララ',
     address: '東京都世田谷区',
     images: %w[seed8.1.jpg seed8.2.jpg],
@@ -225,7 +200,7 @@ posts_user2 = [
   },
   {
     title: '夕暮れの波音に癒されて',
-    caption: '潮風と夕焼けの組み合わせが心に染みました。',
+    body: '潮風と夕焼けの組み合わせが心に染みました。',
     location_name: '潮風ヶ浜',
     address: '静岡県下田市',
     images: %w[seed9.1.jpg],
@@ -234,7 +209,7 @@ posts_user2 = [
   },
   {
     title: 'コク深いチャーシューラーメン',
-    caption: '厚切りチャーシューと濃厚スープがクセになる味でした。',
+    body: '厚切りチャーシューと濃厚スープがクセになる味でした。',
     location_name: '麺屋ひなた',
     address: '愛知県名古屋市',
     images: %w[seed10.1.jpg],
@@ -243,7 +218,7 @@ posts_user2 = [
   },
   {
     title: 'クラゲの神秘的な世界',
-    caption: 'ゆらゆらと漂う姿に見入ってしまいました。',
+    body: 'ゆらゆらと漂う姿に見入ってしまいました。',
     location_name: 'アクアリウム月海',
     address: '山形県鶴岡市',
     images: %w[seed11.1.jpg seed11.2.jpg seed11.3.jpg],
@@ -252,7 +227,7 @@ posts_user2 = [
   },
   {
     title: '夏の夜に咲く光の花',
-    caption: '花火が夜空を彩って、会場が歓声で包まれていました。',
+    body: '花火が夜空を彩って、会場が歓声で包まれていました。',
     location_name: '宵ノ空花火祭',
     address: '秋田県大仙市',
     images: %w[seed12.1.jpg seed12.2.jpg],
@@ -261,7 +236,7 @@ posts_user2 = [
   },
   {
     title: 'チューリップが咲き誇る春の道',
-    caption: '春の風と花の香りに包まれて散歩しました。',
+    body: '春の風と花の香りに包まれて散歩しました。',
     location_name: '花の環ガーデン',
     address: '富山県砺波市',
     images: %w[seed13.1.jpg],
@@ -270,37 +245,12 @@ posts_user2 = [
   }
 ]
 
-posts_user2.each do |data|
-  post = Post.create!(
-    user: user2,
-    title: data[:title],
-    caption: data[:caption],
-    location_name: data[:location_name],
-    address: data[:address],
-    latitude: data[:lat],
-    longitude: data[:lng],
-    prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user2.prefecture_id,
-    visited_month_id: data[:month],
-    visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
-    location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
-  )
-
-  data[:images].each do |filename|
-    path = Rails.root.join("app/assets/images/#{filename}")
-    post.images.attach(
-      io: File.open(path),
-      filename: filename,
-      content_type: 'image/jpeg'
-    )
-  end
-end
-
 user3 = User.find_by(email: 'cc@cc')
 
 posts_user3 = [
   {
     title: '春彩の湖と名峰',
-    caption: '満開の芝桜と湖面に映る山のコントラストが素晴らしかったです。',
+    body: '満開の芝桜と湖面に映る山のコントラストが素晴らしかったです。',
     location_name: '彩咲湖畔公園',
     address: '静岡県花見町',
     images: %w[seed14.1.jpg],
@@ -309,7 +259,7 @@ posts_user3 = [
   },
   {
     title: 'のんびりシカさん',
-    caption: '芝の上でまどろむ姿に癒されました。',
+    body: '芝の上でまどろむ姿に癒されました。',
     location_name: '森の小径広場',
     address: '奈良県緑野市',
     images: %w[seed15.1.jpg],
@@ -318,7 +268,7 @@ posts_user3 = [
   },
   {
     title: '赤灯台と曇り空',
-    caption: '曇天の中で浮かび上がる赤い灯台が印象的でした。',
+    body: '曇天の中で浮かび上がる赤い灯台が印象的でした。',
     location_name: '港あかね灯台',
     address: '兵庫県海影町',
     images: %w[seed16.1.jpg],
@@ -327,7 +277,7 @@ posts_user3 = [
   },
   {
     title: '山奥の癒し滝',
-    caption: '緑の中で静かに流れる滝。ずっと眺めていたくなる場所です。',
+    body: '緑の中で静かに流れる滝。ずっと眺めていたくなる場所です。',
     location_name: '翠霞の滝',
     address: '岡山県渓音村',
     images: %w[seed17.1.jpg],
@@ -336,7 +286,7 @@ posts_user3 = [
   },
   {
     title: '夜明けの孤木',
-    caption: '静かな夜明けと一本の木。幻想的な光景でした。',
+    body: '静かな夜明けと一本の木。幻想的な光景でした。',
     location_name: '黎明の丘',
     address: '北海道朝凪町',
     images: %w[seed18.1.jpg],
@@ -345,7 +295,7 @@ posts_user3 = [
   },
   {
     title: '白鳥たちの朝',
-    caption: '朝日を浴びる白鳥たちの姿に見とれてしまいました。',
+    body: '朝日を浴びる白鳥たちの姿に見とれてしまいました。',
     location_name: '白羽湖の水辺',
     address: '新潟県羽島市',
     images: %w[seed19.1.jpg],
@@ -354,37 +304,12 @@ posts_user3 = [
   }
 ]
 
-posts_user3.each do |data|
-  post = Post.create!(
-    user: user3,
-    title: data[:title],
-    caption: data[:caption],
-    location_name: data[:location_name],
-    address: data[:address],
-    latitude: data[:lat],
-    longitude: data[:lng],
-    prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user3.prefecture_id,
-    visited_month_id: data[:month],
-    visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
-    location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
-  )
-
-  data[:images].each do |filename|
-    path = Rails.root.join("app/assets/images/#{filename}")
-    post.images.attach(
-      io: File.open(path),
-      filename: filename,
-      content_type: 'image/jpeg'
-    )
-  end
-end
-
 user4 = User.find_by(email: 'dd@dd')
 
 posts_user4 = [
   {
     title: '湯気まで美味しい点心ランチ',
-    caption: 'もっちり皮にジューシーな肉汁が最高。お茶との相性も抜群でした。',
+    body: 'もっちり皮にジューシーな肉汁が最高。お茶との相性も抜群でした。',
     location_name: '翠香茶館',
     address: '東京都新宿区',
     images: %w[seed20.1.jpg],
@@ -393,7 +318,7 @@ posts_user4 = [
   },
   {
     title: '百獣の王に見つめられて',
-    caption: '迫力満点のライオン、カメラ目線で堂々たる風格でした。',
+    body: '迫力満点のライオン、カメラ目線で堂々たる風格でした。',
     location_name: '星空サファリパーク',
     address: '静岡県富士宮市',
     images: %w[seed21.1.jpg seed21.2.jpg],
@@ -402,7 +327,7 @@ posts_user4 = [
   },
   {
     title: '水辺でイチャつくカピバラたち',
-    caption: 'のんびりした空気に癒やされる休日のひとときでした。',
+    body: 'のんびりした空気に癒やされる休日のひとときでした。',
     location_name: '森のどうぶつ広場',
     address: '栃木県那須塩原市',
     images: %w[seed22.1.jpg seed22.2.jpg],
@@ -411,7 +336,7 @@ posts_user4 = [
   },
   {
     title: '海辺の樽サウナでととのう',
-    caption: '外気浴は海風で。整いすぎて現実に戻れない感覚になりました。',
+    body: '外気浴は海風で。整いすぎて現実に戻れない感覚になりました。',
     location_name: '浜風サウナベース',
     address: '和歌山県白浜町',
     images: %w[seed23.1.jpg],
@@ -420,7 +345,7 @@ posts_user4 = [
   },
   {
     title: 'ラベンダー畑で深呼吸',
-    caption: '色とりどりの花畑に囲まれて心も体もリラックスできました。',
+    body: '色とりどりの花畑に囲まれて心も体もリラックスできました。',
     location_name: '花の森テラス',
     address: '北海道富良野市',
     images: %w[seed24.1.jpg],
@@ -429,7 +354,7 @@ posts_user4 = [
   },
   {
     title: '円窓の向こうの静寂',
-    caption: '時が止まったような和の空間。心が整う場所でした。',
+    body: '時が止まったような和の空間。心が整う場所でした。',
     location_name: '月見庵',
     address: '京都府左京区',
     images: %w[seed25.1.jpg],
@@ -438,37 +363,12 @@ posts_user4 = [
   }
 ]
 
-posts_user4.each do |data|
-  post = Post.create!(
-    user: user4,
-    title: data[:title],
-    caption: data[:caption],
-    location_name: data[:location_name],
-    address: data[:address],
-    latitude: data[:lat],
-    longitude: data[:lng],
-    prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user4.prefecture_id,
-    visited_month_id: data[:month],
-    visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
-    location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
-  )
-
-  data[:images].each do |filename|
-    path = Rails.root.join("app/assets/images/#{filename}")
-    post.images.attach(
-      io: File.open(path),
-      filename: filename,
-      content_type: 'image/jpeg'
-    )
-  end
-end
-
 user5 = User.find_by(email: 'ee@ee')
 
 posts_user5 = [
   {
     title: '森に囲まれた秘密の湖',
-    caption: '木陰に置かれたベンチでのんびり。湖面が風で揺れる音が心地よかったです。',
+    body: '木陰に置かれたベンチでのんびり。湖面が風で揺れる音が心地よかったです。',
     location_name: 'ミドリ湖キャンプエリア',
     address: '長野県佐久市',
     images: %w[seed26.1.jpg],
@@ -477,7 +377,7 @@ posts_user5 = [
   },
   {
     title: '色とりどりの大地',
-    caption: 'パッチワークのように広がる畑が美しくて、つい見とれてしまいました。',
+    body: 'パッチワークのように広がる畑が美しくて、つい見とれてしまいました。',
     location_name: 'フラワーファーム丘陵',
     address: '北海道深川市',
     images: %w[seed27.1.jpg],
@@ -486,7 +386,7 @@ posts_user5 = [
   },
   {
     title: '夜の灯火に浮かぶお寺',
-    caption: '幻想的なライトアップと山の火が合わさって、忘れられない夜になりました。',
+    body: '幻想的なライトアップと山の火が合わさって、忘れられない夜になりました。',
     location_name: 'ヒカリア寺と護摩山',
     address: '奈良県高取町',
     images: %w[seed28.1.jpg],
@@ -495,7 +395,7 @@ posts_user5 = [
   },
   {
     title: '整えられた松の庭園',
-    caption: '丁寧に手入れされた松が並び、静けさと気品に満ちた場所でした。',
+    body: '丁寧に手入れされた松が並び、静けさと気品に満ちた場所でした。',
     location_name: '翠松園',
     address: '東京都府中市',
     images: %w[seed29.1.jpg],
@@ -504,7 +404,7 @@ posts_user5 = [
   },
   {
     title: '目にも美味しい寿司ランチ',
-    caption: '板前さんのおすすめを堪能。どれも新鮮で、ネタが大きくて感動でした！',
+    body: '板前さんのおすすめを堪能。どれも新鮮で、ネタが大きくて感動でした！',
     location_name: 'すし処 海風',
     address: '富山県魚津市',
     images: %w[seed30.1.jpg],
@@ -513,7 +413,7 @@ posts_user5 = [
   },
   {
     title: '灯りに包まれた石畳の小道',
-    caption: '夕方に訪れると、古民家の灯りと石畳の道がとてもロマンチックでした。',
+    body: '夕方に訪れると、古民家の灯りと石畳の道がとてもロマンチックでした。',
     location_name: '夜灯の宿通り',
     address: '石川県輪島市',
     images: %w[seed31.1.jpg],
@@ -522,38 +422,47 @@ posts_user5 = [
   }
 ]
 
-posts_user5.each do |data|
-  post = Post.create!(
-    user: user5,
-    title: data[:title],
-    caption: data[:caption],
-    location_name: data[:location_name],
-    address: data[:address],
-    latitude: data[:lat],
-    longitude: data[:lng],
-    prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user5.prefecture_id,
-    visited_month_id: data[:month],
-    visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
-    location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
-  )
-
-  data[:images].each do |filename|
-    path = Rails.root.join("app/assets/images/#{filename}")
-    post.images.attach(
-      io: File.open(path),
-      filename: filename,
-      content_type: 'image/jpeg'
+[user1, posts_user1,
+ user2, posts_user2,
+ user3, posts_user3,
+ user4, posts_user4,
+ user5, posts_user5].each_slice(2) do |user, posts|
+  posts.each do |data|
+    post = Post.new(
+      user: user,
+      title: data[:title],
+      body: data[:body],
+      location_name: data[:location_name],
+      address: data[:address],
+      latitude: data[:lat],
+      longitude: data[:lng],
+      prefecture_id: Prefecture.find_by(name: data[:address][0..2])&.id || user.prefecture_id,
+      visited_month_id: data[:month],
+      visited_time_zone_id: VisitedTimeZone.find_by(hour: "#{format('%02d:00', data[:hour])}〜#{format('%02d:00', (data[:hour] + 1) % 24)}")&.id || 1,
+      location_genre_id: LocationGenre.find_by(name: data[:genre])&.id || LocationGenre.last.id
     )
+
+    data[:images].each do |filename|
+      path = Rails.root.join("app/assets/images/#{filename}")
+      post.images.attach(
+        io: File.open(path),
+        filename: filename,
+        content_type: 'image/jpeg'
+      )
+    end
+
+    post.save!
   end
 end
 
+users = [user1, user2, user3, user4, user5]
 
 # -------------------------------
 # いいね（各ユーザーが他人の投稿に15件ずつ）
 # -------------------------------
 
 users.each do |user|
-  liked_posts = posts.where.not(user_id: user.id).sample(15)
+  liked_posts = Post.where.not(user_id: user.id).sample(15)
   liked_posts.each do |post|
     Favorite.find_or_create_by!(user: user, post: post)
   end
@@ -582,12 +491,12 @@ sample_comments = [
 ]
 
 users.each do |user|
-  commented_posts = posts.where.not(user_id: user.id).sample(15)
+  commented_posts = Post.where.not(user_id: user.id).sample(15)
   commented_posts.each do |post|
     Comment.create!(
       user: user,
       post: post,
-      content: sample_comments.sample
+      body: sample_comments.sample
     )
   end
 end
@@ -597,7 +506,7 @@ end
 # -------------------------------
 
 users.each do |follower|
-  follow_targets = users.where.not(id: follower.id).sample(3)
+  follow_targets = users.reject { |u| u.id == follower.id }.sample(3)
   follow_targets.each do |followed|
     Relationship.find_or_create_by!(follower: follower, followed: followed)
   end
@@ -615,7 +524,7 @@ users.each_with_index do |user, i|
     body: "このアプリの使い方について質問です。#{i + 1}番目のユーザーです。"
   )
 
-  Reply.find_or_create_by!(
+  InquiryReply.find_or_create_by!(
     inquiry: inquiry,
     admin: admin,
     body: "お問い合わせありがとうございます。"
@@ -651,7 +560,7 @@ Comment.find_each do |comment|
   end
 end
 
-Reply.find_each do |reply|
+InquiryReply.find_each do |reply|
   Notification.find_or_create_by!(
     user_id: reply.admin_id,
     notified_user_id: reply.inquiry.user_id,
