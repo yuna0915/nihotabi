@@ -471,7 +471,7 @@ posts_user5 = [
   location_name: '兼六園 茶室',
   address: '石川県金沢市',
   images: %w[seed37.1.jpg],
-  genre: '庭園',
+  genre: 'その他',
   lat: 36.561, lng: 136.660, month: 10, hour: 15
 },
 {
