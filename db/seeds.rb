@@ -154,26 +154,26 @@ posts_user1 = [
     location_name: 'ファンタジアパーク',
     address: '神奈川県横浜市',
     images: %w[seed4.1.jpg seed4.2.jpg seed4.3.jpg seed4.4.jpg seed4.5.jpg],
-    genre: 'イベント',
+    genre: '体験',
     lat: 35.444, lng: 139.638, month: 8, hour: 13
   },
   {
-    title: '夕暮れの海辺でひと休み',
-    body: '海の音と夕日が最高の組み合わせでした。',
-    location_name: '波の音プロムナード',
-    address: '千葉県館山市',
+    title: '紅葉の渓谷を歩いて',
+    body: '川のせせらぎと色づいた木々に癒やされました。',
+    location_name: '渓谷遊歩道',
+    address: '長野県木曽郡',
     images: %w[seed5.1.jpg seed5.2.jpg],
     genre: '自然',
-    lat: 34.990, lng: 139.825, month: 10, hour: 17
+    lat: 35.840, lng: 137.690, month: 10, hour: 17
   },
   {
-    title: '高原に沈む夕日',
-    body: '空の色が毎秒変わっていくのが美しかったです。',
-    location_name: '星見ヶ丘',
-    address: '岐阜県高山市',
+    title: 'ラベンダー畑で深呼吸',
+    body: '風に揺れるラベンダーの香りに癒されました。',
+    location_name: 'ラベンダーの丘',
+    address: '北海道富良野市',
     images: %w[seed6.1.jpg],
     genre: '自然',
-    lat: 36.145, lng: 137.260, month: 9, hour: 18
+    lat: 43.343, lng: 142.383, month: 7, hour: 14
   },
   {
     title: '湖畔の静けさに耳を澄ます',
@@ -317,7 +317,7 @@ posts_user4 = [
     lat: 35.693, lng: 139.703, month: 11, hour: 12
   },
   {
-    title: '百獣の王に見つめられて',
+    title: '百獣の王',
     body: '迫力満点のライオン、カメラ目線で堂々たる風格でした。',
     location_name: '星空サファリパーク',
     address: '静岡県富士宮市',
@@ -326,40 +326,40 @@ posts_user4 = [
     lat: 35.238, lng: 138.621, month: 7, hour: 13
   },
   {
-    title: '水辺でイチャつくカピバラたち',
-    body: 'のんびりした空気に癒やされる休日のひとときでした。',
-    location_name: '森のどうぶつ広場',
-    address: '栃木県那須塩原市',
-    images: %w[seed22.1.jpg seed22.2.jpg],
-    genre: '動植物・水族館',
-    lat: 36.961, lng: 140.035, month: 5, hour: 15
-  },
-  {
     title: '海辺の樽サウナでととのう',
     body: '外気浴は海風で。整いすぎて現実に戻れない感覚になりました。',
     location_name: '浜風サウナベース',
     address: '和歌山県白浜町',
-    images: %w[seed23.1.jpg],
+    images: %w[seed22.1.jpg seed22.2.jpg],
     genre: '体験',
     lat: 33.678, lng: 135.348, month: 4, hour: 16
   },
   {
-    title: 'ラベンダー畑で深呼吸',
-    body: '色とりどりの花畑に囲まれて心も体もリラックスできました。',
-    location_name: '花の森テラス',
-    address: '北海道富良野市',
-    images: %w[seed24.1.jpg],
+    title: '一面の花畑に心が躍る',
+    body: '色とりどりの花が広がる景色に、ただただ見惚れました。',
+    location_name: '彩りの丘',
+    address: '北海道上富良野町',
+    images: %w[seed23.1.jpg],
     genre: '自然',
-    lat: 43.343, lng: 142.383, month: 7, hour: 10
+    lat: 43.456, lng: 142.470, month: 7, hour: 11
   },
   {
-    title: '円窓の向こうの静寂',
-    body: '時が止まったような和の空間。心が整う場所でした。',
-    location_name: '月見庵',
+    title: '茶室で味わう静けさと一服',
+    body: 'お茶を点てる所作と空気の張りつめた静けさが心地よかったです。',
+    location_name: '月見庵 茶道体験',
     address: '京都府左京区',
+    images: %w[seed24.1.jpg],
+    genre: '体験',
+    lat: 35.058, lng: 135.798, month: 11, hour: 10
+  },
+  {
+    title: 'ぷりっぷりの牡蠣に舌鼓',
+    body: '海の旨みが凝縮された牡蠣をたっぷり味わいました。最高のごちそう！',
+    location_name: '牡蠣小屋 海の幸亭',
+    address: '広島県江田島市',
     images: %w[seed25.1.jpg],
-    genre: '寺社仏閣',
-    lat: 35.058, lng: 135.798, month: 12, hour: 9
+    genre: 'グルメ',
+    lat: 34.203, lng: 132.464, month: 2, hour: 18
   }
 ]
 
@@ -419,7 +419,89 @@ posts_user5 = [
     images: %w[seed31.1.jpg],
     genre: '観光地',
     lat: 37.397, lng: 136.899, month: 10, hour: 18
-  }
+  },
+  {
+  title: '満天の星を仰ぐ山頂',
+  body: '街の灯りが届かない山の上で、宇宙の広さを感じました。',
+  location_name: '星見峠',
+  address: '長野県阿智村',
+  images: %w[seed32.1.jpg],
+  genre: '自然',
+  lat: 35.444, lng: 137.652, month: 8, hour: 22
+},
+{
+  title: '素朴な茶の香りに包まれて',
+  body: '手びねりの器で味わうお茶は、心にじんわり沁みました。',
+  location_name: '古民家茶房なごみ',
+  address: '静岡県掛川市',
+  images: %w[seed33.1.jpg],
+  genre: '体験',
+  lat: 34.770, lng: 137.998, month: 6, hour: 14
+},
+{
+  title: '森に囲まれた静寂の神域',
+  body: 'ひんやりとした空気と鳥の声が心を落ち着かせてくれました。',
+  location_name: '奥宮参道',
+  address: '三重県熊野市',
+  images: %w[seed34.1.jpg],
+  genre: '寺社仏閣',
+  lat: 33.870, lng: 136.137, month: 11, hour: 10
+},
+{
+  title: '海風と夕景のレインボーブリッジ',
+  body: '沈む夕日に照らされる東京湾と橋がとても綺麗でした。',
+  location_name: 'お台場海浜公園',
+  address: '東京都港区',
+  images: %w[seed35.1.jpg],
+  genre: '観光地',
+  lat: 35.628, lng: 139.775, month: 9, hour: 18
+},
+{
+  title: '錦鯉が泳ぐ癒しの水辺',
+  body: 'ゆったり泳ぐ姿を見ているだけで時間を忘れました。',
+  location_name: '鯉の庭園',
+  address: '新潟県長岡市',
+  images: %w[seed36.1.jpg],
+  genre: '自然',
+  lat: 37.448, lng: 138.851, month: 5, hour: 13
+},
+{
+  title: '池に映る和の情景',
+  body: '静かな水面に映る茶室が日本の美を感じさせてくれました。',
+  location_name: '兼六園 茶室',
+  address: '石川県金沢市',
+  images: %w[seed37.1.jpg],
+  genre: '庭園',
+  lat: 36.561, lng: 136.660, month: 10, hour: 15
+},
+{
+  title: 'だし香るほっとする味',
+  body: '優しい味のおうどんが旅の疲れを癒してくれました。',
+  location_name: 'うどん処こむぎ',
+  address: '香川県丸亀市',
+  images: %w[seed38.1.jpg],
+  genre: 'グルメ',
+  lat: 34.292, lng: 133.798, month: 3, hour: 12
+},
+{
+  title: '夜景に映える中之島の橋',
+  body: '水面に映る光が幻想的で、しばらく眺めていました。',
+  location_name: '中之島公園',
+  address: '大阪府大阪市',
+  images: %w[seed39.1.jpg],
+  genre: '観光地',
+  lat: 34.692, lng: 135.502, month: 12, hour: 19
+},
+{
+  title: '屋台の味を公園で',
+  body: '地元でも知る人ぞ知る、たこ八のたこ焼き。外で食べたら、その美味しさがさらに引き立ちました。',
+  location_name: 'たこ八',
+  address: '広島県福山市',
+  images: %w[seed40.1.jpg],
+  genre: 'グルメ',
+  lat: 34.485, lng: 133.364, month: 4, hour: 16
+}
+
 ]
 
 [user1, posts_user1,
