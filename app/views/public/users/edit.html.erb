@@ -1,64 +1,71 @@
 <div class="container py-5">
+  <%= form_with model: @user, local: true, html: { multipart: true } do |f| %>
 
-  <!-- プロフィール画像表示 -->
-  <div class="text-center mb-4">
-    <% if @user.profile_image.attached? %>
-      <!-- 登録済みのプロフィール画像 -->
-      <%= image_tag @user.profile_image.variant(resize_to_limit: [150, 150]), class: "rounded-circle mb-3" %>
-    <% else %>
-      <!-- プロフィール画像未設定の場合の代替画像 -->
-      <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
-    <% end %>
-  </div>
+    <!-- プロフィール画像表示 -->
+    <div class="text-center mb-4">
+      <% if @user.profile_image.attached? %>
+        <%= image_tag @user.profile_image.variant(resize_to_limit: [150, 150]), class: "rounded-circle mb-3" %>
+      <% else %>
+        <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
+      <% end %>
+      <div class="mt-2">
+        <%= f.file_field :profile_image, class: "form-control" %>
+      </div>
+    </div>
 
-  <!-- ユーザー情報の詳細表示テーブル -->
-  <table class="table table-bordered">
-    <tbody>
-      <tr>
-        <th>姓</th>
-        <td><%= @user.last_name %></td>
-      </tr>
-      <tr>
-        <th>名</th>
-        <td><%= @user.first_name %></td>
-      </tr>
-      <tr>
-        <th>セイ</th>
-        <td><%= @user.last_name_kana %></td>
-      </tr>
-      <tr>
-        <th>メイ</th>
-        <td><%= @user.first_name_kana %></td>
-      </tr>
-      <tr>
-        <th>ニックネーム</th>
-        <td><%= @user.nickname %></td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td><%= @user.email %></td>
-      </tr>
-      <tr>
-        <th>電話番号（ハイフンなし）</th>
-        <td><%= @user.phone_number %></td>
-      </tr>
-      <tr>
-        <th>都道府県</th>
-        <td>
-          <!-- nil対策：都道府県が未設定の場合は「未設定」と表示 -->
-          <%= @user.prefecture&.name || "未設定" %>
-        </td>
-      </tr>
-      <tr>
-        <th>ステータス</th>
-        <td>
-          <!-- 有効／退会表示 -->
-          <span class="<%= @user.is_active? ? 'text-success' : 'text-danger' %>">
-            <%= @user.is_active? ? "有効" : "退会" %>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- ユーザー情報編集フォーム -->
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>姓</th>
+          <td><%= f.text_field :last_name, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>名</th>
+          <td><%= f.text_field :first_name, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>セイ</th>
+          <td><%= f.text_field :last_name_kana, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>メイ</th>
+          <td><%= f.text_field :first_name_kana, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>ニックネーム</th>
+          <td><%= f.text_field :nickname, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>メールアドレス</th>
+          <td><%= f.email_field :email, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>電話番号（ハイフンなし）</th>
+          <td><%= f.telephone_field :phone_number, class: "form-control" %></td>
+        </tr>
+        <tr>
+          <th>都道府県</th>
+          <td>
+            <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name,
+              { prompt: "選択してください" }, class: "form-select" %>
+          </td>
+        </tr>
+        <tr>
+          <th>ステータス</th>
+          <td>
+            <!-- 表示のみ。退会処理は別ボタンなどで行う想定 -->
+            <span class="<%= @user.is_active? ? 'text-success' : 'text-danger' %>">
+              <%= @user.is_active? ? "有効" : "退会" %>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
+    <div class="text-center mt-4">
+      <%= f.submit "更新する", class: "btn btn-primary" %>
+    </div>
+
+  <% end %>
 </div>
