@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_26_180433) do
+ActiveRecord::Schema.define(version: 2025_05_28_035028) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2025_05_26_180433) do
     t.integer "user_id", null: false
     t.string "title"
     t.text "body"
-    t.boolean "is_checked"
+    t.boolean "is_checked", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_inquiries_on_user_id"
