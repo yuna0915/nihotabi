@@ -5,23 +5,21 @@ class Public::NotificationsController < ApplicationController
     @notifications = current_user.passive_notifications.page(params[:page]).per(10)
 
     # 未読の通知をすべて既読に更新
-    @notifications.where(checked: false).each do |notification|
-      notification.update(checked: true)
+    @notifications.where(is_checked: false).each do |notification|
+      notification.update(is_checked: true)
     end
   end
 
   def mark_as_read
     @notification = current_user.passive_notifications.find(params[:id])
-    @notification.update(checked: true)
+    @notification.update(is_checked: true)
 
-    # 通知の種類に応じてリダイレクト先切替
     case @notification.action
     when 'favorite', 'comment'
       redirect_to post_path(@notification.post, from: 'notification')
     when 'follow'
       redirect_to user_path(@notification.user)
     when 'inquiry_reply'
-      # 問い合わせ返信通知（InquiryReplyを通じてinquiryにアクセス）
       if @notification.notifiable&.inquiry.present?
         redirect_to inquiry_path(@notification.notifiable.inquiry, from: 'notification')
       else
@@ -33,7 +31,7 @@ class Public::NotificationsController < ApplicationController
   end
 
   def mark_all_as_read
-    current_user.passive_notifications.update_all(checked: true)
+    current_user.passive_notifications.update_all(is_checked: true)
     redirect_to notifications_path, notice: "すべての通知を既読にしました。"
   end
 end

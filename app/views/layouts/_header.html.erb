@@ -53,7 +53,7 @@
             <div class="d-flex align-items-center">
               <%= link_to notifications_path, title: '通知', class: 'nav-link position-relative mx-2', style: 'color: #2e6044;' do %>
                 <i class="fa-solid fa-bell fa-lg"></i>
-                <% unread_count = current_user.passive_notifications.where(checked: false).count %>
+                <% unread_count = current_user.passive_notifications.where(is_checked: false).count %>
                 <% if unread_count > 0 %>
                   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     <%= unread_count %>

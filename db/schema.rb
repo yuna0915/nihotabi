@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_28_042310) do
+ActiveRecord::Schema.define(version: 2025_05_28_100631) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2025_05_28_042310) do
     t.integer "user_id", null: false
     t.string "title", null: false
     t.text "body", null: false
-    t.boolean "is_checked", default: false
+    t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_inquiries_on_user_id"
@@ -116,13 +116,6 @@ ActiveRecord::Schema.define(version: 2025_05_28_042310) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "notified_users", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_notified_users_on_user_id"
-  end
-
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "location_genre_id", null: false
@@ -153,14 +146,14 @@ ActiveRecord::Schema.define(version: 2025_05_28_042310) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followed_id"
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "terms", force: :cascade do |t|
-    t.text "content"
+    t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -181,7 +174,7 @@ ActiveRecord::Schema.define(version: 2025_05_28_042310) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "introduction"
-    t.integer "prefecture_id"
+    t.integer "prefecture_id", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["prefecture_id"], name: "index_users_on_prefecture_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -214,7 +207,6 @@ ActiveRecord::Schema.define(version: 2025_05_28_042310) do
   add_foreign_key "notifications", "posts"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "notified_user_id"
-  add_foreign_key "notified_users", "users"
   add_foreign_key "posts", "location_genres"
   add_foreign_key "posts", "prefectures"
   add_foreign_key "posts", "users"
