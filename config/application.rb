@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "mini_magick"
 
 Bundler.require(*Rails.groups)
 
