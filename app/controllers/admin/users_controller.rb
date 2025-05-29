@@ -33,7 +33,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    permitted = params.require(:user).permit(
+    raw = params.require(:user).permit(
       :last_name,
       :first_name,
       :last_name_kana,
@@ -44,10 +44,9 @@ class Admin::UsersController < ApplicationController
       :prefecture_id,
       :profile_image,
       :is_active
-    ).to_h
+    )
 
-    permitted[:is_active] = ActiveModel::Type::Boolean.new.cast(permitted[:is_active])
-
-    permitted
+    # is_active の値を Boolean に変換してマージ
+    raw.merge(is_active: ActiveModel::Type::Boolean.new.cast(raw[:is_active]))
   end
 end
