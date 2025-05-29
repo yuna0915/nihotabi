@@ -1,7 +1,7 @@
 <div class="text-center mb-4">
   <% if user.profile_image.attached? %>
     <!-- 登録済みのプロフィール画像 -->
-    <%= image_tag user.profile_image.variant(resize_to_limit: [150, 150]), class: "rounded-circle mb-3" %>
+    <%= image_tag user.profile_image.variant(resize_to_limit: [150, 150]).processed, class: "rounded-circle mb-3" %>
   <% else %>
     <!-- プロフィール画像が未登録の場合のデフォルト画像 -->
     <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
@@ -47,7 +47,6 @@
     <tr>
       <th>ステータス</th>
       <td>
-        <!-- アクティブ状態 -->
         <span class="<%= user.is_active? ? 'text-success' : 'text-danger' %>">
           <%= user.is_active? ? "有効" : "退会" %>
         </span>
