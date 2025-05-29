@@ -46,7 +46,6 @@ class Admin::UsersController < ApplicationController
       :is_active
     ).to_h
 
-    # "true"/"false" を boolean に変換
     permitted[:is_active] = ActiveModel::Type::Boolean.new.cast(permitted[:is_active])
 
     permitted

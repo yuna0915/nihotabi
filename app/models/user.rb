@@ -16,17 +16,16 @@ class User < ApplicationRecord
   # アソシエーション
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_one_attached :image
   has_one_attached :profile_image
   has_many :favorites, dependent: :destroy
   has_many :favorited_posts, through: :favorites, source: :post
-  has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy   # フォロー：自分→相手
+  has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :followings, through: :active_relationships, source: :followed
-  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy  # フォロワー：相手→自分
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
-  has_many :active_notifications, class_name: 'Notification', foreign_key: 'user_id', dependent: :destroy       # 通知：送った通知（アクティブ）・受け取った通知
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'user_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'notified_user_id', dependent: :destroy
-  has_many :inquiries, dependent: :destroy                                                                      # 問い合わせ送信者（ユーザー）・返信者（管理者）
+  has_many :inquiries, dependent: :destroy
   has_many :inquiry_replies, foreign_key: "admin_id", class_name: "InquiryReply", dependent: :destroy
   belongs_to :prefecture, optional: true
 
@@ -34,16 +33,16 @@ class User < ApplicationRecord
   def active_for_authentication?
     super && is_active?
   end
-  
+
   # ログインできないときのメッセージ（退会者に専用メッセージを返す）
   def inactive_message
     is_active? ? super : :inactive_account
   end
 
   # ゲストログイン用処理
-  GUEST_USER_EMAIL = "guest@example.com"    # ゲストユーザーのメールアドレス（固定）
+  GUEST_USER_EMAIL = "guest@example.com"
 
-  def self.guest                            # ゲストユーザー作成 or 再取得
+  def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
       user.nickname = "ゲスト"
@@ -57,8 +56,8 @@ class User < ApplicationRecord
       user.is_active = true
     end
   end
-  
-  def guest_user?                           # 現在のユーザーがゲストかどうか判定
+
+  def guest_user?
     email == GUEST_USER_EMAIL
   end
 
@@ -76,13 +75,11 @@ class User < ApplicationRecord
   end
 
   # 並び替えスコープ
-  scope :sorted_by_new, -> { order(created_at: :desc) }               # 新着順
-
+  scope :sorted_by_new, -> { order(created_at: :desc) }
   scope :sorted_by_name, -> {
-    order(Arel.sql("CONCAT(last_name_kana, first_name_kana) ASC"))    # 名前順
+    order(Arel.sql("CONCAT(last_name_kana, first_name_kana) ASC"))
   }
-
-  scope :sorted, -> (sort_param) {                                    # 指定パラメータに応じたソート切替
+  scope :sorted, -> (sort_param) {
     case sort_param
     when 'name'
       sorted_by_name
@@ -91,16 +88,16 @@ class User < ApplicationRecord
     end
   }
 
-  # フォロー処理用メソッド
-  def follow(user)      # フォローする
+  # フォロー処理
+  def follow(user)
     active_relationships.create(followed_id: user.id)
   end
 
-  def unfollow(user)    # フォロー解除
+  def unfollow(user)
     active_relationships.find_by(followed_id: user.id)&.destroy
   end
 
-  def following?(user)  # フォロー中かどうか
+  def following?(user)
     followings.include?(user)
   end
 end
