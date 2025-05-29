@@ -1,9 +1,9 @@
 <div class="text-center mb-4">
-  <% if user.profile_image.attached? %>
-    <!-- 登録済みのプロフィール画像 -->
+  <% if user.profile_image.attached? && user.profile_image.variable? && user.profile_image.image? %>
+    <!-- 登録済みかつ変換可能なプロフィール画像 -->
     <%= image_tag user.profile_image.variant(resize_to_limit: [150, 150]).processed, class: "rounded-circle mb-3" %>
   <% else %>
-    <!-- プロフィール画像が未登録の場合のデフォルト画像 -->
+    <!-- 未登録 or 変換不可な画像の場合のデフォルト画像 -->
     <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
   <% end %>
 </div>
@@ -41,7 +41,6 @@
     </tr>
     <tr>
       <th>都道府県</th>
-      <!-- nil対策：未設定なら「未設定」と表示 -->
       <td><%= user.prefecture&.name || "未設定" %></td>
     </tr>
     <tr>
