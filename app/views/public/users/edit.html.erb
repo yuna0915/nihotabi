@@ -1,67 +1,71 @@
-
+<%= form_with model: @user, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 700px;" } do |f| %>
 
   <%= render "public/shared/error_messages", resource: @user %>
 
-  
+  <div class="text-center mb-4">
+    <% if @user.profile_image.attached? %>
+      <%= image_tag @user.profile_image.variant(resize_to_limit: [150, 150]), class: "rounded-circle mb-3" %>
+    <% else %>
+      <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
+    <% end %>
+    <div class="mt-2">
+      <%= f.file_field :profile_image, class: "form-control mx-auto", style: "max-width: 400px;" %>
+    </div>
+  </div>
 
-  <div class="w-100">
-  <%= form_with model: @user,url: user_path(@user), method: :patch, local: true, html: { multipart: true, class: "mx-auto", style: "max-width: 700px;" } do |f| %>
-    
-        <div class="text-center mb-4">
-          <% if @user.profile_image.attached? %>
-            <%= image_tag @user.profile_image.variant(resize_to_limit: [150, 150]), class: "rounded-circle mb-3" %>
-          <% else %>
-            <%= image_tag "no_image.jpg", width: 150, height: 150, class: "rounded-circle mb-3" %>
-          <% end %>
-          <div class="mt-2">
-            <%= f.file_field :profile_image, class: "form-control mx-auto", style: "max-width: 400px;" %>
-          </div>
-        </div>
-     
-        <div class="text-center align-middle">姓</div>
-        <div class="text-center"><%= f.text_field :last_name, class: "form-control form-input mx-auto" %></div>
-     
-     
-        <div class="text-center align-middle">名</div>
-        <div class="text-center"><%= f.text_field :first_name, class: "form-control form-input mx-auto" %></div>
-   
-      
-        <div class="text-center align-middle">セイ</div>
-        <div class="text-center"><%= f.text_field :last_name_kana, class: "form-control form-input mx-auto" %></div>
-    
-        <div class="text-center align-middle">メイ</div>
-        <div class="text-center"><%= f.text_field :first_name_kana, class: "form-control form-input mx-auto" %></div>
-     
-        <div class="text-center align-middle">ニックネーム</div>
-        <div class="text-center"><%= f.text_field :nickname, class: "form-control form-input mx-auto" %></div>
-    
-        <div class="text-center align-middle">メールアドレス</div>
-        <div class="text-center"><%= f.email_field :email, class: "form-control form-input mx-auto" %></div>
-  
-        <div class="text-center align-middle">電話番号</div>
-        <div class="text-center"><%= f.telephone_field :phone_number, class: "form-control form-input mx-auto" %></div>
-    
-        <div class="text-center align-middle">都道府県</div>
-        <div class="text-center">
+  <table class="table table-borderless w-100">
+    <tbody>
+      <tr>
+        <th class="text-center align-middle">姓</th>
+        <td class="text-center"><%= f.text_field :last_name, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">名</th>
+        <td class="text-center"><%= f.text_field :first_name, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">セイ</th>
+        <td class="text-center"><%= f.text_field :last_name_kana, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">メイ</th>
+        <td class="text-center"><%= f.text_field :first_name_kana, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">ニックネーム</th>
+        <td class="text-center"><%= f.text_field :nickname, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">メールアドレス</th>
+        <td class="text-center"><%= f.email_field :email, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">電話番号</th>
+        <td class="text-center"><%= f.telephone_field :phone_number, class: "form-control form-input mx-auto" %></td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">都道府県</th>
+        <td class="text-center">
           <%= f.collection_select :prefecture_id, Prefecture.where(is_active: true), :id, :name,
               { include_blank: "選択してください" }, class: "form-control form-input mx-auto" %>
-        </div>
-  
-        <div class="text-center align-middle">ステータス</div>
-        <div class="text-center">
+        </td>
+      </tr>
+      <tr>
+        <th class="text-center align-middle">ステータス</th>
+        <td class="text-center">
           <span class="<%= @user.is_active? ? 'text-success' : 'text-danger' %>">
             <%= @user.is_active? ? "有効" : "退会" %>
           </span>
-        </div>
-   
+        </td>
+      </tr>
 
       <!-- 送信ボタン -->
-   
-        <div colspan="2" class="text-center pt-4">
+      <tr>
+        <td colspan="2" class="text-center pt-4">
           <%= f.submit "更新する", class: "custom-register-btn" %>
-        </div>
- 
-    
-  </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
 <% end %>
