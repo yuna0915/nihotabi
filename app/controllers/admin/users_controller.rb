@@ -18,7 +18,7 @@ class Admin::UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
   end
-  
+
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -29,11 +29,11 @@ class Admin::UsersController < ApplicationController
       render :edit
     end
   end
-  
+
   private
-  
+
   def user_params
-    params.require(:user).permit(
+    permitted = params.require(:user).permit(
       :last_name,
       :first_name,
       :last_name_kana,
@@ -44,7 +44,11 @@ class Admin::UsersController < ApplicationController
       :prefecture_id,
       :profile_image,
       :is_active
-    )
+    ).to_h
+
+    # "true"/"false" を boolean に変換
+    permitted[:is_active] = ActiveModel::Type::Boolean.new.cast(permitted[:is_active])
+
+    permitted
   end
-  
 end
