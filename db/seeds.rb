@@ -625,7 +625,7 @@ Favorite.find_each do |fav|
     notifiable: fav,
     action: 'like'
   ) do |n|
-    n.checked = false
+    n.is_checked = false
   end
 end
 
@@ -638,7 +638,7 @@ Comment.find_each do |comment|
     notifiable: comment,
     action: 'comment'
   ) do |n|
-    n.checked = false
+    n.is_checked = false
   end
 end
 
@@ -649,6 +649,6 @@ InquiryReply.find_each do |reply|
     notifiable: reply,
     action: 'reply'
   ) do |n|
-    n.checked = false
+    n.is_checked = false
   end
 end
