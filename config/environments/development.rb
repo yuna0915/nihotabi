@@ -79,4 +79,6 @@ Rails.application.configure do
 
   # config.consider_all_requests_local = false
 
+  config.active_storage.variant_processor = :mini_magick
+
 end
